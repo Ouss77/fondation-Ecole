@@ -11,9 +11,12 @@ function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
   
-    const ADMIN_USERNAME = process.env.NEXT_PUBLIC_ADMIN_USERNAME;
-    const ADMIN_PASSWORD = process.env.NEXT_PUBLIC_ADMIN_PASSWORD;
-  
+    // const ADMIN_USERNAME = process.env.NEXT_PUBLIC_ADMIN_USERNAME;
+    // const ADMIN_PASSWORD = process.env.NEXT_PUBLIC_ADMIN_PASSWORD;
+    const ADMIN_USERNAME = "admin";
+    const ADMIN_PASSWORD = "admin";
+    console.log("the username is", ADMIN_USERNAME);
+    console.log("the password is", ADMIN_PASSWORD);
     if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
       setMessage("Login successful!");
       const now = new Date();
