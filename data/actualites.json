@@ -18,5 +18,10 @@
     "title": "lets ",
     "image": "/carousel1.webp",
     "description": "test"
+  },
+  {
+    "title": "test",
+    "description": "test",
+    "image": "/carousel1.webp"
   }
 ]

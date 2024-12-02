@@ -10,58 +10,74 @@ function Login() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
+  
     const ADMIN_USERNAME = process.env.NEXT_PUBLIC_ADMIN_USERNAME;
     const ADMIN_PASSWORD = process.env.NEXT_PUBLIC_ADMIN_PASSWORD;
-
-    console.log(ADMIN_USERNAME, ADMIN_PASSWORD);
-
+  
     if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
       setMessage("Login successful!");
-      
-      // Store the login status in localStorage
-      localStorage.setItem("isLoggedIn", "true");
-
-      // Redirect to the add actualite page or a protected route
-      router.push("/ajouterActualite"); // Or wherever your add actualite page is
+      const now = new Date();
+      // Set the expiration time to 2 hours from now
+      now.setTime(now.getTime() + 2 * 60 * 60 * 1000); // 2 hours in milliseconds
+  
+      // Set the cookie with an expiration time of 2 hours
+      document.cookie = `auth=true; path=/; expires=${now.toUTCString()}`;
+        router.push("/ajouterActualite"); 
     } else {
       setMessage("Invalid username or password.");
     }
   };
-
+  
   return (
-    <div className='flex items-center justify-center min-h-screen bg-gray-100'>
-      <div className="max-w-xl w-full px-8 py-8 bg-white rounded shadow-xl">
-        <form onSubmit={handleLogin}>
-          <div className="mb-6">
-            <label htmlFor="username" className="block text-gray-800 font-bold">Username:</label>
-            <input
-              type="text"
-              name="username"
-              value={username}
-              required
-              onChange={(e) => setUsername(e.target.value)}
-              placeholder="username"
-              className="w-full border border-gray-300 py-2 pl-3 rounded mt-2 outline-none focus:ring-indigo-600"
-            />
-          </div>
-          <div>
-            <label htmlFor="password" className="block text-gray-800 font-bold">Password:</label>
-            <input
-              type="password"
-              name="password"
-              value={password}
-              required
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="password"
-              className="w-full border border-gray-300 py-2 pl-3 rounded mt-2 outline-none focus:ring-indigo-600"
-            />
-          </div>
-          <button className="cursor-pointer py-2 px-4 block mt-6 bg-indigo-500 text-white font-bold w-full text-center rounded">Login</button>
-        </form>
-        {message && <p className="mt-4 text-center text-red-500">{message}</p>}
-      </div>
+<div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-indigo-600 to-indigo-400 pt-28">
+
+<div className="lg:w-1/3 max-w-lg p-10 lg:p-8 h-auto mt-10 bg-white rounded-2xl shadow-lg shadow-indigo-400/50">
+
+  <form onSubmit={handleLogin}>
+
+    <div className="mb-8">
+      <label htmlFor="username" className="block text-gray-800 font-bold text-lg sm:text-xl">Username:</label>
+      <input
+        type="text"
+        name="username"
+        value={username}
+        required
+        onChange={(e) => setUsername(e.target.value)}
+        placeholder="Enter your username"
+        className="w-full border-2 border-gray-300 py-3 px-4 rounded-xl mt-2 outline-none text-lg focus:ring-4 focus:ring-indigo-500 focus:border-indigo-500 transition-all"
+      />
     </div>
+
+    <div className="mb-8">
+      <label htmlFor="password" className="block text-gray-800 font-bold text-lg sm:text-xl">Password:</label>
+      <input
+        type="password"
+        name="password"
+        value={password}
+        required
+        onChange={(e) => setPassword(e.target.value)}
+        placeholder="Enter your password"
+        className="w-full border-2 border-gray-300 py-3 px-4 rounded-xl mt-2 outline-none text-lg focus:ring-4 focus:ring-indigo-500 focus:border-indigo-500 transition-all"
+      />
+    </div>
+
+    <button className="w-full py-3 px-6 bg-indigo-600 text-white font-bold rounded-xl hover:bg-indigo-700 transition-all ease-in-out duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-600">
+      Login
+    </button>
+
+  </form>
+
+  {message && (
+    <p className="mt-6 text-center text-red-500 text-lg sm:text-xl animate__animated animate__zoomIn animate__delay-1s">
+      {message}
+    </p>
+  )}
+
+</div>
+
+</div>
+
+  
   );
 }
 

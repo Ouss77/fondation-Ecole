@@ -21,7 +21,7 @@ const Footer = () => {
           <div className="mt-4">
             <p className="flex items-center">
               <span className="mr-2">📧</span>
-              <a href="mailto:contact@jadara.foundation" className="hover:underline">
+              <a href="mailto:contact@af3m.foundation" className="hover:underline">
                 contact@jadara.foundation
               </a>
             </p>

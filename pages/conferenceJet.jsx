@@ -2,18 +2,18 @@ import React from 'react';
 
 const ConferenceJet = () => {
   return (
-    <div className="pt-40"> {/* Add padding top to account for the fixed header */}
-      <section className="bg-gray-100 mx-56  rounded-lg shadow-md mb-20 p-20">
-        <h2 className="text-4xl font-semibold text-yellow-600 mb-10">
+    <div className="px-4 sm:px-6 md:px-10 lg:px-16 xl:px-24 pt-52">
+      <section className="bg-gray-100 mx-auto sm:mx-6 md:mx-10 lg:mx-20 xl:mx-32 rounded-lg shadow-md mb-12 sm:mb-16 md:mb-20 p-6 sm:p-8 md:p-12 lg:p-16 xl:p-20">
+        <h2 className="text-3xl sm:text-4xl md:text-4xl font-semibold text-yellow-600 mb-8 sm:mb-10 md:mb-12">
           Objectifs des JET
         </h2>
-        <p className="text-gray-800 mb-4 text-xl">
+        <p className="text-gray-800 mb-4 text-base sm:text-lg md:text-xl leading-7 sm:leading-8 md:leading-9">
           Les Journées d’Etudes Techniques (JET), constituent une manifestation
           scientifique, à caractère internationale (The International Congress
           for Applied Mechanics), biannuelle organisée par l’AF3M depuis
           l’année 2000.
         </p>
-        <p className="text-gray-800 mb-4 text-xl">
+        <p className="text-gray-800 mb-4 text-base sm:text-lg md:text-xl leading-7 sm:leading-8 md:leading-9">
           Les JET se veulent un espace offrant aux participants un large panel
           de thématiques scientifiques et technologiques dans les domaines des
           sciences mécaniques, des matériaux et de leur contribution au
@@ -22,11 +22,11 @@ const ConferenceJet = () => {
           du Maghreb et de la France (Europe et pays francophones) :
           Enseignants-chercheurs, chercheurs, ingénieurs et industriels.
         </p>
-        <p className="text-gray-800 mb-4 text-xl">
+        <p className="text-gray-800 mb-4 text-base sm:text-lg md:text-xl">
           Dans ce cadre, L’AF3M encourage les jeunes doctorants à participer à
           ces rencontres.
         </p>
-        <p className="text-gray-800 text-xl">
+        <p className="text-gray-800 text-base sm:text-lg md:text-xl leading-7 sm:leading-8 md:leading-9">
           Les JET s’organisent sur trois jours, fin d’avril ou début mai, selon
           les facilités logistiques. Depuis la création de l’AF3M et
           l’organisation des JET, de nombreuses coopérations entre chercheurs

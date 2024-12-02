@@ -47,7 +47,7 @@ export default function CarouselActualite({ actualites }) {
         >
           <div className="flex items-center justify-center w-full h-full bg-black bg-opacity-50">
             <div className="text-center text-white p-6 md:p-10 lg:p-12">
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-yellow-600 text-shadow-md mb-4">
+              <h2 className="text-3xl md:text-4xl lg:text-4xl font-bold text-yellow-600 text-shadow-md mb-4">
                 {item.title}
               </h2>
               <p className="text-lg md:text-xl lg:text-2xl font-light leading-relaxed text-shadow-md">

@@ -1,11 +1,23 @@
-// components/AddActualite.js
-import { useState } from "react";
+"use client"
+import { useRouter } from "next/router";
+import { useState, useEffect } from "react";
 
 export default function AddActualite() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
   const [message, setMessage] = useState("");
+  const router = useRouter(); // For routing after successful login
+
+  useEffect(() => {
+    // Check if the 'auth' cookie exists (user is logged in)
+    const isAuthenticated = document.cookie.includes("auth=true");
+
+    if (!isAuthenticated) {
+      // If not authenticated, redirect to login page
+      router.push("/login");
+    }
+  }, [router]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,9 +44,9 @@ export default function AddActualite() {
   };
 
   return (
-    <div className="max-w-3xl   mx-auto my-8 py-44">
-      <form onSubmit={handleSubmit} className="bg-gray-100 p-20 rounded shadow-md">
-        <h2 className="text-xl font-bold mb-4">Add New Actualité</h2>
+    <div className="lg:max-w-3xl mx-auto pt-32 w-5/6 ">
+      <form onSubmit={handleSubmit} className="bg-gray-100 mt-10 p-10  rounded shadow-md">
+        <h2 className="text-xl font-bold mb-4">Ajouter une nouvelle Actualité</h2>
         <div className="mb-4">
           <label htmlFor="title" className="block text-gray-700">Title</label>
           <input
