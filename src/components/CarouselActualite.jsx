@@ -30,7 +30,7 @@ export default function CarouselActualite({ actualites }) {
 
   return (
     <div
-      className="relative mx-auto w-11/12 h-[600px] overflow-hidden rounded-lg top-40"
+      className="relative mx-auto w-11/12 h-[600px] overflow-hidden rounded-lg top-24"
       onMouseEnter={() => setIsHovered(true)} // Pause on hover
       onMouseLeave={() => setIsHovered(false)} // Resume auto-slide when mouse leaves
     >
@@ -38,7 +38,7 @@ export default function CarouselActualite({ actualites }) {
       {lastThreeActualites.map((item, index) => (
         <div
           key={index}
-          className={`absolute inset-0 bg-cover bg-center transition-opacity duration-500 ${
+          className={`absolute inset-5 bg-cover bg-center transition-opacity duration-500 ${
             index === currentIndex ? "opacity-100" : "opacity-0"
           }`}
           style={{

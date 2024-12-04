@@ -13,8 +13,8 @@ export default function   () {
 
   return (
     <main className=" flex flex-col ">
-      <section className="flex-grow container mx-auto px-4 mt-44  ">
-        <h1 className="text-xl lg:text-4xl font-bold text-yellow-600 text-left mb-20 ">Liste des Participants</h1>
+      <section className="flex-grow container mx-auto w-10/12 px-4 mt-44  ">
+        <h1 className="text-xl lg:text-3xl font-bold text-yellow-600 text-left mb-20 ">Liste des Participants</h1>
         <ParticipentTable participants={participants} />
       </section>
     </main>

@@ -35,15 +35,15 @@ export default function AllActualites() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-10 pt-60 ">
+    <div className="container w-10/12 mx-auto px-4 py-10 pt-40 ">
         <div className="">
-        <h1 className="text-4xl text-yellow-600 font-bold  mb-8">Tous les actualités</h1>
+        <h1 className="text-3xl text-yellow-600 font-bold  mb-8">Tous les actualités</h1>
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white border border-gray-200 rounded-lg shadow-lg">
           <thead>
             <tr className="bg-gray-100 text-black ">
-              <th className="px-4 py-3 text-left  text-lg lg:text-2xl font-bold uppercase ">Title</th>
-              <th className="px-4 py-3 text-left text-lg lg:text-2xl font-bold uppercase">Description</th>
+              <th className="px-4 py-3 text-left  text-lg lg:text-xl font-bold uppercase ">Title</th>
+              <th className="px-4 py-3 text-left text-lg lg:text-xl font-bold uppercase">Description</th>
             </tr>
           </thead>
           <tbody>
@@ -52,8 +52,8 @@ export default function AllActualites() {
                 key={index}
                 className={`border-t hover:bg-gray-50  border-gray-200 ${index % 2 === 0 ? "bg-gray-50" : "bg-white"}`}
               >
-                <td className="px-4 py-3  lg:text-lg text-gray-700">{item.title}</td>
-                <td className="px-4 py-3 lg:text-lg text-gray-700">{item.description}</td>
+                <td className="px-4 py-3  lg:text-base text-gray-700">{item.title}</td>
+                <td className="px-4 py-3 lg:text-base text-gray-700">{item.description}</td>
               </tr>
             ))}
           </tbody>

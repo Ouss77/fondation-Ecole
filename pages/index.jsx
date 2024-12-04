@@ -24,7 +24,7 @@ export default function Home() {
 console.log(actualites);
   return (
     <main>
-      <section className="mt-0">
+      <section className="">
         <CarouselActualite actualites={actualites} />
       </section>
         <Aprops />

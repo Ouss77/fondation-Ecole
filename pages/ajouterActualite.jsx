@@ -11,7 +11,7 @@ export default function AddActualite() {
 
   useEffect(() => {
     // Check if the 'auth' cookie exists (user is logged in)
-    const isAuthenticated = document.cookie.includes("auth=true");
+    const isAuthenticated = document.cookie.includes("authTrue");
 
     if (!isAuthenticated) {
       // If not authenticated, redirect to login page
@@ -25,13 +25,16 @@ export default function AddActualite() {
     const formData = new FormData();
     formData.append("title", title);
     formData.append("description", description);
+    
+    // Log to verify if the image is being correctly attached
+    console.log("Image:", image);
     if (image) formData.append("image", image);
-
+  
     const response = await fetch("/api/addActualite", {
       method: "POST",
       body: formData,
     });
-
+  
     if (response.ok) {
       setMessage("Actualité added successfully!");
       setTitle("");
@@ -42,6 +45,7 @@ export default function AddActualite() {
       setMessage(error.message || "An error occurred.");
     }
   };
+  
 
   return (
     <div className="lg:max-w-3xl mx-auto pt-32 w-5/6 ">

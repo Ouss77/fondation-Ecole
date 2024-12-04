@@ -22,7 +22,7 @@ const Footer = () => {
             <p className="flex items-center">
               <span className="mr-2">📧</span>
               <a href="mailto:contact@af3m.foundation" className="hover:underline">
-                contact@jadara.foundation
+                contact@association.foundation
               </a>
             </p>
             <p className="flex items-center mt-2">

@@ -3,14 +3,14 @@ import React from "react";
 
 const Aprops = ({}) => {
   return (
-    <div className="w-11/12 mx-auto rounded-xl py-10 bg-gray-100 mt-44">
+    <div className="w-10/12 mx-auto rounded-xl py-10 bg-gray-100 mt-44">
       {/* Main Title */}
-      <h1 className="text-4xl font-bold mx-9 xl:mx-32 text-yellow-600 mb-6 sm:text-3xl md:text-4xl lg:text-4xl xl:text-4xl">
+      <h1 className=" font-bold mx-9 xl:mx-32 text-yellow-600 mb-6 text-4xl sm:text-2xl md:text-xl lg:text-2xl xl:text-3xl">
         À PROPOS
       </h1>
 
       {/* Sub Title */}
-      <h2 className="text-xl font-semibold mx-9 xl:mx-32 text-gray-700 mb-4 sm:text-2xl md:text-3xl lg:text-2xl">
+      <h2 className="text-xl font-semibold mx-9 xl:mx-32 text-gray-700 mb-4 sm:text-2xl md:text-3xl lg:text-xl">
         L’Association Franco-Maghrébine de Mécanique et des Matériaux
       </h2>
 

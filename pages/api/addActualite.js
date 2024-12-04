@@ -2,14 +2,14 @@ import formidable from "formidable";
 import fs from "fs";
 import path from "path";
 
-const dataFilePath = path.join(process.cwd(), "data", "actualites.json");
-
-// Configure formidable
+// Disable default Next.js body parser for file uploads
 export const config = {
   api: {
-    bodyParser: false, // Disables the default body parser
+    bodyParser: false, // Disable Next.js default body parsing
   },
 };
+
+const dataFilePath = path.join(process.cwd(), "data", "actualites.json");
 
 export default async function handler(req, res) {
   if (req.method === "POST") {
@@ -18,17 +18,21 @@ export default async function handler(req, res) {
       keepExtensions: true,
     });
 
+    // Parsing the form data (this includes files)
     form.parse(req, async (err, fields, files) => {
       if (err) {
+        console.error("Error parsing the form:", err);
         return res.status(500).json({ message: "Error parsing the form" });
       }
 
-      // Extract fields as strings
-      const title = fields.title ? fields.title.toString() : "";
-      const description = fields.description ? fields.description.toString() : "";
-      const image = files.image ? `/uploads/${files.image.newFilename}` : "/carousel1.webp";
+      console.log("Fields:", fields); // Log fields data
 
-      // Read existing data
+
+      const title = fields.title ? fields.title[0] : "";
+      const description = fields.description ? fields.description[0] : "";
+      const image = files.image ? `/uploads/${Array.isArray(files.image) ? files.image[0].newFilename : files.image.newFilename}` : "/carousel1.webp";
+
+      // Read the existing actualites from the JSON file
       let actualites = [];
       try {
         const fileData = fs.readFileSync(dataFilePath, "utf-8");
@@ -41,7 +45,7 @@ export default async function handler(req, res) {
       const newActualite = { title, description, image };
       actualites.push(newActualite);
 
-      // Save updated data
+      // Save the updated data back to the file
       try {
         fs.writeFileSync(dataFilePath, JSON.stringify(actualites, null, 2));
         return res.status(200).json({ message: "Actualité added successfully!" });

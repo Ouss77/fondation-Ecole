@@ -24,7 +24,7 @@ function Login() {
       now.setTime(now.getTime() + 2 * 60 * 60 * 1000); // 2 hours in milliseconds
   
       // Set the cookie with an expiration time of 2 hours
-      document.cookie = `auth=true; path=/; expires=${now.toUTCString()}`;
+      document.cookie = `authTrue; path=/; expires=${now.toUTCString()}`;
         router.push("/ajouterActualite"); 
     } else {
       setMessage("Invalid username or password.");
