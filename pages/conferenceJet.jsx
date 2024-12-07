@@ -2,8 +2,8 @@ import React from 'react';
 
 const ConferenceJet = () => {
   return (
-    <div className="px-4 sm:px-6 md:px-10 lg:px-16 xl:px-24 pt-28">
-      <section className="bg-gray-100 mx-auto sm:mx-6 md:mx-10 w-10/12 lg:mx-20 xl:mx-32 rounded-lg shadow-md mb-12 sm:mb-16 md:mb-20 p-6 sm:p-8 md:p-12 lg:p-16 xl:p-10">
+    <div className="w-11/12  pt-28">
+      <section className="bg-gray-100 mx-auto w-11/12 lg:mx-20 xl:mx-32 rounded-lg shadow-md mb-12 sm:mb-16 md:mb-20 p-6 sm:p-8 md:p-12 lg:p-16 xl:p-10">
         <h2 className="text-2xl sm:text-2xl md:text-3xl font-semibold text-yellow-600 mb-8 sm:mb-10 md:mb-12">
           Objectifs des JET
         </h2>

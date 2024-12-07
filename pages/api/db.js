@@ -2,7 +2,7 @@ const mysql = require("mysql2/promise");
 
 // Create a connection pool
 const pool = mysql.createPool({
-  host:  "afmassnadmin.mysql.db", // You might need to update this if it's incorrect
+  host:  "afmassnadmin.mysql.db:3306", // You might need to update this if it's incorrect
   user: "afmassnadmin", // Make sure this is correct
   password: "AF3m2022",
   database: "afmassnadmin",

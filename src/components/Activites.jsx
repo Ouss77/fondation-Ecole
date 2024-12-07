@@ -2,14 +2,14 @@ import React from 'react';
 
 function Activites() {
     return (
-        <div className="w-10/12 mx-auto rounded-xl py-10 bg-gray-100 mt-10">
+        <div className="w-11/12 mx-auto rounded-xl py-10 bg-gray-100 mt-10">
           {/* Main Title */}
-          <h1 className="text-4xl font-bold mx-9 xl:mx-32 text-yellow-600 mb-6 sm:text-3xl md:text-4xl lg:text-4xl xl:text-3xl">
+          <h1 className="text-4xl font-bold mx-5 xl:mx-20 text-yellow-600 mb-6 sm:text-3xl xl:text-2xl">
             Activités
           </h1>
 
           {/* Description Paragraph */}
-          <p className="text-lg text-gray-600 mx-8 sm:mx-4 md:mx-8 lg:mx-16 xl:mx-32 text-justify leading-8 sm:leading-7 md:leading-8 lg:leading-9 xl:leading-8">
+          <p className="text-lg text-gray-600 mx-5 xl:mx-20 text-justify leading-8 xl:leading-8">
             L’AF3M organise tous les 2 ans un congrès international ouvert à tous les chercheurs en mécanique et matériaux.
             <br /><br />
 

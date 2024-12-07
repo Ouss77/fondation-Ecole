@@ -30,11 +30,11 @@ export default function AddActualite() {
     console.log("Image:", image);
     if (image) formData.append("image", image);
   
-    const response = await fetch("/api/addActualite", {
+    const response = await fetch("/api/ajouterActualite.php", {
       method: "POST",
       body: formData,
     });
-  
+   
     if (response.ok) {
       setMessage("Actualité added successfully!");
       setTitle("");

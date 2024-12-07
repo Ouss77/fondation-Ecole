@@ -10,7 +10,7 @@ export default function AllActualites() {
     // Fetch actualites from API
     const fetchActualites = async () => {
       try {
-        const response = await fetch("/api/actualites"); // Update this with your actual API endpoint
+        const response = await fetch("/api/aficherActualite.php"); // Update this with your actual API endpoint
         if (!response.ok) {
           throw new Error("Failed to fetch actualites");
         }
@@ -52,8 +52,8 @@ export default function AllActualites() {
                 key={index}
                 className={`border-t hover:bg-gray-50  border-gray-200 ${index % 2 === 0 ? "bg-gray-50" : "bg-white"}`}
               >
-                <td className="px-4 py-3  lg:text-base text-gray-700">{item.title}</td>
-                <td className="px-4 py-3 lg:text-base text-gray-700">{item.description}</td>
+                <td className="px-4 py-3  lg:text-base text-gray-700">{item.Titre}</td>
+                <td className="px-4 py-3 lg:text-base text-gray-700">{item.Description}</td>
               </tr>
             ))}
           </tbody>
