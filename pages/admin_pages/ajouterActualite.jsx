@@ -15,7 +15,7 @@ export default function AddActualite() {
 
     if (!isAuthenticated) {
       // If not authenticated, redirect to login page
-      router.push("/login");
+      router.push("/admin_pages/login");
     }
   }, [router]);
 

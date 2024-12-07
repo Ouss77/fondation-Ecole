@@ -25,7 +25,7 @@ function Login() {
   
       // Set the cookie with an expiration time of 2 hours
       document.cookie = `authTrue; path=/; expires=${now.toUTCString()}`;
-        router.push("/ajouterActualite"); 
+        router.push("/admin_pages/ajouterActualite"); 
     } else {
       setMessage("Invalid username or password.");
     }

@@ -29,7 +29,7 @@ try {
         LEFT JOIN 
             Article_Authors aa ON a.article_id = aa.article_id
         LEFT JOIN 
-            Authero au ON aa.author_id = au.author_id
+            Authors au ON aa.author_id = au.author_id
         GROUP BY 
             a.article_id, a.titre, a.annee, a.theme, a.resume;
     ";

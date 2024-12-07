@@ -1,64 +1,42 @@
 "use client";
-import React, { useState, useEffect } from "react";
 
-export default function AddArticleForm() {
-  const [authors, setAuthors] = useState([]); // Existing authors
-  const [selectedAuthorId, setSelectedAuthorId] = useState(""); // Selected author
-  const [newAuthorName, setNewAuthorName] = useState(""); // New author input
-  const [articleData, setArticleData] = useState({
+import { useState } from "react";
+
+export default function ajouterArticle() {
+  const [formData, setFormData] = useState({
     titre: "",
     annee: "",
     theme: "",
     resume: "",
+    author_name: "",
   });
-  const [successMessage, setSuccessMessage] = useState(null);
 
-  useEffect(() => {
-    // Fetch existing authors when component mounts
-    const fetchAuthors = async () => {
-      try {
-        const response = await fetch("/api/get_authors.php");
-        const data = await response.json();
-        setAuthors(data);
-      } catch (error) {
-        console.error("Error fetching authors:", error);
-      }
-    };
+  const [successMessage, setSuccessMessage] = useState("");
 
-    fetchAuthors();
-  }, []);
-
-  const handleInputChange = (e) => {
+  // Update form data
+  const handleChange = (e) => {
     const { name, value } = e.target;
-    setArticleData({ ...articleData, [name]: value });
+    setFormData({ ...formData, [name]: value });
   };
 
+  // Submit the form
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const payload = {
-        ...articleData,
-        selectedAuthorId,
-        newAuthorName,
-      };
-
-      // Submit the form data to the backend
-      const response = await fetch("/api/ajouter_article", {
+      const response = await fetch("/api/ajouter_article.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+        body: JSON.stringify(formData),
       });
 
       const result = await response.json();
 
       if (result.success) {
-        setSuccessMessage("Article added successfully!");
-        setArticleData({ titre: "", annee: "", theme: "", resume: "" });
-        setSelectedAuthorId("");
-        setNewAuthorName("");
+        setSuccessMessage("Article and Author added successfully!");
+        setFormData({ titre: "", annee: "", theme: "", resume: "", author_name: "" });
       } else {
-        console.error("Failed to add article:", result.error);
+        console.error("Error:", result.error);
       }
     } catch (error) {
       console.error("Error submitting form:", error);
@@ -66,100 +44,84 @@ export default function AddArticleForm() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-10">
-      <h1 className="text-3xl font-bold text-center mb-8">Add New Article</h1>
+    <div className="pt-36">
+    <div className="container mx-auto max-w-lg  p-8 bg-white border rounded-lg shadow-md">
+      <h1 className="text-2xl font-bold text-center mb-6">Add New Article</h1>
 
       {successMessage && (
         <div className="text-green-600 text-center mb-4">{successMessage}</div>
       )}
 
-      <form
-        onSubmit={handleSubmit}
-        className="max-w-lg mx-auto bg-white p-6 border rounded-lg shadow"
-      >
-        <div className="mb-4">
-          <label className="block font-medium mb-2">Titre</label>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div>
+          <label className="block text-gray-700 font-medium mb-1">Titre</label>
           <input
             type="text"
             name="titre"
-            value={articleData.titre}
-            onChange={handleInputChange}
+            value={formData.titre}
+            onChange={handleChange}
             required
-            className="w-full px-3 py-2 border rounded"
+            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
         </div>
 
-        <div className="mb-4">
-          <label className="block font-medium mb-2">Annee</label>
+        <div>
+          <label className="block text-gray-700 font-medium mb-1">Annee</label>
           <input
             type="number"
             name="annee"
-            value={articleData.annee}
-            onChange={handleInputChange}
+            value={formData.annee}
+            onChange={handleChange}
             required
-            className="w-full px-3 py-2 border rounded"
+            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
         </div>
 
-        <div className="mb-4">
-          <label className="block font-medium mb-2">Theme</label>
+        <div>
+          <label className="block text-gray-700 font-medium mb-1">Theme</label>
           <input
-            type="text"
+            type="number"
             name="theme"
-            value={articleData.theme}
-            onChange={handleInputChange}
+            value={formData.theme}
+            onChange={handleChange}
             required
-            className="w-full px-3 py-2 border rounded"
+            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
         </div>
 
-        <div className="mb-4">
-          <label className="block font-medium mb-2">Resume</label>
+        <div>
+          <label className="block text-gray-700 font-medium mb-1">Résumé</label>
           <textarea
             name="resume"
-            value={articleData.resume}
-            onChange={handleInputChange}
+            value={formData.resume}
+            onChange={handleChange}
             required
-            className="w-full px-3 py-2 border rounded"
-          ></textarea>
+            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+          />
         </div>
 
-        {/* Author Selection */}
-        <div className="mb-4">
-          <label className="block font-medium mb-2">Author</label>
-          <select
-            value={selectedAuthorId}
-            onChange={(e) => setSelectedAuthorId(e.target.value)}
-            className="w-full px-3 py-2 border rounded"
-          >
-            <option value="">Select Existing Author</option>
-            {authors.map((author) => (
-              <option key={author.author_id} value={author.author_id}>
-                {author.author_name}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        {/* Add New Author */}
-        <div className="mb-4">
-          <label className="block font-medium mb-2">Or Add New Author</label>
+        <div>
+          <label className="block text-gray-700 font-medium mb-1">Author Name</label>
           <input
             type="text"
-            placeholder="New Author Name"
-            value={newAuthorName}
-            onChange={(e) => setNewAuthorName(e.target.value)}
-            className="w-full px-3 py-2 border rounded"
+            name="author_name"
+            value={formData.author_name}
+            onChange={handleChange}
+            required
+            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
         </div>
 
         <button
           type="submit"
-          className="w-full py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+          className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition duration-200"
         >
-          Add Article
+          Submit
         </button>
       </form>
     </div>
+    </div>
+    
+
   );
 }
