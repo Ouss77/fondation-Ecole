@@ -57,30 +57,37 @@ const Navbar = () => {
             </button>
             {openDropdown === "af3m" && (
               <div className="absolute text-sm z-50 top-full left-0 w-max bg-white shadow-lg border border-gray-300 rounded-lg mt-3 opacity-100 translate-y-1 transition-all duration-500 transform scale-100">
+                                <Link
+                  onClick={() => toggleDropdown("af3m")}
+                  href="/AF3M_pages/articales"
+                  className="block px-5 py-3 text-blue-900 hover:bg-yellow-200 rounded-lg transition-colors duration-500"
+                >
+                  Articles
+                </Link>
                 <Link
                   onClick={() => toggleDropdown("af3m")}
-                  href="/historique"
+                  href="/AF3M_pages/historique"
                   className="block px-5 py-3 text-blue-900 hover:bg-yellow-200 rounded-lg transition-colors duration-500"
                 >
                   Historique et missions
                 </Link>
                 <Link
                   onClick={() => toggleDropdown("af3m")}
-                  href="/participantsPage"
+                  href="/AF3M_pages/Administration"
                   className="block px-5 py-3 text-blue-900 hover:bg-yellow-200 rounded-lg transition-colors duration-500"
                 >
                   Administration actuelle
                 </Link>
                 <Link
                   onClick={() => toggleDropdown("af3m")}
-                  href="/anciensBureau"
+                  href="/AF3M_pages/anciensBureau"
                   className="block px-5 py-3 text-blue-900 hover:bg-yellow-200 rounded-lg transition-colors duration-500"
                 >
                   Anciens bureaux de l'AF3M
                 </Link>
                 <Link
                   onClick={() => toggleDropdown('af3m')}
-                  href="/reglements"
+                  href="/AF3M_pages/reglements"
                   className="block px-5 py-3 text-blue-900 hover:bg-yellow-200 rounded-lg transition-colors duration-500"
                 >
                   Status et règlement intérieur
@@ -103,7 +110,7 @@ const Navbar = () => {
                 <Link
                                 onClick={() => toggleDropdown('tt')}
 
-                  href="/conferenceJet"
+                  href="/conference_pages/conferenceJet"
                   className="block px-5 py-3 text-blue-900 hover:bg-yellow-200 rounded-lg transition-colors duration-500"
                 >
                   JET(2000-2022)
@@ -111,7 +118,7 @@ const Navbar = () => {
                 <Link
                                 onClick={() => toggleDropdown('tt')}
 
-                  href="/congreIntrMeca"
+                  href="/conference_pages/congreIntrMeca"
                   className="block px-5 py-3 text-blue-900 hover:bg-yellow-200 rounded-lg transition-colors duration-500"
                 >
                   Congres internationl de mecanique
@@ -138,7 +145,7 @@ const Navbar = () => {
                 <Link
                                 onClick={() => toggleDropdown('xx')}
 
-                  href="/devenirMembre"
+                  href="/Adhesion_pages/devenirMembre"
                   className="block px-3  py-3 text-blue-900 hover:bg-yellow-200 rounded-lg transition-colors duration-500"
                 >
                   Devenir membre de l'AF3M
@@ -146,7 +153,7 @@ const Navbar = () => {
                 <Link
                                 onClick={() => toggleDropdown('xx')}
 
-                  href="/equipeslaboratoires"
+                  href="/Adhesion_pages/equipesLaboratoire"
                   className="block px-3 py-3 text-blue-900 hover:bg-yellow-200 rounded-lg transition-colors duration-500"
                 >
                   Equipes, laboratoires de recherche de l'AF3M
@@ -197,28 +204,28 @@ const Navbar = () => {
               {openDropdown === "af3m" && (
                 <div className="absolute z-50 top-full left-0 w-max bg-white shadow-lg border border-gray-300 rounded-lg mt-3 opacity-100 translate-y-1 transition-all duration-500 transform scale-100">
                   <Link
-                    href="/historique"
+                    href="/AF3M_pages/historique"
                     className="block px-5 py-3 text-blue-900 hover:bg-yellow-200 rounded-lg transition-colors duration-500"
                     onClick={closeMenu} // Close the menu when clicked
                   >
                     Historique et missions
                   </Link>
                   <Link
-                    href="/participantsPage"
+                    href="/AF3M_pages/participantsPage"
                     className="block px-5 py-3 text-blue-900 hover:bg-yellow-200 rounded-lg transition-colors duration-500"
                     onClick={closeMenu} // Close the menu when clicked
                   >
                     Administration actuelle
                   </Link>
                   <Link
-                    href="/anciensBureau"
+                    href="/AF3M_pages/anciensBureau"
                     className="block px-5 py-3 text-blue-900 hover:bg-yellow-200 rounded-lg transition-colors duration-500"
                     onClick={closeMenu} // Close the menu when clicked
                   >
                     Anciens bureaux de l'AF3M
                   </Link>
                   <Link
-                    href="/reglements"
+                    href="/AF3M_pages/reglements"
                     className="block px-5 py-3 text-blue-900 hover:bg-yellow-200 rounded-lg transition-colors duration-500"
                     onClick={closeMenu} // Close the menu when clicked
                   >
@@ -238,14 +245,14 @@ const Navbar = () => {
               {openDropdown === "conferences" && (
                 <div className="absolute z-50 top-full left-0 w-max bg-white shadow-lg border border-gray-300 rounded-lg mt-3 opacity-100 translate-y-1 transition-all duration-500 transform scale-100">
                   <Link
-                    href="/conferenceJet"
+                    href="/conference_pages/conferenceJet"
                     className="block px-5 py-3 text-blue-900 hover:bg-yellow-200 rounded-lg transition-colors duration-500"
                     onClick={closeMenu} // Close the menu when clicked
                   >
                     JET(2000-2022)
                   </Link>
                   <Link
-                    href="/congreIntrMeca"
+                    href="/conference_pages/congreIntrMeca"
                     className="block px-5 py-3 text-blue-900 hover:bg-yellow-200 rounded-lg transition-colors duration-500"
                     onClick={closeMenu} // Close the menu when clicked
                   >
@@ -273,14 +280,14 @@ const Navbar = () => {
               {openDropdown === "adhesion" && (
                 <div className="absolute z-50 top-full left-0 w-max bg-white shadow-lg border border-gray-300 rounded-lg mt-3 opacity-100 translate-y-1 transition-all duration-500 transform scale-100">
                   <Link
-                    href="/devenirMembre"
+                    href="/Adhesion_pages/devenirMembre"
                     className="block px-5 py-3 text-blue-900 hover:bg-yellow-200 rounded-lg transition-colors duration-500"
                     onClick={closeMenu} // Close the menu when clicked
                   >
                     Devenir membre de l'AF3M
                   </Link>
                   <Link
-                    href="/equipeslaboratoires"
+                    href="/Adhesion_pages/equipeslaboratoires"
                     className="block px-5 py-3 text-blue-900 hover:bg-yellow-200 rounded-lg transition-colors duration-500"
                     onClick={closeMenu} // Close the menu when clicked
                   >

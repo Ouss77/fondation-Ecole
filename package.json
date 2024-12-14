@@ -8,10 +8,10 @@
     "export": "next export",
     "start": "next start"
   },
-
   "dependencies": {
     "@heroicons/react": "^2.2.0",
     "dotenv": "^16.4.5",
+    "emailjs-com": "^3.2.0",
     "formidable": "^3.5.2",
     "mysql2": "^3.11.5",
     "next": "15.0.3",

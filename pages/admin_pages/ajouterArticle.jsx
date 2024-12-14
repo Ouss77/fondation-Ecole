@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 export default function ajouterArticle() {
   const [formData, setFormData] = useState({
@@ -12,7 +13,8 @@ export default function ajouterArticle() {
   });
 
   const [successMessage, setSuccessMessage] = useState("");
-
+  const router = useRouter();
+  
   // Update form data
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -44,8 +46,8 @@ export default function ajouterArticle() {
   };
 
   return (
-    <div className="pt-36">
-    <div className="container mx-auto max-w-lg  p-8 bg-white border rounded-lg shadow-md">
+    <div className="pt-14 w-96 ml-72">
+    <div className="container mx-auto  p-8  border  bg-white rounded-2xl shadow-lg shadow-indigo-400/50">
       <h1 className="text-2xl font-bold text-center mb-6">Add New Article</h1>
 
       {successMessage && (

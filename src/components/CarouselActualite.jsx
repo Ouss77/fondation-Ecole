@@ -2,7 +2,8 @@
 import React, { useState, useEffect } from "react";
 
 export default function CarouselActualite({ actualites }) {
-  const lastThreeActualites = actualites.slice(-3); // Get the last three items
+  // const lastThreeActualites = actualites.slice(-3); // Get the last three items
+   const lastThreeActualites = actualites
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
 
@@ -11,14 +12,12 @@ export default function CarouselActualite({ actualites }) {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % lastThreeActualites.length);
   };
 
-  // Function to move to the previous slide
   const handlePrevious = () => {
     setCurrentIndex(
       (prevIndex) => (prevIndex - 1 + lastThreeActualites.length) % lastThreeActualites.length
     );
   };
 
-  // Auto-slide effect using useEffect and setInterval
   useEffect(() => {
     if (isHovered) return; // Do not auto-slide if hovered
 

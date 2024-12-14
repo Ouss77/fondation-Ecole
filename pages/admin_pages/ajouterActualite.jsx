@@ -9,16 +9,6 @@ export default function AddActualite() {
   const [message, setMessage] = useState("");
   const router = useRouter(); // For routing after successful login
 
-  useEffect(() => {
-    // Check if the 'auth' cookie exists (user is logged in)
-    const isAuthenticated = document.cookie.includes("authTrue");
-
-    if (!isAuthenticated) {
-      // If not authenticated, redirect to login page
-      router.push("/admin_pages/login");
-    }
-  }, [router]);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     
@@ -48,8 +38,8 @@ export default function AddActualite() {
   
 
   return (
-    <div className="lg:max-w-3xl mx-auto pt-32 w-5/6 ">
-      <form onSubmit={handleSubmit} className="bg-gray-100 mt-10 p-10  rounded shadow-md">
+    <div className="lg:max-w-3xl mx-auto  w-5/6  ml-56 bg-white rounded-2xl shadow-lg shadow-indigo-400/50">
+      <form onSubmit={handleSubmit} className=" mt-10 p-10  rounded shadow-md">
         <h2 className="text-xl font-bold mb-4">Ajouter une nouvelle Actualité</h2>
         <div className="mb-4">
           <label htmlFor="title" className="block text-gray-700">Title</label>
@@ -82,11 +72,12 @@ export default function AddActualite() {
             className="w-full border p-2 rounded mt-2"
           />
         </div>
-        <button type="submit" className="bg-blue-500 text-white p-2 rounded mt-4 w-full">
+        <button type="submit" 
+          className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition duration-200">
           Add Actualité
         </button>
         {message && <p className="mt-4 text-green-600">{message}</p>}
-      </form>
+      </form> 
     </div>
   );
 }

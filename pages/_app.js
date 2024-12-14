@@ -1,18 +1,63 @@
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 import Header from "../src/components/Header";
 import Footer from "../src/components/Footer";
-import styles from '../src/styles/globals.css';  // Import module CSS
+import SideBar from "../src/components/SideBar";
+import { AuthProvider, useLogin } from "../src/components/Context/AuthContext"; // Import AuthProvider
+import styles from "../src/styles/globals.css";
 
-export default function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps }) {
+  const { isAdmin, logout, loading } = useLogin(); // Access authentication state
+  const router = useRouter();
+  const isAdminPage = router.pathname.includes("admin_pages");
+
+  useEffect(() => {
+    if (!loading && isAdminPage && !isAdmin ) {
+      router.push("/login"); // Or router.replace("/admin_pages/login");
+    }
+  }, [isAdmin,loading,  isAdminPage, router]);
+
+  if(loading) return <div>Loading...</div>;
+  
   return (
     <>
-    <div >
-      <Header />
-    </div>
-    <div >
+      {!isAdminPage && <Header />}
 
-      <Component {...pageProps} />
-    </div>
-      <Footer />
+      <div className="flex">
+        {/* Admin Layout */}
+        {isAdminPage && isAdmin && (
+          <>
+            <SideBar />
+            <div className="flex-1 p-4">
+              <Component {...pageProps} />
+              <button
+                onClick={logout}
+                className="mt-4 p-2 bg-red-600 text-white rounded"
+              >
+                Logout
+              </button>
+            </div>
+          </>
+        )}
+
+        {/* Public Layout */}
+        {!isAdminPage && (
+          <div className="w-full">
+            <Component {...pageProps} />
+          </div>
+        )}
+      </div>
+
+      {!isAdminPage && <Footer />}
     </>
+  );
+}
+
+// Wrap MyApp with AuthProvider
+export default function AppWithProvider(props) {
+  return (
+    <AuthProvider>
+      <MyApp {...props} />
+    </AuthProvider>
   );
 }

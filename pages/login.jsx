@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { useRouter } from "next/router"; // Use this for redirecting
+import { useLogin } from "@/components/Context/AuthContext";
 
 function Login() {
+  const { login } = useLogin(); // Get the login function from the context
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
@@ -10,31 +12,16 @@ function Login() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-  
-    // const ADMIN_USERNAME = process.env.NEXT_PUBLIC_ADMIN_USERNAME;
-    // const ADMIN_PASSWORD = process.env.NEXT_PUBLIC_ADMIN_PASSWORD;
-    const ADMIN_USERNAME = "admin";
-    const ADMIN_PASSWORD = "admin";
-    console.log("the username is", ADMIN_USERNAME);
-    console.log("the password is", ADMIN_PASSWORD);
-    if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
-      setMessage("Login successful!");
-      const now = new Date();
-      // Set the expiration time to 2 hours from now
-      now.setTime(now.getTime() + 2 * 60 * 60 * 1000); // 2 hours in milliseconds
-  
-      // Set the cookie with an expiration time of 2 hours
-      document.cookie = `authTrue; path=/; expires=${now.toUTCString()}`;
-        router.push("/admin_pages/ajouterActualite"); 
-    } else {
-      setMessage("Invalid username or password.");
-    }
+    login(username, password);
+    setMessage("Login successful!");
+    router.push("/admin_pages/dashboard"); // Redirect to the dashboard
   };
+  console.log("login page");
   
   return (
-<div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-indigo-600 to-indigo-400 pt-28">
+<div className="flex items-center  justify-center min-h-screen   ml-72">
 
-<div className="lg:w-1/3 max-w-lg p-10 lg:p-8 h-auto mt-10 bg-white rounded-2xl shadow-lg shadow-indigo-400/50">
+<div className=" max-w-lg p-10 lg:p-20 h-auto mt-10 bg-white rounded-2xl shadow-lg shadow-indigo-400/50">
 
   <form onSubmit={handleLogin}>
 
@@ -85,3 +72,4 @@ function Login() {
 }
 
 export default Login;
+
