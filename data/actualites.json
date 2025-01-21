@@ -1,27 +1,27 @@
 [
   {
     "title": "Actualité :",
-    "image": "/carousel1.webp",
+    "image": "/img/carousel1.webp",
     "description": "L’AF3M organise sa 12e édition des « Journées d’Etudes Techniques », du 13 au 15 novembre 2024, JET’2024, à Marrakech – Maroc."
   },
   {
     "title": "Lancement d'un Nouveau Programme",
-    "image": "/carousel2.jpeg",
+    "image": "/img/carousel2.jpeg",
     "description": "Découvrez notre nouveau programme axé sur la mécanique et les matériaux avancés."
   },
   {
     "title": "Journée Internationale de la Science",
-    "image": "/carousel3.jpg",
+    "image": "/img/carousel3.jpg",
     "description": "Célébrez la Journée Internationale de la Science avec nous et apprenez des experts."
   },
   {
     "title": "lets ",
-    "image": "/carousel1.webp",
+    "image": "/img/carousel1.webp",
     "description": "test"
   },
   {
     "title": "test",
     "description": "test",
-    "image": "/carousel1.webp"
+    "image": "/img/carousel1.webp"
   }
 ]

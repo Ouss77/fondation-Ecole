@@ -3,9 +3,9 @@ import React from 'react'
 function congreIntrMeca() {
   return (
     <div className="w-11/12  pt-28">
-      <section className="bg-gray-100 mx-auto w-11/12 lg:mx-20 xl:mx-32 rounded-lg shadow-md mb-12 sm:mb-16 md:mb-20 p-6 sm:p-8 md:p-12 lg:p-16 xl:p-10">
-        <h2 className="text-2xl sm:text-2xl md:text-3xl font-semibold text-yellow-600 mb-8 sm:mb-10 md:mb-12">
-          Objectifs des JET
+      <section className="conference-section">
+        <h2 >
+          Conference Internationale de Mécanique
         </h2>
         <p className="text-gray-800 mb-4 text-base sm:text-lg md:text-base leading-7 sm:leading-8 md:leading-9">
           Les Journées d’Etudes Techniques (JET), constituent une manifestation

@@ -2,7 +2,7 @@ import React from 'react';
 
 function ParticipentTable({ participants }) {
   return (
-    <div className="overflow-x-auto  ">
+    <div className="overflow-x-auto  "> 
       <table className="table-auto  border-collapse border border-gray-300">
         <thead className="bg-gray-100 lg:text-xl ">
           <tr>

@@ -1,6 +1,6 @@
 "use client"; // Required for Next.js client components
 
-import { createContext, useState, useContext, useEffect } from "react";
+import { createContext, useState, useContext, useEffect, use } from "react";
 import { useRouter } from "next/router";
 
 // Create AuthContext
@@ -29,16 +29,45 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   // Function to handle login
-  const login = (username, password) => {
-    if (username === "admin" && password === "admin") {
-      setIsAdmin(true);
-      document.cookie = "authTrue=true; path=/;"; // Set cookie
-      router.push("/admin_pages/dashboard"); // Redirect to dashboard
-    } else {
-      alert("Invalid credentials. Please try again.");
+  // const login = (username, password) => {
+  //   if (username === "admin" && password === "admin") {
+  //     setIsAdmin(true);
+  //     document.cookie = "authTrue=true; path=/;"; // Set cookie
+  //     router.push("/admin_pages/dashboard"); // Redirect to dashboard
+  //   } else {
+  //     alert("Invalid credentials. Please try again.");
+  //   }
+  // };
+
+  const login = async (username, password) => {
+    try {
+      const response = await fetch('http://localhost/AF3M-Backend/login.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+        
+      });
+  
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+  
+      const data = await response.json();
+  
+      if (data.success) {
+        document.cookie = "authTrue=true; path=/;"; // Set cookie
+        setIsAdmin(true);
+        router.push("/admin_pages/dashboard");
+      } else {
+        alert("Invalid credentials. Please try again.");
+      }
+    } catch (error) {
+      alert('There was an error logging in: ' + error.message);
     }
   };
-
+  
   // Function to handle logout
   const logout = () => {
     setIsAdmin(false);

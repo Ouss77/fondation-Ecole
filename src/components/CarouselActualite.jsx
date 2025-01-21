@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 
 export default function CarouselActualite({ actualites }) {
+
   // const lastThreeActualites = actualites.slice(-3); // Get the last three items
    const lastThreeActualites = actualites
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -21,7 +22,7 @@ export default function CarouselActualite({ actualites }) {
   useEffect(() => {
     if (isHovered) return; // Do not auto-slide if hovered
 
-    const interval = setInterval(handleNext, 5000); // Change slide every 5 seconds
+    const interval = setInterval(handleNext, 3000); // Change slide every 5 seconds
 
     // Cleanup the interval when the component is unmounted
     return () => clearInterval(interval);
@@ -58,7 +59,7 @@ export default function CarouselActualite({ actualites }) {
       ))}
 
       {/* Carousel controls */}
-      <div className="absolute top-1/2 left-0 transform -translate-y-1/2 px-4">
+      <div className="absolute top-1/2 left-1 transform -translate-y-1/2 px-4">
         <button
           onClick={handlePrevious}
           className="text-white bg-gray-800 rounded-full p-2 hover:bg-gray-700"
@@ -66,7 +67,7 @@ export default function CarouselActualite({ actualites }) {
           &lt;
         </button>
       </div>
-      <div className="absolute top-1/2 right-0 transform -translate-y-1/2 px-4">
+      <div className="absolute top-1/2 right-1 transform -translate-y-1/2 px-4">
         <button
           onClick={handleNext}
           className="text-white bg-gray-800 rounded-full p-2 hover:bg-gray-700"

@@ -1,23 +1,23 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Image from 'next/image';
+import { LanguageContext } from './Context/LanguageContext';
+
 const Footer = () => {
+  const { language } = useContext(LanguageContext);
   return (
-    <footer className="bg-gradient-to-r from-blue-200 via-indigo-300 to-purple-500 text-black py-8 mt-20">
+    <footer className="bg-gradient-to-r from-white via-indigo-100 to-blue-100 text-black py-8 mt-20">
       <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-8">
-        {/* Left Side - About Section */}
         <div>
-            <Image src="/afm-logo.png" width={150} height={200} alt="Logo" className="rounded-lg" />
-          <p className="mt-4 text-sm">
-          Association Franco-Maghrébine
-          de Mécanique et des Matériaux (AF3M)          </p>
+            <Image src="/img/afm-logo.png" width={150} height={200} alt="Logo" className="rounded-l-xl border-2 border-yellow-900" />
+          <p className="mt-4 text-sm">{ language=='fr' ? "Association Franco-Maghrébine de Mécanique et des Matériaux (AF3M)": "Franco-Maghreb Association of Mechanics and Materials (AF3M)"  }  </p>
           <a href="#" className="mt-4 inline-block text-yellow-500 hover:underline">
-            CONDITIONS GÉNÉRALES DES DONATIONS
+         {language == 'fr' ? "CONDITIONS GÉNÉRALES DES DONATIONS": "GENERAL CONDITIONS OF DONATIONS" }  
           </a>
         </div>
 
         {/* Right Side - Contact Section */}
         <div>
-          <h2 className="text-4xl text-yellow-600  font-bold">Contactez-Nous</h2>
+          <h2 className="text-4xl text-yellow-600  font-bold">{language == 'fr' ? "Contacter Nous": "Contact Us"}</h2>
           <div className="mt-4">
             <p className="flex items-center">
               <span className="mr-2">📧</span>

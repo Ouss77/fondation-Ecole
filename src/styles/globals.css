@@ -19,3 +19,19 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+.table-header {
+  @apply px-4 py-3 text-left text-lg font-bold border-r;
+}
+
+.conference-section{
+  @apply bg-gray-100 mx-auto w-11/12 mt-10 lg:mx-20 xl:mx-32 rounded-lg shadow-md mb-12  md:mb-20 p-6  xl:p-10
+}
+.conference-section h2{
+  @apply text-2xl sm:text-2xl md:text-3xl font-semibold text-yellow-600 mb-8 sm:mb-10 md:mb-12
+}
+
+/* Truncate text to two lines with ellipsis */
+/* In your custom CSS file (e.g., styles.css or main.css) *//* Truncate text to three lines with ellipsis */
+/* Ensure proper box sizing and truncation */
+/* Ensure proper box sizing, width constraints, and truncation *//* Ensure proper truncation using flexbox */
+
