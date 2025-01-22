@@ -15,7 +15,7 @@ export default function ModifierActualite() {
 
   const fetchActualites = async () => {
     try {
-      const response = await axios.get("http://localhost/AF3M-Backend/getActualite.php");
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/getActualite.php`);
       const data = response.data;
       setActualites(data);
       setFilteredActualites(data); // Initialize filtered list
@@ -145,7 +145,7 @@ export default function ModifierActualite() {
                 <td className="px-4 py-3 lg:text-base text-gray-700">
                   {item.image_url && (
                     <img
-                      src={`http://192.168.1.21/AF3M-Backend/${item.image_url}`}
+                      src={`http://localhost/AF3M-Backend/${item.image_url}`}
                       alt="Actualité Image"
                       className="w-40 h-32 object-cover mb-4 rounded"
                     />

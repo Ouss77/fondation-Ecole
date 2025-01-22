@@ -2,6 +2,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { LanguageContext } from "@/components/Context/LanguageContext";
 import Head from "next/head";
+
 export default function AllActualites() {
   const [actualites, setActualites] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -12,7 +13,7 @@ export default function AllActualites() {
   useEffect(() => {
     const fetchActualites = async () => {
       try {
-        const response = await fetch("http://192.168.1.21/AF3M-Backend/getActualite.php");
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/getActualite.php`);
         if (!response.ok) {
           throw new Error("Failed to fetch actualites");
         }
@@ -40,8 +41,7 @@ export default function AllActualites() {
     <>
           <Head>
         <title>All News - AF3M</title>
-        <meta
-          name="description"
+        <meta  name="description"
           content="Explore all the latest news and updates from the Franco-Maghreb Association of Mechanics and Materials."
         />
         <meta name="robots" content="index, follow" />
@@ -56,6 +56,7 @@ export default function AllActualites() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="https://af3m-assoc.org/wp-content/uploads/2022/10/Capture-de%CC%81cran-2022-10-06-a%CC%80-10.09.14.png" />
       </Head>
+
       <div className="container w-10/12 mx-auto px-4 py-10 pt-40">
       <h1 className="text-3xl text-yellow-600 font-bold mb-8"> 
          {language =="fr" ? "Toutes les actualite" : "All the News"}  </h1>
@@ -68,7 +69,7 @@ export default function AllActualites() {
             {/* Display the image if it exists */}
             {item.image_url && (
               <img
-                src={`http://192.168.1.21/AF3M-Backend/${item.image_url}`}
+                src={`${process.env.NEXT_PUBLIC_API_BASE_URL}/${item.image_url}`}
                 alt="Actualité Image"
                 className="w-full h-52 object-cover mb-4 rounded"
               />

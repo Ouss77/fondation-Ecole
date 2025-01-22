@@ -12,10 +12,7 @@ export default function ArticlesTable() {
   useEffect(() => {
     const fetchArticles = async () => {
       try {
-        const response = await fetch(
-          "http://localhost/AF3M-Backend/getArticles_locally.php"
-        );
-
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/getArticles_locally.php`);
         if (!response.ok) {
           throw new Error("Failed to fetch articles");
         }

@@ -1,7 +1,13 @@
+import Head from "next/head";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 export default function ArticlesTable() {
+
+  const pageTitle = "Articles Page";
+  const pageDescription = "Description of the articles page";
+  
+
   const [articles, setArticles] = useState([]);
   const [filteredArticles, setFilteredArticles] = useState([]);
   const [hoveredTheme, setHoveredTheme] = useState({ id: null, name: "" });
@@ -10,24 +16,24 @@ export default function ArticlesTable() {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
 
+ 
   useEffect(() => {
     const fetchArticles = async () => {
       try {
-        const response = await fetch(
-          "http://localhost/AF3M-Backend/getArticles_locally.php"
-        );
+        const response = await fetch('/AF3M-Backend/getArticles_locally.php') // PHP API URL
+
         if (!response.ok) {
           throw new Error("Failed to fetch articles");
         }
         const data = await response.json();
-        setArticles(data);
-        setFilteredArticles(data);
+        setArticles(data); // Save the full data
+        setFilteredArticles(data); // Initialize the filtered state
       } catch (err) {
-        setError(err.message);
+        setError(err.message); 
       } finally {
         setLoading(false);
-      }
-    };
+      } 
+    }; 
 
     fetchArticles();
   }, []);

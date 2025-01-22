@@ -20,7 +20,7 @@ export default function ModifierArticle() {
         setArticles(data); // Save the full data
         setFilteredArticles(data); // Initialize the filtered state
       } catch (err) {
-        setError(err.message);
+        setError(err.message); 
       } finally {
         setLoading(false);
       } 
