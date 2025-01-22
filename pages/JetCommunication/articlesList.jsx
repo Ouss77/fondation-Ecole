@@ -2,7 +2,6 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 export default function ArticlesTable() {
-
   const [articles, setArticles] = useState([]);
   const [filteredArticles, setFilteredArticles] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -13,7 +12,9 @@ export default function ArticlesTable() {
   useEffect(() => {
     const fetchArticles = async () => {
       try {
-        const response = await fetch("http://localhost/AF3M-Backend/getArticles_locally.php");
+        const response = await fetch(
+          "http://localhost/AF3M-Backend/getArticles_locally.php"
+        );
 
         if (!response.ok) {
           throw new Error("Failed to fetch articles");
@@ -63,7 +64,7 @@ export default function ArticlesTable() {
     <div className="container mx-auto px-40 py-10">
       <h1 className="text-3xl font-bold text-center mb-8">Articles</h1>
 
-       <div className="mb-4 flex items-center">
+      <div className="mb-4 flex items-center">
         <input
           type="text"
           placeholder="Search by Title or Author Name"
@@ -71,14 +72,20 @@ export default function ArticlesTable() {
           onChange={handleSearch}
           className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-        <Link href={"/JetCommunication/communications"} className="bg-blue-500 text-white text-center w-40 px-4 py-2 rounded-lg ml-2 hover:bg-green-500">
+        <Link
+          href={"/JetCommunication/communications"}
+          className="bg-blue-500 text-white text-center w-40 px-4 py-2 rounded-lg ml-2 hover:bg-green-500"
+        >
           View Table
         </Link>
       </div>
 
       <div>
         {filteredArticles.map((article, index) => (
-          <div key={index} className="bg-white p-4 mb-4 border border-gray-200 rounded-lg shadow-lg hover:shadow-2xl hover:shadow-blue-200 transition duration-300">
+          <div
+            key={index}
+            className="bg-white p-4 mb-4 border border-gray-200 rounded-lg shadow-lg hover:shadow-2xl hover:shadow-blue-200 transition duration-300"
+          >
             <h2 className="text-lg font-bold">{article.titre}</h2>
             <p className="text-sm text-gray-600">Authors: {article.authors}</p>
             <p className="text-sm text-gray-600">Year: {article.annee}</p>
@@ -89,12 +96,17 @@ export default function ArticlesTable() {
             >
               {showAbstract[index] ? "Hide Abstract" : "Show Abstract"}
             </button>
-            <button
-              className="mt-2 px-4 py-2 ml-5 text-white bg-green-600 rounded-lg focus:outline-none focus:ring-2  hover:bg-green-700"
-            >
-              Download Article
+            <button className="mt-2 px-4 py-2 ml-5 text-white bg-green-600 rounded-lg focus:outline-none focus:ring-2 hover:bg-green-700">
+              <a
+                href={`http://localhost/AF3M-Backend/pdf_files/${article.pdf_files}`}
+                target="_blank" // This opens the link in a new tab
+                rel="noopener noreferrer" // Adds security by not allowing the new page to access your page via JavaScript
+                className="block w-full h-full" // Makes the link take up the entire button area
+              >
+                Download Article
+              </a>
             </button>
-            
+
             {showAbstract[index] && (
               <p className="mt-4 text-sm text-gray-700">{article.resume}</p>
             )}

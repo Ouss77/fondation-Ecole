@@ -41,31 +41,47 @@ const Navbar = () => {
     setOpenDropdown(openDropdown === dropdown ? null : dropdown);
   };
 
-  const closeMenu = () => setMenuOpen(false);
-
-  const dropdownItemsAf3m = [
-    { label: "Historique et missions", href: "/AF3M_pages/historique" },
-    { label: "Administration actuelle", href: "/AF3M_pages/Administration" },
-    { label: "Anciens bureaux de l'AF3M", href: "/AF3M_pages/anciensBureau" },
-    { label: "Status et règlement intérieur", href: "/AF3M_pages/reglements" },
-  ];
-
-  const dropdownItemsConf = [
-    { label: "JET(2000-2022)", href: "/conference_pages/conferenceJet" },
-    { label: "Congres internationl de mecanique",      href: "/conference_pages/congreIntrMeca" },
-  ];
-
-  const dropdownItemsAdhesion = [
-    {
-      label: "Devenir membre de l'AF3M",
-      href: "/Adhesion_pages/devenirMembre",
+  const translations = {
+    fr: {
+      af3m: "L'AF3M",
+      conferences: "Conférences organisées",
+      adhesion: "Adhésion",
+      af3mItems: [
+        { label: "Historique et missions", href: "/AF3M_pages/historique" },
+        { label: "Administration actuelle", href: "/AF3M_pages/Administration" },
+        { label: "Anciens bureaux de l'AF3M", href: "/AF3M_pages/anciensBureau" },
+        { label: "Status et règlement intérieur", href: "/AF3M_pages/reglements" },
+      ],
+      confItems: [
+        { label: "JET (2000-2022)", href: "/conference_pages/conferenceJet" },
+        { label: "Congrès international de mécanique", href: "/conference_pages/congreIntrMeca" },
+      ],
+      adhesionItems: [
+        { label: "Devenir membre de l'AF3M", href: "/Adhesion_pages/devenirMembre" },
+        { label: "Equipes et laboratoires de recherche", href: "/Adhesion_pages/equipesLaboratoire" },
+      ],
     },
-    {
-      label: "Equipes etlaboratoires de recherche",
-      href: "/Adhesion_pages/equipesLaboratoire",
+    en: {
+      af3m: "AF3M",
+      conferences: "Conferences organized",
+      adhesion: "Membership",
+      af3mItems: [
+        { label: "History and Missions", href: "/AF3M_pages/historique" },
+        { label: "Current Administration", href: "/AF3M_pages/Administration" },
+        { label: "Former AF3M Offices", href: "/AF3M_pages/anciensBureau" },
+        { label: "Statutes and Internal Regulations", href: "/AF3M_pages/reglements" },
+      ],
+      confItems: [
+        { label: "JET (2000-2022)", href: "/conference_pages/conferenceJet" },
+        { label: "International Mechanics Congress", href: "/conference_pages/congreIntrMeca" },
+      ],
+      adhesionItems: [
+        { label: "Become an AF3M Member", href: "/Adhesion_pages/devenirMembre" },
+        { label: "Research Teams and Laboratories", href: "/Adhesion_pages/equipesLaboratoire" },
+      ],
     },
-  ];
-
+  };
+  
   const [open, setOpen] = useState(false);
   const handleOpen = () => {
     setOpen(!open);
@@ -93,48 +109,46 @@ const Navbar = () => {
             href="/actualites"
             className="text-base text-black hover:text-yellow-600 transition duration-300 ease-in-out transform hover:scale-110 font-medium"
           >
-            Actualités
+            {language === "fr" ? "Actualités" : "News"}
           </Link>
 
-          {/* Dropdowns */}
           <Dropdown
-            label="L'AF3M"
+            label={translations[language].af3m}
             dropdownKey="af3m"
             openDropdown={openDropdown}
             toggleDropdown={toggleDropdown}
-            items={dropdownItemsAf3m}
-            dropdownRef={(el) => (dropdownRefs.current["af3m"] = el)} // Add ref for this dropdown
+            items={translations[language].af3mItems}
           />
 
           <Dropdown
-            label="Conférences organisees et sponsorisees"
+            label={translations[language].conferences}
             dropdownKey="conferences"
             openDropdown={openDropdown}
             toggleDropdown={toggleDropdown}
-            items={dropdownItemsConf}
-            dropdownRef={(el) => (dropdownRefs.current["conferences"] = el)} // Add ref for this dropdown
+            items={translations[language].confItems}
           />
 
           <Link
-            href="JetCommunication/communications"
+            href="/JetCommunication/communications"
             className="text-base text-black hover:text-yellow-600 transition duration-300 ease-in-out transform hover:scale-110 font-medium"
           >
-            Communications des editions du jet
+            {language === "fr" ? "Communications des éditions du jet" : "Communications of the jet editions"}
           </Link>
 
           <Dropdown
-            label="Adhésion"
+            label={translations[language].adhesion}
             dropdownKey="adhesion"
             openDropdown={openDropdown}
             toggleDropdown={toggleDropdown}
-            items={dropdownItemsAdhesion}
-            dropdownRef={(el) => (dropdownRefs.current["adhesion"] = el)} // Add ref for this dropdown
+            items={translations[language].adhesionItems}
           />
         </nav>
 
         <div className="relative text-center ml-10">
       <button onClick={handleOpen} className="flex items-center border-l px-4 py-2  rounded hover:bg-gray-300 font-medium">
-        Languages
+      <Image src="/img/uk.png" width={20} height={20} className="mr-2" alt="English" /> / 
+      <Image src="/img/france.png" width={20} height={20} className="ml-2" alt="France" />
+
         <span className={`ml-2 transition-transform ${open ? "rotate-180" : "rotate-0"}`}>
           <FaChevronDown />
         </span>

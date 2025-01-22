@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { LanguageContext } from '@/components/Context/LanguageContext'; // Import the context
+import Head from 'next/head';
 
 function Historique() {
   const { language } = useContext(LanguageContext); // Get the current language from context
@@ -18,7 +19,26 @@ function Historique() {
   };
 
   return (
-    <div>
+    <>
+       <Head>
+        <title>{content[language].title} - AF3M</title>
+        <meta
+          name="description"
+          content={language === "fr" ? content.fr.paragraph1 : content.en.paragraph1}
+        />
+        <meta name="robots" content="index, follow" />
+        <meta property="og:title" content={content[language].title} />
+        <meta
+          property="og:description"
+          content={language === "fr" ? content.fr.paragraph1 : content.en.paragraph1}
+        />
+        <meta property="og:image" content="URL_to_image_for_social_media" />
+        <meta property="og:url" content="https://af3m-assoc.org/historique" />
+        <meta property="og:type" content="website" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="URL_to_favicon_image" />
+      </Head>
+      <div>
       <section className="text-yellow px-4 sm:px-6 md:px-10 lg:px-16 xl:px-24 rounded-lg pt-36">
         <div className="bg-gray-100 p-6 sm:p-8 md:p-10 lg:p-12 xl:p-10 rounded-xl">
           <h2 className="text-xl md:text-3xl font-semibold text-yellow-600 mb-4">
@@ -33,6 +53,8 @@ function Historique() {
         </div>
       </section>
     </div>
+    </>
+
   );
 }
 

@@ -1,5 +1,6 @@
 import { LanguageContext } from "@/components/Context/LanguageContext";
 import ParticipentTable from "@/components/ParticipentTable";
+import Head from "next/head";
 import { useContext } from "react";
 
 export default function ParticipantPage() {
@@ -45,7 +46,26 @@ export default function ParticipantPage() {
   }));
 
   return (
-    <main className="flex flex-col">
+    <>
+          <Head>
+        <title>{language === "fr" ? "Liste des Participants - AF3M" : "List of Participants - AF3M"}</title>
+        <meta
+          name="description"
+          content={language === "fr" ? "Découvrez la liste des participants à l'AF3M." : "Discover the list of participants at AF3M."}
+        />
+        <meta name="robots" content="index, follow" />
+        <meta property="og:title" content={language === "fr" ? "Liste des Participants - AF3M" : "List of Participants - AF3M"} />
+        <meta
+          property="og:description"
+          content={language === "fr" ? "Découvrez la liste des participants à l'AF3M." : "Discover the list of participants at AF3M."}
+        />
+        <meta property="og:image" content="https://af3m-assoc.org/wp-content/uploads/2022/10/Capture-de%CC%81cran-2022-10-06-a%CC%80-10.09.14.png" />
+        <meta property="og:url" content="https://af3m-assoc.org/participants" />
+        <meta property="og:type" content="website" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="https://af3m-assoc.org/wp-content/uploads/2022/10/Capture-de%CC%81cran-2022-10-06-a%CC%80-10.09.14.png" />
+      </Head>
+        <main className="flex flex-col">
       <section className="flex-grow container mx-auto w-11/12 px-4 mt-44">
         <h1 className="text-xl lg:text-3xl font-bold text-yellow-600 text-left mb-10">
           {language === "fr" ? "Liste des Participants" : "List of Participants"}
@@ -53,5 +73,7 @@ export default function ParticipantPage() {
         <ParticipentTable participants={translatedParticipants} />
       </section>
     </main>
+    </>
+
   );
 }

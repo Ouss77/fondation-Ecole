@@ -2,19 +2,20 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 export default function ArticlesTable() {
-  
   const [articles, setArticles] = useState([]);
   const [filteredArticles, setFilteredArticles] = useState([]);
   const [hoveredTheme, setHoveredTheme] = useState({ id: null, name: "" });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
-  const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
 
   useEffect(() => {
     const fetchArticles = async () => {
       try {
-        const response = await fetch("http://localhost/AF3M-Backend/getArticles_locally.php");
+        const response = await fetch(
+          "http://localhost/AF3M-Backend/getArticles_locally.php"
+        );
         if (!response.ok) {
           throw new Error("Failed to fetch articles");
         }
@@ -44,7 +45,9 @@ export default function ArticlesTable() {
 
   const handleMouseEnter = async (themeID) => {
     try {
-      const response = await fetch(`http://localhost/AF3M-Backend/getTheme.php?themeID=${themeID}`);
+      const response = await fetch(
+        `http://localhost/AF3M-Backend/getTheme.php?themeID=${themeID}`
+      );
       const data = await response.json();
       setHoveredTheme({ id: themeID, name: data.themeName });
     } catch (error) {
@@ -57,15 +60,15 @@ export default function ArticlesTable() {
   };
 
   const handleSort = (key) => {
-    const direction = sortConfig.direction === 'asc' ? 'desc' : 'asc';
+    const direction = sortConfig.direction === "asc" ? "desc" : "asc";
     setSortConfig({ key, direction });
 
     const sortedArticles = [...filteredArticles].sort((a, b) => {
       if (a[key] < b[key]) {
-        return direction === 'asc' ? -1 : 1;
+        return direction === "asc" ? -1 : 1;
       }
       if (a[key] > b[key]) {
-        return direction === 'asc' ? 1 : -1;
+        return direction === "asc" ? 1 : -1;
       }
       return 0;
     });
@@ -82,75 +85,120 @@ export default function ArticlesTable() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-10">
-      <h1 className="text-3xl font-bold text-center mb-8">Articles</h1>
-      <div className="mb-4 flex items-center">
-        <input
-          type="text"
-          placeholder="Search by Title or Author Name"
-          value={searchQuery}
-          onChange={handleSearch}
-          className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-        <Link href={"/JetCommunication/articlesList"} className="bg-blue-500 text-white text-center w-40 px-4 py-2 rounded-lg ml-2 hover:bg-green-500">
-          View List
-        </Link>
-      </div>
-      <div className="overflow-x-auto">
-        <table className="min-w-full bg-white border border-gray-200 rounded-lg shadow-lg">
-          <thead>
-            <tr className="bg-blue-800 text-white">
-              <th
-                className="px-4 py-3 text-left text-sm font-medium uppercase cursor-pointer"
-                onClick={() => handleSort('annee')}
-              >
-                Annee
-              </th>
-              <th
-                className="px-4 py-3 text-left text-sm font-medium uppercase cursor-pointer"
-                onClick={() => handleSort('theme')}
-              >
-                Theme
-              </th>
-              <th className="px-4 py-3 text-left text-sm font-medium uppercase">Titre</th>
-              <th className="px-4 py-3 text-left text-sm font-medium uppercase">Resume</th>
-              <th className="px-4 py-3 text-left text-sm font-medium uppercase">Authors</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredArticles.map((article, index) => (
-              <tr
-                key={index}
-                className={`border-t border-gray-200 ${index % 2 === 0 ? "bg-gray-50" : "bg-white"}`}
-              >
-                <td className="px-4 py-3 text-sm text-gray-700">{article.annee}</td>
-                <td
-                  className="px-4 py-3 text-sm text-gray-700 relative"
-                  onMouseEnter={() => handleMouseEnter(article.theme)}
-                  onMouseLeave={handleMouseLeave}
+    <>
+    <Head>
+          <title>{pageTitle}</title>
+      <meta name="description" content={pageDescription} />
+      <meta name="robots" content="index, follow" />
+      <meta property="og:title" content={pageTitle} />
+      <meta property="og:description" content={pageDescription} />
+      <meta property="og:url" content="https://af3m-assoc.org/devenir-membre" />
+      <meta property="og:type" content="website" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <link rel="icon" href="https://af3m-assoc.org/wp-content/uploads/2022/10/Capture-de%CC%81cran-2022-10-06-a%CC%80-10.09.14.png" />
+      </Head>
+        <div className="container mx-auto px-4 py-10">
+        <h1 className="text-3xl font-bold text-center mb-8">Articles</h1>
+        <div className="mb-4 flex items-center">
+          <input
+            type="text"
+            placeholder="Search by Title or Author Name"
+            value={searchQuery}
+            onChange={handleSearch}
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <Link
+            href={"/JetCommunication/articlesList"}
+            className="bg-blue-500 text-white text-center w-40 px-4 py-2 rounded-lg ml-2 hover:bg-green-500"
+          >
+            View List
+          </Link>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="min-w-full bg-white border border-gray-200 rounded-lg shadow-lg">
+            <thead>
+              <tr className="bg-blue-800 text-white">
+                <th
+                  className="px-4 py-3 text-left text-sm font-medium uppercase cursor-pointer"
+                  onClick={() => handleSort("annee")}
                 >
-                  {article.theme}
-                  {hoveredTheme.id === article.theme && (
-                    <div className="absolute -left-10 ml-2 w-44 px-3 py-2 bg-gray-800 text-white text-xs rounded-lg shadow-lg z-999">
-                      {hoveredTheme.name}
-                    </div>
-                  )}
-                </td>
-                <td className="px-4 py-3 text-sm text-gray-700">{article.titre}</td>
-                <td className="px-4 py-3 text-sm text-justify text-gray-700">{article.resume}</td>
-                <td className="px-4 py-3 text-sm text-gray-700">{article.authors}</td>
+                  Annee
+                </th>
+                <th
+                  className="px-4 py-3 text-left text-sm font-medium uppercase cursor-pointer"
+                  onClick={() => handleSort("theme")}
+                >
+                  Theme
+                </th>
+                <th className="px-4 py-3 text-left text-sm font-medium uppercase">
+                  Titre
+                </th>
+                <th className="px-4 py-3 text-left text-sm font-medium uppercase">
+                  Resume
+                </th>
+                <th className="px-4 py-3 text-left text-sm font-medium uppercase">
+                  Authors
+                </th>
+                <th className="px-4 py-3 text-left text-sm font-medium uppercase">
+                  PDF
+                </th>
               </tr>
-            ))}
-            {filteredArticles.length === 0 && (
-              <tr>
-                <td colSpan="5" className="text-center py-4 text-gray-500">
-                  No articles found.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {filteredArticles.map((article, index) => (
+                <tr
+                  key={index}
+                  className={`border-t border-gray-200 ${
+                    index % 2 === 0 ? "bg-gray-50" : "bg-white"
+                  }`}
+                >
+                  <td className="px-4 py-3 text-sm text-gray-700">
+                    {article.annee}
+                  </td>
+                  <td
+                    className="px-4 py-3 text-sm text-gray-700 relative"
+                    onMouseEnter={() => handleMouseEnter(article.theme)}
+                    onMouseLeave={handleMouseLeave}
+                  >
+                    {article.theme}
+                    {hoveredTheme.id === article.theme && (
+                      <div className="absolute -left-10 ml-2 w-44 px-3 py-2 bg-gray-800 text-white text-xs rounded-lg shadow-lg z-999">
+                        {hoveredTheme.name}
+                      </div>
+                    )}
+                  </td>
+                  <td className="px-4 py-3 text-sm text-gray-700">
+                    {article.titre}
+                  </td>
+                  <td className="px-4 py-3 text-sm text-justify text-gray-700">
+                    {article.resume}
+                  </td>
+                  <td className="px-4 py-3 text-sm text-gray-700">
+                    {article.authors}
+                  </td>
+                  <td className="px-4 py-3 text-sm text-gray-700">
+                    <a
+                      href={`http://localhost/AF3M-Backend/pdf_files/${article.pdf_files}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {article.pdf_files}
+                    </a>
+                  </td>
+                </tr>
+              ))}
+              {filteredArticles.length === 0 && (
+                <tr>
+                  <td colSpan="5" className="text-center py-4 text-gray-500">
+                    No articles found.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
+    </>
+
   );
 }

@@ -1,28 +1,22 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import { LanguageContext } from '@/components/Context/LanguageContext';
+import axios from 'axios';
+import React, { useContext, useEffect, useState } from "react";
+
 
 export default function ModifierActualite() {
-  
+  const language = useContext(LanguageContext);
   const [actualites, setActualites] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [filteredActualites, setFilteredActualites] = useState([]);
-  const [message, setMessage] = useState("");  // Message state to show success or error
+  const [message, setMessage] = useState(""); // Message state to show success or error
 
-  // Fetch actualites function
   const fetchActualites = async () => {
     try {
-      const response = await fetch("http://localhost/AF3M-Backend/modifierActualite.php", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        }, 
-      });
-      if (!response.ok) {
-        throw new Error("Failed to fetch actualites");
-      }
-      const data = await response.json();
+      const response = await axios.get("http://localhost/AF3M-Backend/getActualite.php");
+      const data = response.data;
       setActualites(data);
       setFilteredActualites(data); // Initialize filtered list
     } catch (err) {
@@ -31,16 +25,22 @@ export default function ModifierActualite() {
       setLoading(false);
     }
   };
+  
 
   useEffect(() => {
-    fetchActualites();  // Fetch the data when the component is mounted
-  }, []);  // Empty dependency array ensures this runs once on component mount
+    fetchActualites(); // Fetch the data when the component is mounted
+  }, []); // Empty dependency array ensures this runs once on component mount
 
   const handleDelete = async (titre) => {
     try {
-      const response = await fetch(`http://localhost/AF3M-Backend/deleteActualite.php?Titre=${encodeURIComponent(titre)}`, {
-        method: "GET",
-      });
+      const response = await fetch(
+        `http://localhost/AF3M-Backend/deleteActualite.php?Titre=${encodeURIComponent(
+          titre
+        )}`,
+        {
+          method: "GET",
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to delete actualite");
@@ -52,7 +52,7 @@ export default function ModifierActualite() {
         setMessage("Actualite deleted successfully!");
 
         // Refetch the data after deletion
-        fetchActualites();  // This will fetch the updated list
+        fetchActualites(); // This will fetch the updated list
       } else {
         console.error(result.error);
         setMessage("Error: Failed to delete the actualite.");
@@ -69,7 +69,8 @@ export default function ModifierActualite() {
     const filtered = actualites.filter(
       (actualite) =>
         actualite.Titre.toLowerCase().includes(value) ||
-        (actualite.Description && actualite.Description.toLowerCase().includes(value))
+        (actualite.Description &&
+          actualite.Description.toLowerCase().includes(value))
     );
     setFilteredActualites(filtered);
   };
@@ -82,36 +83,12 @@ export default function ModifierActualite() {
     return <div className="text-center text-red-600 py-10">Error: {error}</div>;
   }
 
-  const handleFileUpload = async () => {
-    if (!file) {
-      alert("Please select a file to upload");
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append("file", file);
-
-    try {
-      const response = await fetch("http://localhost/AF3M-Backend/upload_excel.php", {
-        method: "POST",
-        body: formData,
-      });
-
-      const result = await response.json();
-
-      if (result.success) {
-        setSuccessMessage("Actualite added from the Excel file!");
-      } else {
-        alert(result.error || "Error uploading the file");
-      }
-    } catch (error) {
-      console.error("Error uploading the file:", error);
-    }
-  };
-
   return (
-    <div className="container w-full ml-36 mx-auto px-4 py-10">
-      <h1 className="text-3xl text-black-600 text-center font-bold mb-8">Actualités</h1>
+    <div className="container w-full  mx-auto px-4 py-10">
+      <h1 className="text-3xl text-black-600 text-center font-bold mb-8">
+        {language =="fr" ? "Toutes les actualite": "All the News"}
+        Actualités
+      </h1>
 
       <div className="flex justify-between mb-4">
         <input
@@ -122,7 +99,9 @@ export default function ModifierActualite() {
           className="w-3/4 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <button
-          onClick={() => (window.location.href = "/admin_pages/ajouterActualite")}
+          onClick={() =>
+            (window.location.href = "/admin_pages/ajouterActualite")
+          }
           className="ml-4 px-6 py-2 bg-blue-600 text-white rounded-lg focus:outline-none hover:bg-blue-700"
         >
           Ajouter Actualite
@@ -140,19 +119,45 @@ export default function ModifierActualite() {
         <table className="min-w-full bg-white border border-gray-200 rounded-lg shadow-lg">
           <thead>
             <tr className="bg-gray-100 text-black">
-              <th className="px-4 py-3 text-left text-lg lg:text-xl font-bold uppercase">Title</th>
-              <th className="px-4 py-3 text-left text-lg lg:text-xl font-bold uppercase">Description</th>
-              <th className="px-4 py-3 text-left text-lg lg:text-xl font-bold uppercase">Action</th>
+              <th className="px-4 py-3 text-left text-lg lg:text-xl font-bold uppercase">
+                Image
+              </th>
+
+              <th className="px-4 py-3 text-left text-lg lg:text-xl font-bold uppercase">
+                Title
+              </th>
+              <th className="px-4 py-3 text-left text-lg lg:text-xl font-bold uppercase">
+                Description
+              </th>
+              <th className="px-4 py-3 text-left text-lg lg:text-xl font-bold uppercase">
+                Action
+              </th>
             </tr>
           </thead>
           <tbody>
             {filteredActualites.map((item, index) => (
               <tr
                 key={index}
-                className={`border-t hover:bg-gray-50 border-gray-200 ${index % 2 === 0 ? "bg-gray-50" : "bg-white"}`}
+                className={`border-t hover:bg-gray-50 border-gray-200 ${
+                  index % 2 === 0 ? "bg-gray-50" : "bg-white"
+                }`}
               >
-                <td className="px-4 py-3 lg:text-base text-gray-700">{item.Titre}</td>
-                <td className="px-4 py-3 lg:text-base text-gray-700">{item.Description}</td>
+                <td className="px-4 py-3 lg:text-base text-gray-700">
+                  {item.image_url && (
+                    <img
+                      src={`http://192.168.1.21/AF3M-Backend/${item.image_url}`}
+                      alt="Actualité Image"
+                      className="w-40 h-32 object-cover mb-4 rounded"
+                    />
+                  )}
+                </td>
+
+                <td className="px-4 py-3 lg:text-base text-gray-700">
+                  {item.Titre}
+                </td>
+                <td className="px-4 py-3 lg:text-base text-gray-700">
+                  {item.Description}
+                </td>
                 <td className="px-4 py-3 lg:text-base text-gray-700">
                   <button
                     onClick={() => handleDelete(item.Titre)}

@@ -1,12 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { LanguageContext } from './Context/LanguageContext';
 
 function ParticipentTable({ participants }) {
+  const language = useContext(LanguageContext);
+  console.log("hey")
+  console.log(language)
   return (
     <div className="overflow-x-auto  "> 
       <table className="table-auto  border-collapse border border-gray-300">
         <thead className="bg-gray-100 lg:text-xl ">
           <tr>
-            <th className="border border-gray-300 px-2 py-2 text-left sm:px-6 sm:py-3 w-1/3">Prénom NOM</th>
+            <th className="border border-gray-300 px-2 py-2 text-left sm:px-6 sm:py-3 w-1/3">{language == "fr" ? "Prénom NOM" : "Full Name" }</th>
             <th className="border border-gray-300 px-2 py-2 text-left sm:px-6 sm:py-3 w-1/3">Institution</th>
             <th className="border border-gray-300 px-2 py-2 text-left sm:px-6 sm:py-3 w-1/6">Role</th>
           </tr>

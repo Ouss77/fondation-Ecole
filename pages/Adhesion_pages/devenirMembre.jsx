@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import emailjs from 'emailjs-com';
+import Head from 'next/head';
+
 
 function DevenirMembre() {
   const [formData, setFormData] = useState({
@@ -32,9 +34,26 @@ function DevenirMembre() {
       alert("Failed to send message.");
     }
   };
+  const pageTitle = language === "fr" ? "Devenir Membre - AF3M" : "Become a Member - AF3M";
+  const pageDescription = language === "fr" 
+    ? "Rejoignez AF3M et devenez membre. Contactez-nous pour plus d'informations ou pour envoyer un message." 
+    : "Join AF3M and become a member. Contact us for more information or to send a message.";
 
   return (
-    <section className=" pt-32 h-screen flex items-center">
+
+<>
+<Head>
+      <title>{pageTitle}</title>
+      <meta name="description" content={pageDescription} />
+      <meta name="robots" content="index, follow" />
+      <meta property="og:title" content={pageTitle} />
+      <meta property="og:description" content={pageDescription} />
+      <meta property="og:url" content="https://af3m-assoc.org/devenir-membre" />
+      <meta property="og:type" content="website" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <link rel="icon" href="https://af3m-assoc.org/wp-content/uploads/2022/10/Capture-de%CC%81cran-2022-10-06-a%CC%80-10.09.14.png" />
+    </Head>
+<section className=" pt-32 h-screen flex items-center">
       <div className="py-4 lg:py-4 px-8 mx-auto max-w-screen-md bg-white border-5 shadow-lg rounded-xl dark:bg-gray-800">
         <h2 className="mb-6 text-4xl tracking-tight font-extrabold text-center text-gray-900 dark:text-white">
           Contactez Nous
@@ -97,6 +116,7 @@ function DevenirMembre() {
         </form>
       </div>
     </section>
+</>
   );
 }
 

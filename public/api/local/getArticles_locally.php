@@ -9,7 +9,7 @@ try {
     // SQL query to fetch articles with authors
     $sql = " 
         SELECT 
-            a.article_id,
+            a.article_id, 
             a.titre,
             a.annee,
             a.theme,
