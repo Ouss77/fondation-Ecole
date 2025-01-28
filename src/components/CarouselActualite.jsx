@@ -44,28 +44,25 @@ export default function CarouselActualite() {
 
   return (
     <div
-    className="relative mx-auto w-11/12 sm:w-10/12 sm:h-[600px] h-[500px]  overflow-hidden rounded-lg top-28 border-2 border-blue-800"
+    className="relative mx-auto w-11/12 sm:w-10/12 sm:h-[600px] h-[350px]  overflow-hidden rounded-lg top-28 border-2 border-blue-800"
     onMouseEnter={() => setIsHovered(true)}
     onMouseLeave={() => setIsHovered(false)}
   >
     {lastThreeActualites.map((item, index) => (
       <div
-        key={index}
-        className={`absolute inset-0 transition-opacity duration-500 ${index === currentIndex ? "opacity-100" : "opacity-0"}`}
-      >
-        <div className="relative w-full h-full ">
-          {/* Image */}
-          <Image
-            src={`${process.env.NEXT_PUBLIC_API_BASE_URL}/${item.image_url}`}
-            alt={item.Titre || "Actualité image"}
-            layout="fill"
-            objectFit="cover"
-            className="z-0"
-            priority={index === 0}
-          />
-  
-          {/* Transparent Text Section at the Top */}
-          <div className="absolute top-0 left-0 right-0 p-6 md:p-8 lg:p-10 bg-yellow-50 bg-opacity-85 z-10">
+  key={index}
+  className={`absolute inset-0 w-auto transition-opacity duration-500 ${index === currentIndex ? "opacity-100" : "opacity-0"}`}
+>
+  <div className="relative w-full h-[350px] sm:h-[600px]"> {/* Set a fixed height or use responsive heights */}
+    {/* Image */}
+    <Image
+      src={`${process.env.NEXT_PUBLIC_API_BASE_URL}/${item.image_url}`}
+      alt={item.Titre || "Actualité image"}
+      layout="fill"
+      objectFit="h-full"
+      className="z-0"
+      priority={index === 0}
+    />          <div className="absolute top-0 left-0 right-0 p-6 md:p-8 lg:p-10 bg-yellow-50 bg-opacity-85 z-10">
             <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-yellow-700 mb-2 drop-shadow-lg">
               {item.Titre}
             </h2>

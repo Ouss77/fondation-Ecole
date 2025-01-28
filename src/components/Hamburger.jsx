@@ -27,7 +27,7 @@ function Hamburger({
 
   return (
     <div>
-      <div className="lg:hidden bg-gradient-to-r from-blue-200 via-indigo-300 to-purple-700 border-t shadow-lg p-6">
+      <div className="lg:hidden  bg-gradient-to-r from-blue-200 via-indigo-300 to-purple-700 border-t shadow-lg p-6">
         <nav className="space-y-6">
           <Link
             href="/actualites"

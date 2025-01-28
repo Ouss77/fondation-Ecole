@@ -16,7 +16,7 @@ const Aprops = () => {
         les industriels.
         <br /><br />
         <i className="fas fa-chevron-right text-yellow-600 mr-2"></i>
-        La promotion et le développement des espaces de coopération et
+        La promotion et le développement des espaces de coopération et 
         d’échanges dans le domaine de la recherche, de l’enseignement et de
         l’industrie en mécanique et matériaux, entre la France et le Maghreb.
         <br /><br />
@@ -64,11 +64,11 @@ const Aprops = () => {
   };
 
   return (
-<div className="w-11/12 sm:w-10/12 box-border mx-auto rounded-xl py-12 px-6 bg-gray-100 shadow-lg mt-44">
-  <h1 className="font-bold mx-5 xl:mx-20 text-yellow-600 mb-6 text-2xl sm:text-3xl">
+<div className="w-11/12 sm:w-10/12 box-border mx-auto rounded-xl py-12  bg-gray-100 shadow-lg mt-44">
+  <h1 className="font-bold mx-2 xl:mx-20 text-yellow-600 mb-6 text-2xl sm:text-3xl">
     {content[language].title}
   </h1>
-  <h2 className="text-xl sm:text-2xl font-semibold mx-5 xl:mx-20 text-gray-800 mb-6">
+  <h2 className="text-xl sm:text-2xl font-semibold mx-2 xl:mx-20 text-gray-800 mb-6">
     {content[language].subtitle}
   </h2>
   <p

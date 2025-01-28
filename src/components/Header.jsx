@@ -84,17 +84,17 @@ const Navbar = () => {
   };
 
   return (
-    <header className="bg-gradient-to-r fixed z-50 w-full from-white via-blue-100 to-blue-200 shadow-xl border-b h-24">
-      <div className="flex justify-between items-center p-2 font-sans">
+    <header className="bg-gradient-to-r fixed z-50 w-full from-white via-blue-100 to-blue-200 shadow-xl mx-auto border-b h-24">
+      <div className="flex justify-between items-center p-2 sm:px-20 font-sans">
         {/* Logo */}
-        <div className="mr-40 text-white">
+        <div className="sm:mr-40 ml-0 text-white">
           <Link href="/">
             <Image
               src="/img/afm-logo.png" 
               width={110}
               height={110}
               alt="Logo"
-              className="rounded-l-xl border-2 border-yellow-900"
+              className="rounded-r-md border-2 border-blue-900"
             />
           </Link>
         </div>
@@ -185,7 +185,10 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       {menuOpen && (
-        <Hamburger
+        <div className=" border-blue-900  bg-black" >
+
+   
+        <Hamburger 
           translations={translations[language]}
           toggleMenu={toggleMenu}
           menuOpen={menuOpen}
@@ -198,6 +201,7 @@ const Navbar = () => {
           language={language}
           switchLanguage={switchLanguage}
         />
+             </div>
       )}
     </header>
   );
