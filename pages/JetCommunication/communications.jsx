@@ -58,13 +58,13 @@ export default function ArticlesTable() {
     setFilteredArticles(filteredArticles);
   };
 
-  const handleMouseEnter = async (themeID) => {
+  const handleMouseEnter = async (themeID, article_id) => {
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/getTheme.php?themeID=${themeID}`
       );
       const data = await response.json();
-      setHoveredTheme({ id: themeID, name: data.themeName });
+      setHoveredTheme({ id: themeID, article_id:article_id, name: data.themeName });
     } catch (error) {
       setHoveredTheme({ id: themeID, name: "Theme not found" });
     }
@@ -173,13 +173,13 @@ export default function ArticlesTable() {
                 >
                   <td className="px-4 py-3 text-sm text-gray-700">{article.annee}</td>
                   <td
-                    className="px-4 py-3 text-sm text-gray-700 hidden sm:table-cell relative"
-                    onMouseEnter={() => handleMouseEnter(article.theme)}
+                    className="px-4 py-3 text-sm text-gray-700 hidden sm:table-cell relative cursor-pointer"
+                    onMouseEnter={() => handleMouseEnter(article.theme, article.article_id)}
                     onMouseLeave={handleMouseLeave}
                   >
                     {article.theme}
-                    {hoveredTheme.id === article.theme && (
-                      <div className="absolute bg-white p-2 border border-gray-200 shadow-lg rounded-lg z-10">
+                    {hoveredTheme.id === article.theme && hoveredTheme.article_id === article.article_id &&(
+                      <div className="absolute bg-blue-100 font-bold p-2 border text-xs w-32 -left-5  border-gray-300 shadow-lg rounded-lg z-10">
                         {hoveredTheme.name}
                       </div>
                     )}
@@ -194,7 +194,7 @@ export default function ArticlesTable() {
                           onClick={() => toggleResume(index)}
                           className="text-blue-500 hover:underline text-sm mt-2"
                         >
-                          {expandedRows[index] ? "Read Less" : "Read More"}
+                          {expandedRows[index] ? "Read Less" : "...Read More"}
                         </button>
                       )}
                     </div>

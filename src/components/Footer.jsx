@@ -8,7 +8,7 @@ const Footer = () => {
     <footer className="bg-gradient-to-r from-white via-indigo-100 to-blue-100 text-black py-8 mt-20">
       <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-8">
         <div>
-            <Image src="/img/afm-logo.png" width={150} height={200} alt="Logo" className="rounded-l-xl border-2 border-yellow-900" />
+            <Image src="/img/afm-logo.png" width={150} height={200} alt="Logo" className="rounded-r-xl border-2 border-blue-900" />
           <p className="mt-4 text-sm">{ language=='fr' ? "Association Franco-Maghrébine de Mécanique et des Matériaux (AF3M)": "Franco-Maghreb Association of Mechanics and Materials (AF3M)"  }  </p>
           <a href="#" className="mt-4 inline-block text-yellow-500 hover:underline">
          {language == 'fr' ? "CONDITIONS GÉNÉRALES DES DONATIONS": "GENERAL CONDITIONS OF DONATIONS" }  
