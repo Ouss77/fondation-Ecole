@@ -64,18 +64,19 @@ const Aprops = () => {
   };
 
   return (
-    <div className="w-11/12  box-border mx-auto rounded-xl py-12 px-6 bg-gray-100 shadow-lg mt-44">
-      <h1 className="font-bold mx-5 xl:mx-20 text-yellow-600 mb-6 text-2xl sm:text-3xl ">
-        {content[language].title}
-      </h1>
-      <h2 className="text-xl sm:text-2xl font-semibold mx-5 xl:mx-20 text-gray-800 mb-6 ">
-        {content[language].subtitle}
-      </h2>
-      <p
-        className="text-lg text-gray-700 mx-5 xl:mx-20 text-justify leading-relaxed sm:leading-relaxed md:leading-loose lg:leading-loose"
-        dangerouslySetInnerHTML={{ __html: content[language].description }}
-      ></p>
-    </div>
+<div className="w-11/12 sm:w-10/12 box-border mx-auto rounded-xl py-12 px-6 bg-gray-100 shadow-lg mt-44">
+  <h1 className="font-bold mx-5 xl:mx-20 text-yellow-600 mb-6 text-2xl sm:text-3xl">
+    {content[language].title}
+  </h1>
+  <h2 className="text-xl sm:text-2xl font-semibold mx-5 xl:mx-20 text-gray-800 mb-6">
+    {content[language].subtitle}
+  </h2>
+  <p
+    className="text-lg text-gray-700 mx-5 xl:mx-20 text-justify leading-relaxed"
+    dangerouslySetInnerHTML={{ __html: content[language].description }}
+  ></p>
+</div>
+
   );
 };
 

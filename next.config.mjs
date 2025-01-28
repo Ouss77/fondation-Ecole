@@ -1,13 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  async rewrites() {
-    return [
-      {
-        source: '/AF3M-Backend/:path*',
-        destination: 'http://localhost/AF3M-Backend/:path*', // Local backend
-      },
-    ];
-  },
+  //rewrites works only in the node env
+  // async rewrites() {
+  //   return [
+  //     {
+  //       source: '/AF3M-Backend/:path*',
+  //       destination: 'http://localhost/AF3M-Backend/:path*', // Local backend
+  //     },
+  //   ];
+  // },
 
     reactStrictMode: true,
    output: 'export', // Enables static HTML export

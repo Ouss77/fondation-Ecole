@@ -26,3 +26,6 @@ try {
     exit(); // Stop execution if connection fails
 }
 ?> 
+
+
+mysqldump -u root -p afmassnadmin > backup.sql

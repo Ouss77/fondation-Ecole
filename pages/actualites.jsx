@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { LanguageContext } from "@/components/Context/LanguageContext";
 import Head from "next/head";
 
-export default function AllActualites() {
+export default function AllActualites() { 
   const [actualites, setActualites] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);

@@ -11,6 +11,19 @@ export default function ArticlesTable() {
 
   useEffect(() => {
     const fetchArticles = async () => {
+      // Check if data exists in localStorage
+      const cachedData = localStorage.getItem("cachedArticles");
+      const cachedTimestamp = localStorage.getItem("cachedTimestamp");
+
+      // If data is cached and not older than 1 hour, use it
+      if (cachedData && cachedTimestamp && Date.now() - cachedTimestamp < 3600000) {
+        setArticles(JSON.parse(cachedData));
+        setFilteredArticles(JSON.parse(cachedData));
+        setLoading(false);
+        return;
+      }
+
+      // Fetch fresh data from the API
       try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/getArticles_locally.php`);
         if (!response.ok) {
@@ -19,6 +32,10 @@ export default function ArticlesTable() {
         const data = await response.json();
         setArticles(data);
         setFilteredArticles(data);
+
+        // Cache the data in localStorage
+        localStorage.setItem("cachedArticles", JSON.stringify(data));
+        localStorage.setItem("cachedTimestamp", Date.now());
       } catch (err) {
         setError(err.message);
       } finally {
@@ -58,63 +75,70 @@ export default function ArticlesTable() {
   }
 
   return (
-    <div className="container mx-auto px-40 py-10">
-      <h1 className="text-3xl font-bold text-center mb-8">Articles</h1>
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <h1 className="text-2xl sm:text-3xl font-bold text-center mb-8">Articles</h1>
 
-      <div className="mb-4 flex items-center">
+      {/* Search Bar and Button */}
+      <div className="mb-4 flex flex-col sm:flex-row items-center gap-2">
         <input
           type="text"
           placeholder="Search by Title or Author Name"
           value={searchQuery}
           onChange={handleSearch}
-          className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full sm:w-auto flex-grow px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <Link
           href={"/JetCommunication/communications"}
-          className="bg-blue-500 text-white text-center w-40 px-4 py-2 rounded-lg ml-2 hover:bg-green-500"
+          className="w-full sm:w-40 text-center px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-green-500 transition-colors"
         >
           View Table
         </Link>
       </div>
 
-      <div>
+      {/* Articles Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {filteredArticles.map((article, index) => (
           <div
             key={index}
-            className="bg-white p-4 mb-4 border border-gray-200 rounded-lg shadow-lg hover:shadow-2xl hover:shadow-blue-200 transition duration-300"
+            className="bg-white p-4 border border-gray-200 rounded-lg shadow-lg hover:shadow-2xl hover:shadow-blue-200 transition duration-300"
           >
             <h2 className="text-lg font-bold">{article.titre}</h2>
             <p className="text-sm text-gray-600">Authors: {article.authors}</p>
             <p className="text-sm text-gray-600">Year: {article.annee}</p>
             <p className="text-sm text-gray-600">Theme: {article.theme}</p>
-            <button
-              onClick={() => toggleAbstract(index)}
-              className="mt-2 px-4 py-2 text-white bg-blue-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-700"
-            >
-              {showAbstract[index] ? "Hide Abstract" : "Show Abstract"}
-            </button>
-            <button className="mt-2 px-4 py-2 ml-5 text-white bg-green-600 rounded-lg focus:outline-none focus:ring-2 hover:bg-green-700">
+
+            {/* Buttons */}
+            <div className="mt-4 flex flex-col sm:flex-row gap-2">
+              <button
+                onClick={() => toggleAbstract(index)}
+                className="px-4 py-2 text-white bg-blue-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-700 hover:bg-blue-600"
+              >
+                {showAbstract[index] ? "Hide Abstract" : "Show Abstract"}
+              </button>
               <a
                 href={`http://localhost/AF3M-Backend/pdf_files/${article.pdf_files}`}
-                target="_blank" // This opens the link in a new tab
-                rel="noopener noreferrer" // Adds security by not allowing the new page to access your page via JavaScript
-                className="block w-full h-full" // Makes the link take up the entire button area
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-4 py-2 text-white bg-green-600 rounded-lg focus:outline-none focus:ring-2 hover:bg-green-700 text-center"
               >
                 Download Article
               </a>
-            </button>
+            </div>
 
+            {/* Abstract */}
             {showAbstract[index] && (
               <p className="mt-4 text-sm text-gray-700">{article.resume}</p>
             )}
           </div>
         ))}
-        {filteredArticles.length === 0 && (
-          <div className="text-center py-4 text-gray-500">
-            No articles found.
-          </div>
-        )}
       </div>
+
+      {/* No Articles Found */}
+      {filteredArticles.length === 0 && (
+        <div className="text-center py-4 text-gray-500">
+          No articles found.
+        </div>
+      )}
     </div>
   );
 }

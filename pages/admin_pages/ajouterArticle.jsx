@@ -28,7 +28,8 @@ export default function ajouterArticle() {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost/AF3M-Backend/ajouter_article.php", {
+      
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/ajouter_article.php`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -58,7 +59,7 @@ export default function ajouterArticle() {
     formData.append("file", file);
 
     try {
-      const response = await fetch("http://localhost/AF3M-Backend/upload_excel.php", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/upload_excel.php`, {
         method: "POST",
         body: formData,
       });

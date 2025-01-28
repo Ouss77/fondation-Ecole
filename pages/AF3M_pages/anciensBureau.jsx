@@ -1,25 +1,79 @@
-import React from 'react'
+import { LanguageContext } from "@/components/Context/LanguageContext";
+import ParticipentTable from "@/components/ParticipentTable";
+import Head from "next/head";
+import { useContext } from "react";
 
-function anciensBureau() {
+export default function AnciensBureau() {
+  const { language } = useContext(LanguageContext);  // Access current language from context
+
+  const participants = [
+    { 
+      firstName: "Zitouni AZARI", 
+      institution: "Université de Lorraine", 
+      role: { fr: "Président", en: "President" } 
+    },
+    { 
+      firstName: "Leila KHALIJ", 
+      institution: "INSA de Rouen", 
+      role: { fr: "Secrétaire", en: "Secretary" } 
+    },
+    { 
+      firstName: "Said Hariri", 
+      institution: "Ecole des Mines de Douai", 
+      role: { fr: "Vice-Président", en: "Vice President" } 
+    },
+    { 
+      firstName: "Jean-Claude LACHAT", 
+      institution: "Industriel", 
+      role: { fr: "Vice-Président", en: "Vice President" } 
+    },
+    { 
+      firstName: "Abdellatif IMAD", 
+      institution: "Polytech’Lille", 
+      role: { fr: "Vice-Président", en: "Vice President" } 
+    },
+    { 
+      firstName: "Abdelouahed LAKSIMI", 
+      institution: "Université de technologie de Compiègne", 
+      role: { fr: "Trésorier", en: "Treasurer" } 
+    },
+  ];
+
+  // Map participants to include the role in the current language
+  const translatedParticipants = participants.map((participant) => ({
+    ...participant,
+    role: participant.role[language]  // Use the correct translation
+  }));
+
   return (
-    <div className='bg-gray-100 pt-20'>
+    <>
+          <Head>
+        <title>{language === "fr" ? "Liste des Participants - AF3M" : "List of Participants - AF3M"}</title>
+        <meta
+          name="description"
+          content={language === "fr" ? "Découvrez la liste des participants à l'AF3M." : "Discover the list of participants at AF3M."}
+        />
+        <meta name="robots" content="index, follow" />
+        <meta property="og:title" content={language === "fr" ? "Liste des Participants - AF3M" : "List of Participants - AF3M"} />
+        <meta
+          property="og:description"
+          content={language === "fr" ? "Découvrez la liste des participants à l'AF3M." : "Discover the list of participants at AF3M."}
+        />
+        <meta property="og:image" content="https://af3m-assoc.org/wp-content/uploads/2022/10/Capture-de%CC%81cran-2022-10-06-a%CC%80-10.09.14.png" />
+        <meta property="og:url" content="https://af3m-assoc.org/participants" />
+        <meta property="og:type" content="website" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="https://af3m-assoc.org/wp-content/uploads/2022/10/Capture-de%CC%81cran-2022-10-06-a%CC%80-10.09.14.png" />
+      </Head>
+        <main className="flex flex-col">
+      <section className="flex-grow container mx-auto w-11/12 px-4 mt-44">
+        <h1 className="text-xl lg:text-3xl font-bold text-yellow-600 text-left mb-10">
+          {language === "fr" ? "Liste des Participants" : "List of Participants"}
+        </h1>
+        <ParticipentTable participants={translatedParticipants} />
+      </section>
+    </main>
+    </>
 
-<section className=" text-yellow px-4 sm:px-6 md:px-10 lg:px-16 xl:px-24 rounded-lg pt-36">
-      <div className="bg-gray-100 p-6 sm:p-8 md:p-10 lg:p-12 xl:p-10 rounded-xl">
-        <h2 className="text-xl md:text-3xl font-semibold text-yellow-600 mb-4 ">
-          Historique
-        </h2>
-        <p className="text-gray-800 mb-4 text-base leading-7 sm:leading-8 md:leading-10 text-justify">
-          Depuis 2000, les JET ont été organisées dans la ville de Marrakech en raison du soutien logistique de son Université Cadi Ayad et de ses enseignants–chercheurs, ainsi que de l’attractivité de cette jolie ville. Cette organisation a été prolongée sur plusieurs années : 2002, 2004, 2006, 2008, 2010, 2012, 2014, 2018 et 2022 (voir les communications de ces éditions).
-        </p>
-        <p className="text-gray-800 text-base  leading-7 sm:leading-8 md:leading-10 text-justify">
-          En 2016, nous avons décidé d’organiser pour la première fois les JET à Hammamet, Tunisie, du 3 au 5 mai 2016, en étroite collaboration avec l’Association Tunisienne de Mécanique (ATM).
-        </p>
-      </div>
-    </section>
-    
-      </div>
-  )
+  );
 }
-
-export default anciensBureau

@@ -27,18 +27,18 @@ function Activites() {
   };
 
   return (
-    <div className="w-11/12 mx-auto rounded-xl py-10 bg-gray-100 mt-10">
-      {/* Main Title */}
-      <h1 className="text-4xl font-bold mx-5 xl:mx-20 text-yellow-600 mb-6 sm:text-3xl xl:text-3xl">
-        {content[language].title}
-      </h1>
+<div className="w-11/12 sm:w-10/12 mx-auto rounded-xl py-10 bg-gray-100 mt-10">
+  {/* Main Title */}
+  <h1 className="text-4xl font-bold mx-5 xl:mx-20 text-yellow-600 mb-6 sm:text-3xl xl:text-3xl">
+    {content[language].title}
+  </h1>
 
-      {/* Description Paragraph */}
-      <p
-        className="text-lg text-gray-600 mx-5 xl:mx-20 text-justify leading-loose"
-        dangerouslySetInnerHTML={{ __html: content[language].description }}
-      ></p>
-    </div>
+  {/* Description Paragraph */}
+  <p
+    className="text-lg text-gray-600 mx-5 xl:mx-20 text-justify leading-loose"
+    dangerouslySetInnerHTML={{ __html: content[language].description }}
+  ></p>
+</div>
   );
 }
 

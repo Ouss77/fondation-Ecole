@@ -1,15 +1,20 @@
 import { FaChevronDown } from 'react-icons/fa';
 import Link from 'next/link';
 
-const Dropdown = ({ label, items, openDropdown, toggleDropdown, dropdownKey }) => {
-  const handleItemClick = () => {
-    toggleDropdown(dropdownKey); // Close the dropdown after clicking an item
+const Dropdown = ({ label, dropdownRef, items, openDropdown, toggleDropdown, dropdownKey, closeBurgerMenu }) => {
+  const handleItemClick = (event) => {
+    event.stopPropagation(); // Stop event propagation
+    toggleDropdown(dropdownKey); // Close the dropdown
+    closeBurgerMenu(); // Close the burger menu
   };
 
   return (
-    <div className="relative group">
+    <div ref={dropdownRef} className="relative group">
       <button
-        onClick={() => toggleDropdown(dropdownKey)}
+        onClick={(event) => {
+          event.stopPropagation(); // Stop event propagation
+          toggleDropdown(dropdownKey);
+        }}
         className="text-base text-black hover:text-yellow-600 flex items-center transition duration-300 ease-in-out transform hover:scale-110 font-medium"
       >
         {label} <FaChevronDown className="ml-2 text-black" />
@@ -21,7 +26,7 @@ const Dropdown = ({ label, items, openDropdown, toggleDropdown, dropdownKey }) =
               key={idx}
               href={item.href}
               className="block px-5 py-3 text-blue-900 hover:bg-yellow-200 rounded-lg transition-colors duration-500"
-              onClick={handleItemClick} // Close the dropdown on item click
+              onClick={handleItemClick} // Close dropdown and burger menu on item click
             >
               {item.label}
             </Link>

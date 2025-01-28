@@ -20,11 +20,9 @@ export default function AddActualite() {
     console.log("Image:", image);
     if (image) formData.append("image", image);
 
-    const response = await fetch(
-      "http://localhost/AF3M-Backend/ajouterActualite.php",
-      {
-        method: "POST",
-        body: formData,
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/ajouterActualite.php`, {
+      method: "POST",
+      body: formData,
       }
     );
 

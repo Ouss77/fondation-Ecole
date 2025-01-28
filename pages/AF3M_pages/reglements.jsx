@@ -1,7 +1,8 @@
 import { LanguageContext } from "@/components/Context/LanguageContext";
 import { statusData } from "@/data/statusData"; // Import your rules and regulations data
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import Head from "next/head"; // Import Head for SEO optimization
+import { FiChevronDown, FiChevronUp } from "react-icons/fi"; // Import icons from React Icons
 
 export default function StatusPage() {
   const { language } = useContext(LanguageContext);
@@ -36,28 +37,54 @@ export default function StatusPage() {
               {section.title[language]} {/* Dynamically render title */}
             </h2>
 
-            <ul className="list-none space-y-2 text-base sm:text-lg md:text-lg">
+            <ul className="list-none space-y-4 text-base sm:text-lg md:text-lg">
               {section.articles.map((article) => (
-                <li key={article.number}>
-                  <p className="font-bold mb-2 sm:mb-3 md:mb-4">
-                    {language === "fr" ? `Article ${article.number}` : `Article ${article.number}`}
-                  </p>
-                  <div className="space-y-2">
-                    {article.content.map((line, idx) => (
-                      <div key={idx} className="flex items-start">
-                        {/* Display content based on language selection */}
-                        <p className="leading-7 text-base sm:leading-8 md:leading-9">
-                          {language === "fr" ? line.fr : line.en}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                </li>
+                <Article key={article.number} article={article} language={language} />
               ))}
             </ul>
           </section>
         ))}
       </div>
     </>
+  );
+}
+
+function Article({ article, language }) {
+  const [isOpen, setIsOpen] = useState(false); // State to toggle article visibility
+
+  const toggleVisibility = () => {
+    setIsOpen(!isOpen);
+  };
+
+  return (
+    <li>
+      <div
+        className="flex justify-between items-center cursor-pointer"
+        onClick={toggleVisibility}
+      >
+        <p className="font-bold mb-2 sm:mb-3 md:mb-4">
+          {language === "fr" ? `Article ${article.number}` : `Article ${article.number}`}
+        </p>
+        {/* Toggle icon */}
+        {isOpen ? (
+          <FiChevronUp className="h-5 w-5 text-gray-700" />
+        ) : (
+          <FiChevronDown className="h-5 w-5 text-gray-700" />
+        )}
+      </div>
+
+      {/* Content visibility based on isOpen */}
+      {isOpen && (
+        <div className="space-y-2">
+          {article.content.map((line, idx) => (
+            <div key={idx} className="flex items-start">
+              <p className="leading-7 text-base sm:leading-8 md:leading-9">
+                {language === "fr" ? line.fr : line.en}
+              </p>
+            </div>
+          ))}
+        </div>
+      )}
+    </li>
   );
 }

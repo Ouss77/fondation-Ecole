@@ -3,10 +3,8 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 export default function ArticlesTable() {
-
   const pageTitle = "Articles Page";
   const pageDescription = "Description of the articles page";
-  
 
   const [articles, setArticles] = useState([]);
   const [filteredArticles, setFilteredArticles] = useState([]);
@@ -15,25 +13,36 @@ export default function ArticlesTable() {
   const [error, setError] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
+  const [expandedRows, setExpandedRows] = useState({});
 
- 
   useEffect(() => {
     const fetchArticles = async () => {
-      try {
-        const response = await fetch('/AF3M-Backend/getArticles_locally.php') // PHP API URL
+      const cachedData = localStorage.getItem("cachedArticles");
+      const cachedTimestamp = localStorage.getItem("cachedTimestamp");
 
+      if (cachedData && cachedTimestamp && Date.now() - cachedTimestamp < 3600000) {
+        setArticles(JSON.parse(cachedData));
+        setFilteredArticles(JSON.parse(cachedData));
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/getArticles_locally.php`);
         if (!response.ok) {
           throw new Error("Failed to fetch articles");
         }
         const data = await response.json();
-        setArticles(data); // Save the full data
-        setFilteredArticles(data); // Initialize the filtered state
+        setArticles(data);
+        setFilteredArticles(data);
+        localStorage.setItem("cachedArticles", JSON.stringify(data));
+        localStorage.setItem("cachedTimestamp", Date.now());
       } catch (err) {
-        setError(err.message); 
+        setError(err.message);
       } finally {
         setLoading(false);
-      } 
-    }; 
+      }
+    };
 
     fetchArticles();
   }, []);
@@ -52,7 +61,7 @@ export default function ArticlesTable() {
   const handleMouseEnter = async (themeID) => {
     try {
       const response = await fetch(
-        `http://localhost/AF3M-Backend/getTheme.php?themeID=${themeID}`
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/getTheme.php?themeID=${themeID}`
       );
       const data = await response.json();
       setHoveredTheme({ id: themeID, name: data.themeName });
@@ -82,6 +91,18 @@ export default function ArticlesTable() {
     setFilteredArticles(sortedArticles);
   };
 
+  const toggleResume = (index) => {
+    setExpandedRows((prev) => ({
+      ...prev,
+      [index]: !prev[index],
+    }));
+  };
+
+  const getFirstSentence = (text) => {
+    const sentences = text.split(/(?<=[.!?])\s*/);
+    return sentences[0] || text;
+  };
+
   if (loading) {
     return <div className="text-center py-10">Loading...</div>;
   }
@@ -92,18 +113,18 @@ export default function ArticlesTable() {
 
   return (
     <>
-    <Head>
-          <title>{pageTitle}</title>
-      <meta name="description" content={pageDescription} />
-      <meta name="robots" content="index, follow" />
-      <meta property="og:title" content={pageTitle} />
-      <meta property="og:description" content={pageDescription} />
-      <meta property="og:url" content="https://af3m-assoc.org/devenir-membre" />
-      <meta property="og:type" content="website" />
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <link rel="icon" href="https://af3m-assoc.org/wp-content/uploads/2022/10/Capture-de%CC%81cran-2022-10-06-a%CC%80-10.09.14.png" />
+      <Head>
+        <title>{pageTitle}</title>
+        <meta name="description" content={pageDescription} />
+        <meta name="robots" content="index, follow" />
+        <meta property="og:title" content={pageTitle} />
+        <meta property="og:description" content={pageDescription} />
+        <meta property="og:url" content="https://af3m-assoc.org/devenir-membre" />
+        <meta property="og:type" content="website" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="https://af3m-assoc.org/wp-content/uploads/2022/10/Capture-de%CC%81cran-2022-10-06-a%CC%80-10.09.14.png" />
       </Head>
-        <div className="container mx-auto px-4 py-10">
+      <div className="container mx-auto px-4 py-10">
         <h1 className="text-3xl font-bold text-center mb-8">Articles</h1>
         <div className="mb-4 flex items-center">
           <input
@@ -113,39 +134,33 @@ export default function ArticlesTable() {
             onChange={handleSearch}
             className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
-          <Link
+          <a
             href={"/JetCommunication/articlesList"}
             className="bg-blue-500 text-white text-center w-40 px-4 py-2 rounded-lg ml-2 hover:bg-green-500"
           >
             View List
-          </Link>
+          </a>
         </div>
         <div className="overflow-x-auto">
-          <table className="min-w-full bg-white border border-gray-200 rounded-lg shadow-lg">
+          <table className="min-w-full bg-white border border-gray-200 rounded-lg shadow-lg table-fixed">
             <thead>
               <tr className="bg-blue-800 text-white">
-                <th
-                  className="px-4 py-3 text-left text-sm font-medium uppercase cursor-pointer"
-                  onClick={() => handleSort("annee")}
-                >
+                <th className="px-4 py-3 text-left text-sm font-medium uppercase cursor-pointer w-[80px]" onClick={() => handleSort("annee")}>
                   Annee
                 </th>
-                <th
-                  className="px-4 py-3 text-left text-sm font-medium uppercase cursor-pointer"
-                  onClick={() => handleSort("theme")}
-                >
+                <th className="px-4 py-3 text-left text-sm font-medium uppercase cursor-pointer hidden sm:table-cell" onClick={() => handleSort("theme")}>
                   Theme
                 </th>
                 <th className="px-4 py-3 text-left text-sm font-medium uppercase">
                   Titre
                 </th>
-                <th className="px-4 py-3 text-left text-sm font-medium uppercase">
+                <th className="px-4 py-3 text-left text-sm font-medium uppercase w-96 lg:w-[800px]">
                   Resume
                 </th>
-                <th className="px-4 py-3 text-left text-sm font-medium uppercase">
+                <th className="px-4 py-3 text-left text-sm font-medium uppercase w-[200px] hidden sm:table-cell">
                   Authors
                 </th>
-                <th className="px-4 py-3 text-left text-sm font-medium uppercase">
+                <th className="px-4 py-3 text-left text-sm font-medium uppercase w-[100px]">
                   PDF
                 </th>
               </tr>
@@ -154,34 +169,37 @@ export default function ArticlesTable() {
               {filteredArticles.map((article, index) => (
                 <tr
                   key={index}
-                  className={`border-t border-gray-200 ${
-                    index % 2 === 0 ? "bg-gray-50" : "bg-white"
-                  }`}
+                  className={`border-t border-gray-200 ${index % 2 === 0 ? "bg-gray-50" : "bg-white"}`}
                 >
-                  <td className="px-4 py-3 text-sm text-gray-700">
-                    {article.annee}
-                  </td>
+                  <td className="px-4 py-3 text-sm text-gray-700">{article.annee}</td>
                   <td
-                    className="px-4 py-3 text-sm text-gray-700 relative"
+                    className="px-4 py-3 text-sm text-gray-700 hidden sm:table-cell relative"
                     onMouseEnter={() => handleMouseEnter(article.theme)}
                     onMouseLeave={handleMouseLeave}
                   >
                     {article.theme}
                     {hoveredTheme.id === article.theme && (
-                      <div className="absolute -left-10 ml-2 w-44 px-3 py-2 bg-gray-800 text-white text-xs rounded-lg shadow-lg z-999">
+                      <div className="absolute bg-white p-2 border border-gray-200 shadow-lg rounded-lg z-10">
                         {hoveredTheme.name}
                       </div>
                     )}
                   </td>
-                  <td className="px-4 py-3 text-sm text-gray-700">
-                    {article.titre}
+                  <td className="px-4 py-3 text-sm text-gray-700">{article.titre}</td>
+                  <td className="px-4 py-3 text-sm text-left text-gray-700">
+                    <div className="sm:hidden w-44 lg:w-[800px]">{getFirstSentence(article.resume)}</div>
+                    <div className="hidden sm:block">
+                      {expandedRows[index] ? article.resume : article.resume.split("\n").slice(0, 3).join("\n")}
+                      {article.resume.split("\n").length > 3 && (
+                        <button
+                          onClick={() => toggleResume(index)}
+                          className="text-blue-500 hover:underline text-sm mt-2"
+                        >
+                          {expandedRows[index] ? "Read Less" : "Read More"}
+                        </button>
+                      )}
+                    </div>
                   </td>
-                  <td className="px-4 py-3 text-sm text-justify text-gray-700">
-                    {article.resume}
-                  </td>
-                  <td className="px-4 py-3 text-sm text-gray-700">
-                    {article.authors}
-                  </td>
+                  <td className="px-4 py-3 text-sm text-gray-700 hidden sm:table-cell">{article.authors}</td>
                   <td className="px-4 py-3 text-sm text-gray-700">
                     <a
                       href={`http://localhost/AF3M-Backend/pdf_files/${article.pdf_files}`}
@@ -195,7 +213,7 @@ export default function ArticlesTable() {
               ))}
               {filteredArticles.length === 0 && (
                 <tr>
-                  <td colSpan="5" className="text-center py-4 text-gray-500">
+                  <td colSpan="6" className="text-center py-4 text-gray-500">
                     No articles found.
                   </td>
                 </tr>
@@ -205,6 +223,5 @@ export default function ArticlesTable() {
         </div>
       </div>
     </>
-
   );
 }

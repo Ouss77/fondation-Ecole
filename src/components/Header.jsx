@@ -1,8 +1,7 @@
 "use client";
 import React, { useState, useEffect, useRef, useContext } from "react";
-
-import { FaChevronDown, FaGlobe } from "react-icons/fa"; // For dropdown and language icons
-import { IoMdMenu } from "react-icons/io"; // For hamburger menu
+import { FaChevronDown, FaGlobe } from "react-icons/fa";
+import { IoMdMenu } from "react-icons/io";
 import Dropdown from "./Dropdown";
 import Image from "next/image";
 import Link from "next/link";
@@ -11,22 +10,18 @@ import { LanguageContext } from "./Context/LanguageContext";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [openDropdown, setOpenDropdown] = useState(null); // Tracks the currently open dropdown
-  const dropdownRefs = useRef({}); // Ref to store dropdown references
-
+  const [openDropdown, setOpenDropdown] = useState(null);
+  const dropdownRefs = useRef({});
   const { language, switchLanguage } = useContext(LanguageContext);
 
-  // Close the menu on click outside the dropdown
   const handleClickOutside = (event) => {
-    // Check if the click is outside the dropdowns
     Object.values(dropdownRefs.current).forEach((dropdownRef) => {
       if (dropdownRef && !dropdownRef.contains(event.target)) {
-        setOpenDropdown(null); // Close dropdown if clicked outside
+        setOpenDropdown(null);
       }
     });
   };
 
-  // Event listener to detect clicks outside the dropdowns
   useEffect(() => {
     document.addEventListener("click", handleClickOutside);
     return () => {
@@ -36,7 +31,6 @@ const Navbar = () => {
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
-  // Toggle dropdowns for mobile
   const toggleDropdown = (dropdown) => {
     setOpenDropdown(openDropdown === dropdown ? null : dropdown);
   };
@@ -81,20 +75,22 @@ const Navbar = () => {
       ],
     },
   };
-  
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => {
-    setOpen(!open);
+
+  const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
+
+  const handleLanguageSwitch = (lang) => {
+    switchLanguage(lang);
+    setIsLanguageDropdownOpen(false);
   };
 
   return (
     <header className="bg-gradient-to-r fixed z-50 w-full from-white via-blue-100 to-blue-200 shadow-xl border-b h-24">
-      <div className="flex justify-center items-center p-2 font-sans">
+      <div className="flex justify-between items-center p-2 font-sans">
         {/* Logo */}
         <div className="mr-40 text-white">
           <Link href="/">
             <Image
-              src="/img/afm-logo.png"
+              src="/img/afm-logo.png" 
               width={110}
               height={110}
               alt="Logo"
@@ -144,59 +140,67 @@ const Navbar = () => {
           />
         </nav>
 
-        <div className="relative text-center ml-10">
-      <button onClick={handleOpen} className="flex items-center border-l px-4 py-2  rounded hover:bg-gray-300 font-medium">
-      <Image src="/img/uk.png" width={20} height={20} className="mr-2" alt="English" /> / 
-      <Image src="/img/france.png" width={20} height={20} className="ml-2" alt="France" />
+        {/* Language Switcher (Desktop) */}
+        <div className="hidden lg:flex relative">
+          <button
+            onClick={() => setIsLanguageDropdownOpen(!isLanguageDropdownOpen)}
+            className="flex items-center border-l px-4 py-2 rounded hover:bg-gray-300 font-medium"
+          >
+            <Image src="/img/uk.png" width={20} height={20} className="mr-2" alt="English" /> / 
+            <Image src="/img/france.png" width={20} height={20} className="ml-2" alt="France" />
+            <span className={`ml-2 transition-transform ${isLanguageDropdownOpen ? "rotate-180" : "rotate-0"}`}>
+              <FaChevronDown />
+            </span>
+          </button>
 
-        <span className={`ml-2 transition-transform ${open ? "rotate-180" : "rotate-0"}`}>
-          <FaChevronDown />
-        </span>
-      </button>
-      <div
-        className={`absolute right-0 mt-2 w-32 bg-white border border-gray-200 rounded shadow-lg transition-all duration-300 ${
-          open ? "opacity-100 visible" : "opacity-0 invisible"
-        }`}
-      >
-        <button
-          className={`w-full text-left px-4 py-2 rounded-t hover:bg-gray-100 ${
-            language === "fr" ? "bg-yellow-600 text-white" : "bg-white text-black"
-          }`}
-          onClick={() =>{handleOpen(); switchLanguage("fr")} }
-        >
-          <span className="flex items-center">
-            <Image src="/img/france.png" width={20} height={20} className="mr-2" alt="French" />
-            French
-          </span>
-        </button>
-        <button
-          className={`w-full text-left px-4 py-2 rounded-b hover:bg-gray-100 ${
-            language === "en" ? "bg-yellow-600 text-white" : "bg-white text-black"
-          }`}
-          onClick={() =>{handleOpen(); switchLanguage("en")} }
-        >
-          <span className="flex items-center">
-            <Image src="/img/uk.png" width={20} height={20} className="mr-2" alt="English" />
-            English
-          </span>
-        </button>
-      </div>
-    </div>
+          {isLanguageDropdownOpen && (
+            <div className="absolute right-0 mt-2 w-32 bg-white border border-gray-200 rounded shadow-lg">
+              <button
+                className={`w-full text-left px-4 py-2 rounded-t hover:bg-gray-100 ${language === "fr" ? "bg-yellow-600 text-white" : "bg-white text-black"}`}
+                onClick={() => handleLanguageSwitch("fr")}
+              >
+                <span className="flex items-center">
+                  <Image src="/img/france.png" width={20} height={20} className="mr-2" alt="French" />
+                  French
+                </span>
+              </button>
+              <button
+                className={`w-full text-left px-4 py-2 rounded-b hover:bg-gray-100 ${language === "en" ? "bg-yellow-600 text-white" : "bg-white text-black"}`}
+                onClick={() => handleLanguageSwitch("en")}
+              >
+                <span className="flex items-center">
+                  <Image src="/img/uk.png" width={20} height={20} className="mr-2" alt="English" />
+                  English
+                </span>
+              </button>
+            </div>
+          )}
+        </div>
 
-        {/* Hamburger Menu for Mobile */}
-        <button
-          onClick={toggleMenu}
-          className="lg:hidden text-white hover:text-yellow-600"
-        >
+        {/* Burger Button for Mobile */}
+        <button onClick={toggleMenu} className="lg:hidden text-white hover:text-yellow-600">
           <IoMdMenu size={26} />
         </button>
       </div>
 
       {/* Mobile Menu */}
-      {menuOpen && <Hamburger />}
+      {menuOpen && (
+        <Hamburger
+          translations={translations[language]}
+          toggleMenu={toggleMenu}
+          menuOpen={menuOpen}
+          openDropdown={openDropdown}
+          toggleDropdown={toggleDropdown}
+          dropdownRefs={dropdownRefs}
+          dropdownItemsAf3m={translations[language].af3mItems}
+          dropdownItemsConf={translations[language].confItems}
+          dropdownItemsAdhesion={translations[language].adhesionItems}
+          language={language}
+          switchLanguage={switchLanguage}
+        />
+      )}
     </header>
   );
 };
 
 export default Navbar;
-

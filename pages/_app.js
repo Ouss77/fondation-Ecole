@@ -5,6 +5,7 @@ import Footer from "../src/components/Footer";
 import SideBar from "../src/components/SideBar";
 import { AuthProvider, useLogin } from "../src/components/Context/AuthContext"; // Import AuthProvider
 import { LanguageProvider } from "@/components/Context/LanguageContext";
+import { ThemeProvider } from "@material-tailwind/react";
 import styles from "../src/styles/globals.css";
 
 function MyApp({ Component, pageProps }) { 

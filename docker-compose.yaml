@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0 # Use the official MySQL image
+    container_name: mysql-container
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD} # Root password (from .env file)
+      MYSQL_DATABASE: ${MYSQL_DATABASE}         # Default database to create
+      MYSQL_USER: ${MYSQL_USER}                 # Non-root user
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}         # Password for the non-root user
+   
