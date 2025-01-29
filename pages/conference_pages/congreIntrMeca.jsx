@@ -6,8 +6,8 @@ const ConferenceJet = () => {
 
   const content = {
     title: {
-      fr: "Objectifs des JET",
-      en: "Objectives of JET"
+      fr: "Congrès International de Mécanique",
+      en: "International Congress for Applied Mechanics"
     },
     paragraphs: [
       {
@@ -30,9 +30,9 @@ const ConferenceJet = () => {
   };
 
   return (
-    <div className="sm:w-10/12 w-12/12 sm:pt-20 w-full mx-auto">
-      <section className="conference-section">
-        <h2 className='mt-20 sm:mt-0'>{content.title[language]}</h2>
+    <div className="text-yellow px-4 sm:px-6 mb-8 md:px-10 lg:px-16 xl:px-24 rounded-lg pt-36">
+      <section className="bg-gray-100 p-6 sm:p-8 md:p-10 lg:p-12 xl:p-10 rounded-xl">
+        <h2 className='text-xl md:text-3xl font-semibold text-yellow-600 mb-4'>{content.title[language]}</h2>
         {content.paragraphs.map((para, index) => (
           <p key={index} className="text-gray-800 mb-4 w-full text-base text-justify sm:text-jusitfy sm:text-lg md:text-base leading-7 sm:leading-8 md:leading-9">
             {para[language]}

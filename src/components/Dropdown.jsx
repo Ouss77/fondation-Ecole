@@ -1,11 +1,11 @@
 import { FaChevronDown } from 'react-icons/fa';
 import Link from 'next/link';
 
-const Dropdown = ({ label, dropdownRef, items, openDropdown, toggleDropdown, dropdownKey, closeBurgerMenu }) => {
+const Dropdown = ({ label, dropdownRef, items, openDropdown, toggleDropdown, dropdownKey, toggleMenu }) => {
   const handleItemClick = (event) => {
     event.stopPropagation(); // Stop event propagation
     toggleDropdown(dropdownKey); // Close the dropdown
-    closeBurgerMenu(); // Close the burger menu
+    toggleMenu; // Close the burger menu
   };
 
   return (

@@ -45,7 +45,7 @@ function Hamburger({
             toggleDropdown={toggleDropdown}
             items={dropdownItemsAf3m}
             dropdownRef={(el) => (dropdownRefs.current["af3m"] = el)}
-            closeBurgerMenu={toggleMenu} // Pass toggleMenu to close burger menu
+            toggleMenu={toggleMenu} // Pass toggleMenu to close burger menu
           />
 
           <Dropdown
@@ -55,7 +55,7 @@ function Hamburger({
             toggleDropdown={toggleDropdown}
             items={dropdownItemsConf}
             dropdownRef={(el) => (dropdownRefs.current["conferences"] = el)}
-            closeBurgerMenu={toggleMenu} // Pass toggleMenu to close burger menu
+            toggleMenu={toggleMenu} // Pass toggleMenu to close burger menu
           />
 
           <Link
@@ -73,7 +73,7 @@ function Hamburger({
             toggleDropdown={toggleDropdown}
             items={dropdownItemsAdhesion}
             dropdownRef={(el) => (dropdownRefs.current["adhesion"] = el)}
-            closeBurgerMenu={toggleMenu} // Pass toggleMenu to close burger menu
+            toggleMenu={toggleMenu} // Pass toggleMenu to close burger menu
           />
 
           {/* Language Switcher */}

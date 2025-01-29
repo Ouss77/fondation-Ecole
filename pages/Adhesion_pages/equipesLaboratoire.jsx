@@ -30,7 +30,7 @@ const ConferenceJet = () => {
   };
 
   return (
-    <div className="sm:w-10/12 w-12/12 sm:pt-20 w-full mx-auto">
+    <div className="sm:w-11/12 w-12/12 sm:pt-20 w-full ">
       <section className="conference-section">
         <h2 className='mt-20 sm:mt-0'>{content.title[language]}</h2>
         {content.paragraphs.map((para, index) => (

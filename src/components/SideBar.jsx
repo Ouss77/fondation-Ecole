@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Logout from './Logout';
+import SwitchLanguage from './SwitchLanguage';
 
 function SideBar() {
   return (
@@ -17,6 +18,8 @@ function SideBar() {
         <SidebarButton label="Gestion des Actualité" link="/admin_pages/modifierActualite" />
         {/* <SidebarButton label="Change Password" link="/change-password" /> */}
        <Logout />
+       <div className='bg-pink-200 w-28 rounded mt-5 ml-10'>       <SwitchLanguage />
+       </div>
       </nav>
     </div>
   );

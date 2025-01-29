@@ -203,6 +203,7 @@ export default function ArticlesTable() {
                   <td className="px-4 py-3 text-sm text-gray-700">
                     <a
                       href={`http://localhost/AF3M-Backend/pdf_files/${article.pdf_files}`}
+                     // href={`${process.env.NEXT_PUBLIC_API_BASE_URL}/pdf_files/${article.pdf_files}`}
                       target="_blank"
                       rel="noopener noreferrer"
                     >

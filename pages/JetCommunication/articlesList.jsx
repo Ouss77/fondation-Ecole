@@ -117,6 +117,7 @@ export default function ArticlesTable() {
               </button>
               <a
                 href={`http://localhost/AF3M-Backend/pdf_files/${article.pdf_files}`}
+                // href={`${process.env.NEXT_PUBLIC_API_BASE_URL}/pdf_files/${article.pdf_files}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-4 py-2 text-white bg-green-600 rounded-lg focus:outline-none focus:ring-2 hover:bg-green-700 text-center"
