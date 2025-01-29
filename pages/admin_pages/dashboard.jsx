@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React, { useState } from "react";
 import { useEffect } from "react";
 function dashboard() {
@@ -40,17 +41,22 @@ function dashboard() {
       </h1>
       <div className="flex items-center justify-center mt-20 gap-20 ">
         <section className="border-4 h-52 w-52 bg-blue-300 rounded-lg hover:scale-105 hover:bg-blue-400 hover:shadow-lg  duration-500">
-          <img
+          <Image
+            height={64}
+            width={64}
             className="w-16 h-16 mx-auto my-5"
             src="/article.png"
             alt="article-icone"
+
           />
           <p className="text-center font-bold">{articleCount !== null ? articleCount : "Loading..."}</p>
 
           <h3 className="text-center">Articles</h3>
         </section>
         <section className="border-4 h-52 w-52 bg-blue-300 rounded-lg hover:scale-105 hover:bg-blue-400 hover:shadow-lg  duration-500">
-          <img
+        <Image
+            height={64}
+            width={64}
             className="w-16 h-16 mx-auto my-5"
             src="/world-news.png"
             alt="article-icone"
@@ -60,7 +66,9 @@ function dashboard() {
           <h3 className="text-center">Actualites</h3>
         </section>
         <section className="border-4 h-52 w-52 bg-blue-300 rounded-lg hover:scale-105 hover:bg-blue-400 hover:shadow-lg  duration-500">
-          <img
+        <Image
+            height={64}
+            width={64}
             className="w-16 h-16 mx-auto my-5"
             src="/team.png"
             alt="article-icone"

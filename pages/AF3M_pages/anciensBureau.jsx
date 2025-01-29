@@ -66,7 +66,7 @@ export default function AnciensBureau() {
         <link rel="icon" href="https://af3m-assoc.org/wp-content/uploads/2022/10/Capture-de%CC%81cran-2022-10-06-a%CC%80-10.09.14.png" />
       </Head>
         <main className="flex flex-col">
-      <section className="flex-grow container mx-auto w-11/12 px-4 mt-44">
+      <section className="flex-grow container mx-auto w-11/12 px-4 sm:mt-32 mt-20">
         <h1 className="text-xl lg:text-3xl font-bold text-yellow-600 text-left mb-10">
           {language === "fr" ? "Liste des Participants" : "List of Participants"}
         </h1>

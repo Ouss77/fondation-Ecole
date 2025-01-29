@@ -2,6 +2,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import { LanguageContext } from "@/components/Context/LanguageContext";
 import Head from "next/head";
+import Image from "next/image";
+
 
 export default function AllActualites() { 
   const [actualites, setActualites] = useState([]);
@@ -68,10 +70,12 @@ export default function AllActualites() {
           >
             {/* Display the image if it exists */}
             {item.image_url && (
-              <img
+              <Image
+              width={400}
+              height={300}
                 src={`${process.env.NEXT_PUBLIC_API_BASE_URL}/${item.image_url}`}
                 alt="Actualité Image"
-                className="w-full h-52 object-cover mb-4 rounded"
+                className="w-full h-60 object-cover mb-4 rounded"
               />
             )}
  

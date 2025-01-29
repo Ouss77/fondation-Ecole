@@ -6,8 +6,8 @@ function ParticipentTable({ participants }) {
   console.log("hey")
   console.log(language)
   return (
-    <div className="overflow-x-auto  "> 
-      <table className="table-auto  border-collapse border border-gray-300">
+    <div className="sm:w-full  "> 
+      <table className="table-auto  border-collapse border border-gray-300 ">
         <thead className="bg-gray-100 lg:text-xl ">
           <tr>
             <th className="border border-gray-300 px-2 py-2 text-left sm:px-6 sm:py-3 w-1/3">{language == "fr" ? "Prénom NOM" : "Full Name" }</th>
