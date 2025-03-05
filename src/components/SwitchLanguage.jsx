@@ -1,20 +1,21 @@
 import React, { useContext, useState } from 'react'
 import { FaChevronDown, FaGlobe } from "react-icons/fa";
-
 import { LanguageContext } from './Context/LanguageContext';
 import Image from 'next/image';
 
 function SwitchLanguage() {
     const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
-      const { language, switchLanguage } = useContext(LanguageContext);
+    const { language, switchLanguage } = useContext(LanguageContext);
     
     const handleLanguageSwitch = (lang) => {
       switchLanguage(lang);
       setIsLanguageDropdownOpen(false);
     };
+
   return (
       <div className="hidden lg:flex relative">
       <button
+        aria-label='Switch language'
         onClick={() => setIsLanguageDropdownOpen(!isLanguageDropdownOpen)}
         className="flex items-center border-l px-4 py-2 rounded hover:bg-gray-300 font-medium"
       >
@@ -26,8 +27,9 @@ function SwitchLanguage() {
       </button>
 
       {isLanguageDropdownOpen && (
-        <div className="absolute right-0 mt-2 w-32 bg-white border border-gray-200 rounded shadow-lg">
-          <button
+        <div className="absolute  lg:-right-2 mt-0 w-32 bg-white border border-gray-200 rounded shadow-lg">
+          <button 
+            aria-label="French"
             className={`w-full text-left px-4 py-2 rounded-t hover:bg-gray-100 ${language === "fr" ? "bg-yellow-600 text-white" : "bg-white text-black"}`}
             onClick={() => handleLanguageSwitch("fr")}
           >
@@ -37,6 +39,7 @@ function SwitchLanguage() {
             </span>
           </button>
           <button
+          aria-label='English'
             className={`w-full text-left px-4 py-2 rounded-b hover:bg-gray-100 ${language === "en" ? "bg-yellow-600 text-white" : "bg-white text-black"}`}
             onClick={() => handleLanguageSwitch("en")}
           >

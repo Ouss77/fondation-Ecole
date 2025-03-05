@@ -148,6 +148,7 @@ function DevenirMembre() {
 
             <div className="text-center">
               <button
+                aria-label='Send Message'
                 type="submit"
                 className="py-3 px-6 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               >

@@ -31,7 +31,7 @@ export default function AddActualite() {
 
       if (response.ok) {
         setMessage("Actualité added successfully!");
-        // router.push("/admin_pages/modifierActualite");
+        router.push("/admin_pages/modifierActualite");
         setTitleFr("");
         setDescriptionFr("");
         setTitleEn("");
@@ -44,10 +44,11 @@ export default function AddActualite() {
     } catch (err) {
       setMessage("An error occurred while submitting the form.");
     }
+
   };
 
   return (
-    <div className="lg:max-w-3xl mx-auto w-full ml-56 bg-white rounded-2xl shadow-lg shadow-indigo-400/50">
+    <div className="lg:max-w-3xl mx-auto w-full lg:ml-56 bg-white rounded-2xl shadow-lg shadow-indigo-400/50">
       <form onSubmit={handleSubmit} className="mt-10 p-10 rounded">
         <h2 className="text-xl font-bold mb-4">Ajouter une nouvelle Actualité</h2>
 
@@ -121,6 +122,7 @@ export default function AddActualite() {
         </div>
 
         <button
+        aria-label="Submit"
           type="submit"
           className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition duration-200"
         >

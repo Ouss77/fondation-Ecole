@@ -1,63 +1,23 @@
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { LanguageContext } from "@/components/Context/LanguageContext";
+import { fetchArticles, handleSearch, handleYearChange } from "@/utils/articleUtils";
 
 export default function ArticlesTable() {
+
   const [articles, setArticles] = useState([]);
   const [filteredArticles, setFilteredArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [showAbstract, setShowAbstract] = useState({});
+  const [selectedYear, setSelectedYear] = useState("All"); // Nouvelle state
+  const { language } = useContext(LanguageContext);
 
   useEffect(() => {
-    const fetchArticles = async () => {
-      // Check if data exists in localStorage
-      const cachedData = localStorage.getItem("cachedArticles");
-      const cachedTimestamp = localStorage.getItem("cachedTimestamp");
-
-      // If data is cached and not older than 1 hour, use it
-      if (cachedData && cachedTimestamp && Date.now() - cachedTimestamp < 3600000) {
-        setArticles(JSON.parse(cachedData));
-        setFilteredArticles(JSON.parse(cachedData));
-        setLoading(false);
-        return;
-      }
-
-      // Fetch fresh data from the API
-      try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/getArticles_locally.php`);
-        if (!response.ok) {
-          throw new Error("Failed to fetch articles");
-        }
-        const data = await response.json();
-        setArticles(data);
-        setFilteredArticles(data);
-
-        // Cache the data in localStorage
-        localStorage.setItem("cachedArticles", JSON.stringify(data));
-        localStorage.setItem("cachedTimestamp", Date.now());
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchArticles();
+    fetchArticles(setArticles, setFilteredArticles, setLoading);
   }, []);
 
-  const handleSearch = (e) => {
-    const value = e.target.value.toLowerCase();
-    setSearchQuery(value);
-
-    const filtered = articles.filter(
-      (article) =>
-        article.titre.toLowerCase().includes(value) ||
-        (article.authors && article.authors.toLowerCase().includes(value))
-    );
-
-    setFilteredArticles(filtered);
-  };
 
   const toggleAbstract = (index) => {
     setShowAbstract((prevState) => ({
@@ -66,52 +26,63 @@ export default function ArticlesTable() {
     }));
   };
 
-  if (loading) {
-    return <div className="text-center py-10">Loading...</div>;
-  }
+  const years = [...new Set(articles.map(article => article.annee))].sort((a, b) => b - a);
 
-  if (error) {
-    return <div className="text-center text-red-600 py-10">Error: {error}</div>;
-  }
+  if (loading) {return <div className="text-center py-10">Loading...</div>;}
+  if (error) { return <div className="text-center text-red-600 py-10">Error: {error}</div>;}
 
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-10">
       <h1 className="text-2xl sm:text-3xl font-bold text-center mb-8">Articles</h1>
 
       {/* Search Bar and Button */}
-      <div className="mb-4 flex flex-col sm:flex-row items-center gap-2">
-        <input
-          type="text"
-          placeholder="Search by Title or Author Name"
-          value={searchQuery}
-          onChange={handleSearch}
-          className="w-full sm:w-auto flex-grow px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-        <Link
-          href={"/JetCommunication/communications"}
-          className="w-full sm:w-40 text-center px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-green-500 transition-colors"
-        >
-          View Table
-        </Link>
-      </div>
+      <div className="mb-4 flex items-center">
+        <select
+            value={selectedYear}
+            onChange={(e) => handleYearChange(e, setSelectedYear, setFilteredArticles, articles)}
+            className="px-4 py-2 mr-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="All">All Years</option>
+            {years.map((year) => (
+              <option key={year} value={year}>{year}</option>
+            ))}
+          </select>
+          <input
+            type="text"
+            placeholder="Search by Title or Author Name"
+            value={searchQuery}
+            onChange={(e) => handleSearch(e, articles, setSearchQuery, setFilteredArticles)}
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <a
+            href={"/JetCommunication/communications"}
+            className="bg-blue-500 text-white text-center w-40 px-4 py-2 rounded-lg ml-2 hover:bg-green-500"
+          >
+            {language === "fr" ? "Voir Articles" : "View Articles"} 
+          </a>
+        </div>
 
       {/* Articles Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className=" ">
         {filteredArticles.map((article, index) => (
           <div
             key={index}
-            className="bg-white p-4 border border-gray-200 rounded-lg shadow-lg hover:shadow-2xl hover:shadow-blue-200 transition duration-300"
+            className="bg-white p-4 mb-5  border border-gray-200 rounded-lg shadow-lg hover:shadow-2xl hover:shadow-blue-200 transition duration-300"
           >
+            <div className="overflow-hidden">
             <h2 className="text-lg font-bold">{article.titre}</h2>
             <p className="text-sm text-gray-600">Authors: {article.authors}</p>
             <p className="text-sm text-gray-600">Year: {article.annee}</p>
             <p className="text-sm text-gray-600">Theme: {article.theme}</p>
+            </div>
+   
 
             {/* Buttons */}
             <div className="mt-4 flex flex-col sm:flex-row gap-2">
               <button
+              aria-label="Show Abstract"
                 onClick={() => toggleAbstract(index)}
-                className="px-4 py-2 text-white bg-blue-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-700 hover:bg-blue-600"
+                className="h-full px-2 text-white bg-blue-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-700 hover:bg-blue-600"
               >
                 {showAbstract[index] ? "Hide Abstract" : "Show Abstract"}
               </button>
@@ -120,9 +91,9 @@ export default function ArticlesTable() {
                 // href={`${process.env.NEXT_PUBLIC_API_BASE_URL}/pdf_files/${article.pdf_files}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-4 py-2 text-white bg-green-600 rounded-lg focus:outline-none focus:ring-2 hover:bg-green-700 text-center"
+                className="px-2 h-full text-white bg-green-600 rounded-lg focus:outline-none focus:ring-2 hover:bg-green-700 text-center"
               >
-                Download Article
+               {language === "fr" ? "Télécharger" : "Download"}
               </a>
             </div>
 

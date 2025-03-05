@@ -21,6 +21,8 @@ export default function Home() {
         <meta property="og:image" content="https://af3m-assoc.org/wp-content/uploads/2022/10/Capture-de%CC%81cran-2022-10-06-a%CC%80-10.09.14.png" />
         <meta property="og:url" content="https://af3m-assoc.org/" />
         <meta property="og:type" content="website" />
+        {/* <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" /> */}
+
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="https://af3m-assoc.org/wp-content/uploads/2022/10/Capture-de%CC%81cran-2022-10-06-a%CC%80-10.09.14.png" />
       </Head>

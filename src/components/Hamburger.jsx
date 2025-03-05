@@ -79,6 +79,7 @@ function Hamburger({
           {/* Language Switcher */}
           <div className="relative">
             <button
+            aria-label="Language Dropdown"
               onClick={() => setIsLanguageDropdownOpen(!isLanguageDropdownOpen)}
               className="flex items-center border-l px-4 py-2 rounded hover:bg-gray-300 font-medium"
             >
@@ -90,8 +91,9 @@ function Hamburger({
             </button>
 
             {isLanguageDropdownOpen && (
-              <div className="absolute right-0 mt-2 w-32 bg-white border border-gray-200 rounded shadow-lg">
+              <div className="absolute left-0 -mt-12 w-32 bg-white border border-gray-200 rounded shadow-lg">
                 <button
+                aria-label="French"
                   className={`w-full text-left px-4 py-2 rounded-t hover:bg-gray-100 ${language === "fr" ? "bg-yellow-600 text-white" : "bg-white text-black"}`}
                   onClick={() => handleLanguageSwitch("fr")}
                 >
@@ -101,6 +103,7 @@ function Hamburger({
                   </span>
                 </button>
                 <button
+                arialabel="English"
                   className={`w-full text-left px-4 py-2 rounded-b hover:bg-gray-100 ${language === "en" ? "bg-yellow-600 text-white" : "bg-white text-black"}`}
                   onClick={() => handleLanguageSwitch("en")}
                 >

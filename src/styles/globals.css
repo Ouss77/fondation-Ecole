@@ -13,11 +13,16 @@
     --foreground: #ededed;
   }
 }
+html{
+  font-size: 16px; /* Or any value you prefer */
 
+}
 body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+  font-size: 1rem; /* Ensures 1rem = 16px */
+
 }
 .table-header {
   @apply px-4 py-3 text-left text-lg font-bold border-r;

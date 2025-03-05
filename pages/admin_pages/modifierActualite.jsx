@@ -1,32 +1,24 @@
 "use client";
 import { LanguageContext } from '@/components/Context/LanguageContext';
-import axios from 'axios';
+import Loading from '@/components/Loading';
 import React, { useContext, useEffect, useState } from "react";
+import { fetchActualites } from '@/utils/actualitesUtils';
 
 export default function ModifierActualite() {
   const language = useContext(LanguageContext);
   const [actualites, setActualites] = useState([]);
-  const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [filteredActualites, setFilteredActualites] = useState([]);
   const [message, setMessage] = useState("");
+  const [visibleDescription, setVisibleDescription] = useState(null);
 
-  const fetchActualites = async () => {
-    try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/getActualite.php`);
-      const data = response.data;
-      setActualites(data);
-      setFilteredActualites(data);
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
+  const toggleDescription = (id) => {
+    setVisibleDescription(visibleDescription === id ? null : id);
   };
 
+
   useEffect(() => {
-    fetchActualites();
+    fetchActualites( setActualites, setLoading, setError);
   }, []);
 
   const handleDelete = async (id) => {
@@ -50,75 +42,64 @@ export default function ModifierActualite() {
     }
   };
 
-  const handleSearch = (e) => {
-    const value = e.target.value.toLowerCase();
-    setSearchQuery(value);
-    const filtered = actualites.filter(
-      (actualite) =>
-        actualite.title.toLowerCase().includes(value) ||
-        (actualite.description && actualite.description.toLowerCase().includes(value))
-    );
-    setFilteredActualites(filtered);
-  };
-
-  if (loading) return <div className="text-center py-10">Loading...</div>;
+  if (loading) return <div className='ml-20'><Loading/></div>;
   if (error) return <div className="text-center text-red-600 py-10">Error: {error}</div>;
 
   return (
-    <div className="container mx-auto px-4 py-10">
-      <h1 className="text-3xl font-bold text-center mb-8">
-        {language === "fr" ? "Toutes les actualités" : "All the News"}
-      </h1>
+<div className="container mx-auto px-4 py-10">
+  <h1 className="text-3xl font-bold text-center mb-8">
+    {language === "fr" ? "Toutes les actualités" : "All the News"}
+  </h1>
 
-      <div className="flex justify-between mb-4">
-        <input
-          type="text"
-          placeholder={language === "fr" ? "Rechercher par titre" : "Search by title"}
-          value={searchQuery}
-          onChange={handleSearch}
-          className="w-3/4 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
-        />
+  <div className="flex justify-between mb-4 ml-4">
+    <button
+      aria-label="Add News"
+      onClick={() => (window.location.href = "/admin_pages/ajouterActualite")}
+      className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700"
+    >
+      {language === "fr" ? "Ajouter Actualité" : "Add News"}
+    </button>
+  </div>
+
+  {message && <div className="mb-4 p-2 text-center text-white bg-green-500 rounded">{message}</div>}
+
+  <div className="space-y-6">
+    {actualites.map((item) => (
+      <div key={item.id} className="flex flex-col sm:flex-row items-center bg-white shadow-lg rounded-lg p-4">
+        {item.image_url && (
+          <img
+            src={`${process.env.NEXT_PUBLIC_API_BASE_URL}/${item.image_url}`}
+            alt="News"
+            className="w-full lg:w-40 h-32 object-cover rounded mb-4 sm:mb-0 sm:mr-4"
+          />
+        )}
+        <div className="flex-1">
+          <h2 className="text-xl font-semibold">{item.title_fr}</h2>
+              {/* Paragraph is always visible on desktop but toggleable on mobile */}
+              <p className={`text-gray-700 mt-2 sm:block ${visibleDescription === item.id ? "block" : "hidden"}`}>
+                {item.description_fr}
+              </p>
+
+              {/* Toggle button for mobile view only */}
+              <button
+                aria-label="Toggle Description"
+                onClick={() => toggleDescription(item.id)}
+                className="mt-2 text-blue-500 sm:hidden"
+              >
+                {visibleDescription === item.id ? "▲ Hide" : "▼ Read More"}
+              </button>        </div>
         <button
-          onClick={() => (window.location.href = "/admin_pages/ajouterActualite")}
-          className="ml-4 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+          aria-label="Delete News"
+          onClick={() => handleDelete(item.id)}
+          className="mt-4 sm:mt-0 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
         >
-          {language === "fr" ? "Ajouter Actualité" : "Add News"}
+          Delete
         </button>
       </div>
+    ))}
+  </div>
+</div>
 
-      {message && <div className="mb-4 p-2 text-center text-white bg-green-500 rounded">{message}</div>}
 
-      <div className="overflow-x-auto">
-        <table className="min-w-full bg-white border border-gray-200 rounded-lg shadow-lg">
-          <thead>
-            <tr className="bg-gray-100">
-              <th className="px-4 py-3 text-left text-lg font-bold">Image</th>
-              <th className="px-4 py-3 text-left text-lg font-bold">Title</th>
-              <th className="px-4 py-3 text-left text-lg font-bold">Description</th>
-              <th className="px-4 py-3 text-left text-lg font-bold">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredActualites.map((item) => (
-              <tr key={item.id} className="border-t hover:bg-gray-50">
-                <td className="px-4 py-3">
-                  {item.image_url && <img src={`${process.env.NEXT_PUBLIC_API_BASE_URL}/${item.image_url}`} alt="News" className="w-40 h-32 object-cover rounded" />}
-                </td>
-                <td className="px-4 py-3">{item.title_fr}</td>
-                <td className="px-4 py-3">{item.description_fr}</td>
-                <td className="px-4 py-3">
-                  <button
-                    onClick={() => handleDelete(item.id)}
-                    className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
   );
 }

@@ -11,6 +11,7 @@ const Dropdown = ({ label, dropdownRef, items, openDropdown, toggleDropdown, dro
   return (
     <div ref={dropdownRef} className="relative group">
       <button
+      aria-label='Dropdown'
         onClick={(event) => {
           event.stopPropagation(); // Stop event propagation
           toggleDropdown(dropdownKey);

@@ -1,34 +1,21 @@
 "use client";
-import React, { act, useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { LanguageContext } from "@/components/Context/LanguageContext";
 import Head from "next/head";
 import Image from "next/image";
+import { motion } from "framer-motion"; // ✅ Import Framer Motion
+import { fetchActualites } from "@/utils/actualitesUtils";
 
-export default function AllActualites() { 
+export default function AllActualites() {  
   const [actualites, setActualites] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  console.log(actualites);
   const { language } = useContext(LanguageContext);
   
   useEffect(() => {
-    const fetchActualites = async () => {
-      try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/getActualite.php`);
-        if (!response.ok) {
-          throw new Error("Failed to fetch actualites");
-        }
-        const data = await response.json();
-        setActualites(data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
+    fetchActualites(setActualites, setLoading , setError);
 
-    fetchActualites();
   }, []);
 
   if (loading) {
@@ -59,9 +46,12 @@ export default function AllActualites() {
           {language === "fr" ? "Toutes les actualités" : "All the News"}  
         </h1>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {actualites.map((item, index) => (
-            <div
+          {actualites.slice().reverse().map((item, index) => (
+            <motion.div
               key={index}
+              initial={{ opacity: 0, x: 100 }} // Starts off-screen to the right
+              animate={{ opacity: 1, x: 0 }} // Moves to its normal position
+              transition={{ duration: 0.9, delay: index * 0.6 }} // Staggered effect
               className="bg-white border border-gray-200 rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300"
             >
               {item.image_url && (
@@ -79,7 +69,7 @@ export default function AllActualites() {
               <p className="text-gray-700 text-base">
                 {language === "fr" ? item.description_fr : item.description_en}
               </p>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>

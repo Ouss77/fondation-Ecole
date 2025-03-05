@@ -148,6 +148,7 @@ export default function ajouterArticle() {
               </div>
 
               <button
+              aria-label="Submit"
                 type="submit"
                 className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition duration-200"
               >
@@ -165,6 +166,7 @@ export default function ajouterArticle() {
               className="mb-4 w-full"
             />
             <button
+            aria-label="Upload File"
               onClick={handleFileUpload}
               className="w-full bg-green-600 text-white py-2 rounded-md hover:bg-green-700 transition duration-200"
             >

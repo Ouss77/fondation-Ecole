@@ -1,84 +1,52 @@
+import ArticleChart from "@/components/ArticleChart";
 import Image from "next/image";
-import React, { useState } from "react";
-import { useEffect } from "react";
-function dashboard() {
+import React, { useState, useEffect } from "react";
 
+// Reusable DashboardCard Component
+const DashboardCard = ({ icon, title, count }) => {
+  return (
+    <section className="flex justify-between border-4 mx-4 h-32 w-52 bg-red-300 rounded-lg hover:scale-105 hover:bg-blue-400 hover:shadow-lg duration-500">
+      <Image height={64} width={64} className="w-16 h-16 my-7 ml-2" src={icon} alt={`${title}-icon`} />
+      <span className="my-auto">
+        <p className="text-center font-bold text-xl">{count !== null ? count : "Loading..."}</p>
+        <h3 className="text-center mr-2">{title}</h3>
+      </span>
+    </section>
+  );
+};
+
+function Dashboard() {
   const [articleCount, setArticleCount] = useState(null);
   const [actualitesCount, setActualitesCount] = useState(null);
+  const [authors, setAuthors] = useState(null);
+  const [themes, setThemes] = useState(null);
 
   useEffect(() => {
-    // Fetch the article count from the PHP endpoint
-    const fetchArticleCount = async () => {
+    const fetchData = async (url, setter) => {
       try {
-        const response = await fetch("/api/getArticles_Count.php");
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/${url}`);
         const data = await response.json();
-        setArticleCount(data.article_count); // Set the article count in state
+        setter(data.article_count || data.actualite_count || 0);
       } catch (error) {
-        console.error("Error fetching article count:", error);
+        console.error(`Error fetching ${url}:`, error);
       }
     };
 
-    const fetchActualiteCount = async () => {
-      try {
-        const response = await fetch("/api/getActualites_Count.php");
-        const data = await response.json();
-        setActualitesCount(data.actualite_count); // Set the article count in state
-      } catch (error) {
-        console.error("Error fetching article count:", error);
-      }
-    };
-
-    fetchArticleCount(); // Call the function when the component mounts
-    fetchActualiteCount();
+    fetchData("getArticles_Count.php", setArticleCount);
+    fetchData("getAuthors_Count.php", setAuthors);
+    fetchData("getActualites_Count.php", setActualitesCount);
+    fetchData("getThemes_Count.php", setThemes);
   }, []);
 
   return (
-
-    <>
-      <h1>
-        This is the Dashboard where i should add graphs and some statistics for
-        my website
-      </h1>
-      <div className="flex items-center justify-center mt-20 gap-20 ">
-        <section className="border-4 h-52 w-52 bg-blue-300 rounded-lg hover:scale-105 hover:bg-blue-400 hover:shadow-lg  duration-500">
-          <Image
-            height={64}
-            width={64}
-            className="w-16 h-16 mx-auto my-5"
-            src="/article.png"
-            alt="article-icone"
-
-          />
-          <p className="text-center font-bold">{articleCount !== null ? articleCount : "Loading..."}</p>
-
-          <h3 className="text-center">Articles</h3>
-        </section>
-        <section className="border-4 h-52 w-52 bg-blue-300 rounded-lg hover:scale-105 hover:bg-blue-400 hover:shadow-lg  duration-500">
-        <Image
-            height={64}
-            width={64}
-            className="w-16 h-16 mx-auto my-5"
-            src="/world-news.png"
-            alt="article-icone"
-          />
-          <p className="text-center font-bold">{actualitesCount !== null ? actualitesCount : "Loading..."}</p>
-
-          <h3 className="text-center">Actualites</h3>
-        </section>
-        <section className="border-4 h-52 w-52 bg-blue-300 rounded-lg hover:scale-105 hover:bg-blue-400 hover:shadow-lg  duration-500">
-        <Image
-            height={64}
-            width={64}
-            className="w-16 h-16 mx-auto my-5"
-            src="/team.png"
-            alt="article-icone"
-          />
-          <p className="text-center font-bold">6</p>
-          <h3 className="text-center">Members</h3>
-        </section>
-      </div>
-    </>
+    <div className="lg:flex items-center justify-center mt-20 gap-20 ml-10">
+      <DashboardCard icon="/article.png" title="Articles" count={articleCount} />
+      <DashboardCard icon="/editor.png" title="Authors" count={authors} />
+      <DashboardCard icon="/world-news.png" title="Actualites" count={actualitesCount} />
+      <DashboardCard icon="/team.png" title="Themes" count={themes} />
+      <ArticleChart />
+    </div>
   );
 }
 
-export default dashboard;
+export default Dashboard;

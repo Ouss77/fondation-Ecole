@@ -1,16 +1,11 @@
 import { useState } from "react";
-import { useRouter } from "next/router"; // Use this for redirecting
 import { useLogin } from "@/components/Context/AuthContext";
 
 function Login() {
   const { login } = useLogin(); // Get the login function from the context
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState(""); 
-  const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
-
-
-  const router = useRouter(); // For routing after successful login
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -18,11 +13,10 @@ function Login() {
     await login(username, password);
     setLoading(false);
   };
-  console.log("login page");
 
   return (
     <div className="flex items-center mt-28  justify-center ">
-      <div className=" max-w-2xl p-5 lg:p-24 bg-white rounded-2xl shadow-lg shadow-indigo-400/50">
+      <div className=" max-w-2xl p-5 lg:p-24 mb-5 bg-white rounded-2xl shadow-lg shadow-indigo-400/50">
         <form onSubmit={handleLogin}>
           <div className="mb-8">
             <label
@@ -65,12 +59,6 @@ function Login() {
 </button>
 
         </form>
-
-        {/* {message && (
-          <p className="mt-6 text-center text-red-500 text-lg sm:text-xl animate__animated animate__zoomIn animate__delay-1s">
-            {message}
-          </p>
-        )} */}
       </div>
     </div>
   );

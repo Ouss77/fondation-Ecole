@@ -12,6 +12,7 @@ const Partenaires = ({  }) => {
           <div  className="w-1/3 flex justify-center">
             <Image
               src='/img/partenaire1.png'
+              alt="Logo"
               width={200} // Customize the width as needed
               height={100} // Customize the height as needed
               className="object-contain" // Ensures the image is contained within the box without being distorted
@@ -19,6 +20,7 @@ const Partenaires = ({  }) => {
           </div>
           <div  className="w-1/3 flex justify-center">
             <Image
+              alt="Logo"
               src='/img/partenaire2.png'
               width={200} // Customize the width as needed
               height={100} // Customize the height as needed
@@ -27,6 +29,7 @@ const Partenaires = ({  }) => {
           </div>
           <div  className="w-1/3 flex justify-center">
             <Image
+            alt="Logo"
               src='/img/partenaire3.png'
               width={200} // Customize the width as needed
               height={100} // Customize the height as needed

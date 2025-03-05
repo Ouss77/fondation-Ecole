@@ -139,7 +139,8 @@ const Navbar = () => {
       <SwitchLanguage />
 
         {/* Burger Button for Mobile */}
-        <button onClick={toggleMenu} className="lg:hidden text-white hover:text-yellow-600">
+        <button  aria-label="Menu"
+        onClick={toggleMenu} className="lg:hidden text-white hover:text-yellow-600">
           <IoMdMenu size={26} />
         </button>
       </div>
