@@ -62,6 +62,11 @@ function SideBar() {
               setIsOpen={setIsOpen}
             />
                   <SidebarButton
+              label={language === "fr" ? "Gestion des theme" : "Manage Themes"}
+              link="/admin_pages/modifierThemes"
+              setIsOpen={setIsOpen}
+            />
+                  <SidebarButton
               label={language === "fr" ? "Gestion des utilisateur" : "Manage Users"}
               link="/admin_pages/modifierUtilisateur"
               setIsOpen={setIsOpen}

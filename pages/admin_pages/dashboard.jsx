@@ -5,7 +5,7 @@ import React, { useState, useEffect } from "react";
 // Reusable DashboardCard Component
 const DashboardCard = ({ icon, title, count }) => {
   return (
-    <section className="flex justify-between border-4 mx-4 h-32 w-52 bg-red-300 rounded-lg hover:scale-105 hover:bg-blue-400 hover:shadow-lg duration-500">
+    <section className="flex justify-between border-4 mx-4 h-32 w-52 bg-gray-200 rounded-lg hover:scale-105 hover:bg-blue-400 hover:shadow-lg duration-500">
       <Image height={64} width={64} className="w-16 h-16 my-7 ml-2" src={icon} alt={`${title}-icon`} />
       <span className="my-auto">
         <p className="text-center font-bold text-xl">{count !== null ? count : "Loading..."}</p>
@@ -39,13 +39,19 @@ function Dashboard() {
   }, []);
 
   return (
-    <div className="lg:flex items-center justify-center mt-20 gap-20 ml-10">
+    <>
+        <div className="lg:flex items-center justify-center mt-14 gap-20 ml-10">
       <DashboardCard icon="/article.png" title="Articles" count={articleCount} />
       <DashboardCard icon="/editor.png" title="Authors" count={authors} />
       <DashboardCard icon="/world-news.png" title="Actualites" count={actualitesCount} />
       <DashboardCard icon="/team.png" title="Themes" count={themes} />
-      <ArticleChart />
     </div>
+    <div className="mt-10 ml-48">
+
+          <ArticleChart />
+    </div>
+    </>
+
   );
 }
 

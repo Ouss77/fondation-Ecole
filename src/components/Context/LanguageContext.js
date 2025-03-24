@@ -10,9 +10,11 @@ export const LanguageProvider = ({ children }) => {
   };
 
   return (
+    
     <LanguageContext.Provider value={{ language, switchLanguage }}>
       {children}
     </LanguageContext.Provider>
+
   );
 };
  
