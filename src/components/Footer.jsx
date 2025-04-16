@@ -6,7 +6,7 @@ const Footer = () => {
   const { language } = useContext(LanguageContext);
 
   return (
-    <footer className="bg-gradient-to-r mt-5 from-white via-indigo-100 to-blue-100 text-black py-8 flex flex-col justify-between relative">
+    <footer className="bg-gradient-to-r mt-5 from-white via-indigo-100 to-blue-100  text-black py-8 flex flex-col justify-between relative">
       <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-8">
         <div>
           <Image
@@ -59,7 +59,7 @@ const Footer = () => {
       </div>
 
       {/* Footer Section */}
-      <section className="bg-gray-200 text-black   py-3 px-2 w-max absolute bottom-0 right-0 rounded-xl">
+      <section className="bg-gray-200 text-black   py-3 px-2 w-max absolute sm:bottom-0 -bottom-3 right-0 rounded-xl">
         <div className="container mx-auto text-center">
           <p className="text-sm">
             © 2024 | Developed by

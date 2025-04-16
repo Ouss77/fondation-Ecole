@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { LanguageContext } from "@/components/Context/LanguageContext";
 import { FiEdit, FiTrash } from "react-icons/fi"; // Importation des icônes
+import Loading from "@/components/Loading"; // Importation du composant de chargement
 
 function ModifierUtilisateur() {
   const language = useContext(LanguageContext).language;
@@ -9,6 +10,7 @@ function ModifierUtilisateur() {
   const [editingUserId, setEditingUserId] = useState(null); // Track the user being edited
   const [editedUser, setEditedUser] = useState({ username: "", password: "" });
   const [message, setMessage] = useState({ text: "", type: "" }); // Track success/error message
+  const [error, setError] = useState(null); // Track error message
 
   useEffect(() => {
     fetchUsers();
@@ -21,12 +23,16 @@ function ModifierUtilisateur() {
       );
       const data = await response.json();
       setUsers(data);
+      setLoading(false);
     } catch (error) {
+
       setMessage({
         text: "An error occurred while fetching users.",
         type: "error",
       });
+
     } finally {
+
       setLoading(false);
     }
   };
@@ -146,8 +152,15 @@ function ModifierUtilisateur() {
     }
   }, [message]);
 
+  
+  if (loading) return <div className='ml-20'><Loading/></div>;
+  if (error) return <div className="text-center text-red-600 py-10">Error: {error}</div>;
+
   return (
     <div className="p-6 max-w-4xl mx-52 mt-20">
+        <h1 className="text-3xl font-bold text-center mb-8">
+    {language === "fr" ? "Tous les utilisateurs" : "All Users"}
+  </h1>
       {/* Message bar */}
       {message.text && (
         <div
@@ -159,9 +172,7 @@ function ModifierUtilisateur() {
         </div>
       )}
 
-      <h1 className="text-2xl text-center font-bold mb-4">
-        {language === "fr" ? "Utilisateurs" : "Users"}
-      </h1>
+
       <button
         aria-label="Add News"
         onClick={() => (window.location.href = "/admin_pages/ajouterUtilisateur")}
@@ -171,7 +182,7 @@ function ModifierUtilisateur() {
       </button>
       <table className="min-w-full mt-2 bg-white border border-gray-200 shadow-md rounded-lg overflow-hidden">
         <thead>
-          <tr className="bg-gray-100">
+          <tr className="bg-black h-14 text-white text-center">
             <th className="py-2 px-4 border-b">Username</th>
             <th className="py-2 px-4 border-b">Password</th>
             <th className="py-2 px-4 border-b">Actions</th>
@@ -179,8 +190,8 @@ function ModifierUtilisateur() {
         </thead>
         <tbody>
           {users.map((user) => (
-            <tr key={user.id} className="text-center border-t">
-              <td className="py-2 px-4 border-b">
+            <tr key={user.id} className="text-center border-t  hover:bg-gray-100 h-16">
+              <td className="py-2 px-4 border-b ">
                 {editingUserId === user.id ? (
                   <input
                     type="text"

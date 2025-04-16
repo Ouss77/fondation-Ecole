@@ -20,7 +20,7 @@ export default function ModifierActualite() {
   useEffect(() => {
     fetchActualites( setActualites, setLoading, setError);
   }, []);
-
+ 
   const handleDelete = async (id) => {
     try {
       const response = await fetch(

@@ -1,12 +1,17 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import Loading from "@/components/Loading";
 import axios from "axios";
 import { Pencil, Check, X } from "lucide-react";
+import { LanguageContext } from "@/components/Context/LanguageContext"; // Adjust the import path as necessary
 
 function ModifierThemes() {
+  const {language} = useContext(LanguageContext);
   const [themes, setThemes] = useState([]);
   const [editMode, setEditMode] = useState(null);
   const [editedThemeName, setEditedThemeName] = useState("");
   const [message, setMessage] = useState({ text: "", type: "" }); // Track success/error message
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     getThemes();
@@ -16,10 +21,14 @@ function ModifierThemes() {
     const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/Themes/getAllTheme.php`;
     console.log("Fetching from URL:", url);
     try {
+
       const response = await fetch(url);
       const data = await response.json();
       setThemes(data);
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
+      setError("Failed to fetch themes");
       console.error("Error fetching themes:", error);
     }
   };
@@ -61,8 +70,12 @@ function ModifierThemes() {
     setEditedThemeName("");
   };
 
+  
+  if (loading) return <div className='ml-20'><Loading/></div>;
+  if (error) return <div className="text-center text-red-600 py-10">Error: {error}</div>;
+
   return (
-    <div className="max-w-4xl m-32  p-6 bg-white shadow-lg rounded-lg">
+    <div className="max-w-4xl mx-32 p-6 bg-white  rounded-lg">
          {message.text && (
         <div
           className={`fixed top-0 left-0 w-full py-2 text-center text-white ${
@@ -71,8 +84,11 @@ function ModifierThemes() {
         >
           {message.text}
         </div>
+        
       )}
-
+  <h1 className="text-3xl font-bold text-center mb-8">
+    {language === "fr" ? "Tous les themes d'articles" : "All the article themes"}
+  </h1>
       <button
         aria-label="Add News"
         onClick={() => (window.location.href = "/admin_pages/ajouterTheme")}
@@ -80,13 +96,13 @@ function ModifierThemes() {
       >Ajouter theme</button>
       <div className="overflow-x-auto">
         <table className="min-w-full table-fixed border border-gray-200 rounded-lg">
-          <thead className="bg-gray-100">
+          <thead className="bg-black">
             <tr>
-              <th className="w-1/6 px-4 py-3 text-left text-gray-600 font-medium border-b">ID</th>
-              <th className="w-3/6 px-4 py-3 text-left text-gray-600 font-medium border-b">
+              <th className="w-1/6 px-4 py-3 text-left text-white font-medium border-b">ID</th>
+              <th className="w-3/6 px-4 py-3 text-left text-white font-medium border-b">
                 Nom du Thème
               </th>
-              <th className="w-2/6 px-4 py-3 text-left text-gray-600 font-medium border-b">
+              <th className="w-2/6 px-4 py-3 text-center text-white font-medium border-b ">
                 Action
               </th>
             </tr>
@@ -126,7 +142,7 @@ function ModifierThemes() {
                   ) : (
                     <button
                       onClick={() => enterEditMode(theme.themeID, theme.themeName)}
-                      className="bg-blue-500 text-white px-3 py-2 rounded-lg hover:bg-blue-600 flex items-center"
+                      className="bg-blue-500 ml-20 text-white px-3 py-2 rounded-lg hover:bg-blue-600 flex items-center"
                     >
                       <Pencil size={18} className="mr-1" /> Modifier
                     </button>
