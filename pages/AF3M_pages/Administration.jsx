@@ -67,7 +67,7 @@ export default function ParticipantPage() {
       </Head>
         <main className="flex flex-col">
       <section className="flex-grow container mx-auto w-11/12 px-4 mt-32">
-        <h1 className="text-xl lg:text-3xl font-bold text-yellow-600 text-left mb-10">
+        <h1 className="text-xl lg:text-3xl font-bold text-yellow-600  text-left mb-10">
           {language === "fr" ? "Liste des Participants" : "List of Participants"}
         </h1>
         <ParticipentTable participants={translatedParticipants} />

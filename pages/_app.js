@@ -27,14 +27,16 @@ function MyApp({ Component, pageProps }) {
   return (
     <>
       {!isAdminPage && <Header />}
-      <div className="flex">
+      <div className="flex min-h-screen">
         {isAdminPage && isAdmin ? (
-          <div className="flex">
+          <>
             <SideBar />
-            <div className="p-4 flex-1 lg:ml-64">
-              <Component {...pageProps} />
+            <div className="flex-1 lg:ml-80 ml-0 transition-all duration-300">
+              <div className="p-6">
+                <Component {...pageProps} />
+              </div>
             </div>
-          </div>
+          </>
         ) : (
           <div className="w-full">
             <Component {...pageProps} />

@@ -26,10 +26,9 @@ export default function ajouterArticle() {
   // Submit the form
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    console.log(process.env.NEXT_PUBLIC_API_BASE_URL)
     try {
-      
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/ajouter_article.php`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/ajouter_article.php`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -59,7 +58,7 @@ export default function ajouterArticle() {
     formData.append("file", file);
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/upload_excel.php`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/upload_excel.php`, {
         method: "POST",
         body: formData,
       });
@@ -77,101 +76,221 @@ export default function ajouterArticle() {
   };
 
   return ( 
-    <div className="pt-5 w-full ml-40">
-      <div className="container mx-auto p-8 border bg-white rounded-2xl shadow-lg shadow-indigo-400/50">
-        <h1 className="text-2xl font-bold text-center mb-6">Add New Article</h1>
-
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 p-6">
+      <div className="max-w-6xl mx-auto">
         {successMessage && (
-          <div className="text-green-600 text-center mb-4">{successMessage}</div>
+          <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 animate-slideDown">
+            <div className="bg-gradient-to-r from-green-500 to-emerald-500 text-white px-6 py-3 rounded-xl shadow-2xl flex items-center space-x-3 backdrop-blur-sm border border-green-400/20">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span className="font-medium">{successMessage}</span>
+              <button 
+                onClick={() => setSuccessMessage("")}
+                className="ml-2 hover:bg-white/20 rounded-full p-1 transition-colors duration-200"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
         )}
 
-        <div className="flex space-x-8">
-          <div className="w-1/2">
-            <form onSubmit={handleSubmit} className="space-y-4">
+        {/* Header Section */}
+        <div className="text-center mb-8">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl shadow-lg mb-4">
+            <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+            </svg>
+          </div>
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent mb-2">
+            Ajouter un Article
+          </h1>
+          <p className="text-slate-600">Créez un nouvel article de recherche ou importez depuis Excel</p>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Manual Form Section */}
+          <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 p-8">
+            <div className="flex items-center space-x-3 mb-6">
+              <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg flex items-center justify-center">
+                <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                </svg>
+              </div>
+              <h2 className="text-xl font-bold text-slate-800">Saisie Manuelle</h2>
+            </div>
+
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label className="block text-gray-700 font-medium mb-1">Titre</label>
+                <label className="block text-slate-700 font-semibold mb-2">Titre</label>
                 <input
                   type="text"
                   name="titre"
                   value={formData.titre}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  className="w-full px-4 py-3 border-2 border-slate-200 rounded-xl bg-slate-50/50 focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 transition-all duration-300 outline-none text-slate-800 placeholder-slate-400"
+                  placeholder="Entrez le titre de l'article"
                 />
               </div>
 
               <div>
-                <label className="block text-gray-700 font-medium mb-1">Annee</label>
+                <label className="block text-slate-700 font-semibold mb-2">Année</label>
                 <input
                   type="number"
                   name="annee"
                   value={formData.annee}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  min="1900"
+                  max="2100"
+                  className="w-full px-4 py-3 border-2 border-slate-200 rounded-xl bg-slate-50/50 focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 transition-all duration-300 outline-none text-slate-800 placeholder-slate-400"
+                  placeholder="Ex: 2024"
                 />
               </div>
 
               <div>
-                <label className="block text-gray-700 font-medium mb-1">Theme</label>
+                <label className="block text-slate-700 font-semibold mb-2">Thème</label>
                 <input
-                  type="number"
+                  type="text"
                   name="theme"
                   value={formData.theme}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  className="w-full px-4 py-3 border-2 border-slate-200 rounded-xl bg-slate-50/50 focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 transition-all duration-300 outline-none text-slate-800 placeholder-slate-400"
+                  placeholder="Entrez le thème de recherche"
                 />
               </div>
 
               <div>
-                <label className="block text-gray-700 font-medium mb-1">Résumé</label>
+                <label className="block text-slate-700 font-semibold mb-2">Résumé</label>
                 <textarea
                   name="resume"
                   value={formData.resume}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  rows="4"
+                  className="w-full px-4 py-3 border-2 border-slate-200 rounded-xl bg-slate-50/50 focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 transition-all duration-300 outline-none text-slate-800 placeholder-slate-400 resize-none"
+                  placeholder="Décrivez le contenu de l'article..."
                 />
               </div>
 
               <div>
-                <label className="block text-gray-700 font-medium mb-1">Author Name</label>
+                <label className="block text-slate-700 font-semibold mb-2">Nom de l'Auteur</label>
                 <input
                   type="text"
                   name="author_name"
                   value={formData.author_name}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  className="w-full px-4 py-3 border-2 border-slate-200 rounded-xl bg-slate-50/50 focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 transition-all duration-300 outline-none text-slate-800 placeholder-slate-400"
+                  placeholder="Entrez le nom de l'auteur"
                 />
               </div>
 
               <button
-              aria-label="Submit"
+                aria-label="Submit"
                 type="submit"
-                className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition duration-200"
+                className="w-full py-3 px-6 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-xl hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-4 focus:ring-blue-500/30 transition-all duration-300 transform hover:scale-[1.02] shadow-lg hover:shadow-xl"
               >
-                Submit
+                <div className="flex items-center justify-center">
+                  <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                  </svg>
+                  Ajouter l'Article
+                </div>
               </button>
             </form>
           </div>
 
-          <div className="w-1/2">
-            <h2 className="text-xl font-semibold text-center mb-4">Upload Excel File</h2>
-            <input
-              type="file"
-              accept=".xlsx,.xls"
-              onChange={handleFileChange}
-              className="mb-4 w-full"
-            />
-            <button
-            aria-label="Upload File"
-              onClick={handleFileUpload}
-              className="w-full bg-green-600 text-white py-2 rounded-md hover:bg-green-700 transition duration-200"
-            >
-              Upload File
-            </button>
+          {/* Excel Upload Section */}
+          <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 p-8">
+            <div className="flex items-center space-x-3 mb-6">
+              <div className="w-10 h-10 bg-gradient-to-r from-green-500 to-green-600 rounded-lg flex items-center justify-center">
+                <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                </svg>
+              </div>
+              <h2 className="text-xl font-bold text-slate-800">Import Excel</h2>
+            </div>
+
+            <div className="space-y-6">
+              <div>
+                <label className="block text-slate-700 font-semibold mb-4">Fichier Excel</label>
+                <div className="relative">
+                  <input
+                    type="file"
+                    accept=".xlsx,.xls"
+                    onChange={handleFileChange}
+                    className="hidden"
+                    id="file-upload"
+                  />
+                  <label
+                    htmlFor="file-upload"
+                    className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-slate-300 rounded-xl cursor-pointer bg-slate-50/50 hover:bg-slate-100/50 transition-all duration-300"
+                  >
+                    <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                      <svg className="w-8 h-8 mb-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                      </svg>
+                      <p className="mb-2 text-sm text-slate-500">
+                        <span className="font-semibold">Cliquez pour télécharger</span> ou glissez-déposez
+                      </p>
+                      <p className="text-xs text-slate-400">Excel files (.xlsx, .xls)</p>
+                    </div>
+                  </label>
+                </div>
+                
+                {file && (
+                  <div className="mt-4 p-4 bg-blue-50 rounded-xl border border-blue-200">
+                    <div className="flex items-center space-x-3">
+                      <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                      </svg>
+                      <div>
+                        <p className="text-sm font-medium text-blue-800">{file.name}</p>
+                        <p className="text-xs text-blue-600">{(file.size / 1024).toFixed(2)} KB</p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <button
+                aria-label="Upload File"
+                onClick={handleFileUpload}
+                disabled={!file}
+                className="w-full py-3 px-6 bg-gradient-to-r from-green-600 to-emerald-600 text-white font-semibold rounded-xl hover:from-green-700 hover:to-emerald-700 focus:outline-none focus:ring-4 focus:ring-green-500/30 transition-all duration-300 transform hover:scale-[1.02] shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+              >
+                <div className="flex items-center justify-center">
+                  <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                  </svg>
+                  Importer le Fichier
+                </div>
+              </button>
+
+              {/* Info Section */}
+              <div className="mt-6 p-4 bg-amber-50 rounded-xl border border-amber-200">
+                <div className="flex items-start space-x-3">
+                  <svg className="w-5 h-5 text-amber-600 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  </svg>
+                  <div>
+                    <h4 className="text-sm font-semibold text-amber-800 mb-1">Format Excel requis:</h4>
+                    <ul className="text-xs text-amber-700 space-y-1">
+                      <li>• Colonne A: Titre</li>
+                      <li>• Colonne B: Année</li>
+                      <li>• Colonne C: Thème</li>
+                      <li>• Colonne D: Résumé</li>
+                      <li>• Colonne E: Nom de l'auteur</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

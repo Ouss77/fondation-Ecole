@@ -27,11 +27,11 @@ function Hamburger({
 
   return (
     <div>
-      <div className="lg:hidden  bg-gradient-to-r from-blue-200 via-indigo-300 to-purple-700 border-t shadow-lg p-6">
-        <nav className="space-y-6">
+      <div className="lg:hidden bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 p-6 min-h-screen">
+        <nav className="space-y-4">
           <Link
             href="/actualites"
-            className="block text-lg text-black hover:text-yellow-600 transition rounded-lg duration-300 ease-in-out transform hover:scale-110 font-medium"
+            className="block text-lg text-white hover:text-blue-400 transition-all duration-300 ease-in-out font-semibold py-3 px-4 rounded-lg hover:bg-slate-700/50 border-l-4 border-transparent hover:border-blue-400"
             onClick={toggleMenu}
           >
             {language === "fr" ? "Actualités" : "News"}
@@ -60,11 +60,11 @@ function Hamburger({
 
           <Link
             href="/JetCommunication/communications"
-            className="block text-lg text-black hover:text-yellow-600 transition duration-300 ease-in-out transform hover:scale-110 font-medium"
+            className="block text-lg text-white hover:text-blue-400 transition-all duration-300 ease-in-out font-semibold py-3 px-4 rounded-lg hover:bg-slate-700/50 border-l-4 border-transparent hover:border-blue-400"
             onClick={toggleMenu}
           >
             {language === "fr" ? "Communications des éditions du jet" : "Communications of the jet editions"}
-            </Link>
+          </Link>
 
           <Dropdown
             label={translations.adhesion}
@@ -77,38 +77,39 @@ function Hamburger({
           />
 
           {/* Language Switcher */}
-          <div className="relative">
+          <div className="relative mt-6 pt-4 border-t border-slate-600">
             <button
-            aria-label="Language Dropdown"
+              aria-label="Language Dropdown"
               onClick={() => setIsLanguageDropdownOpen(!isLanguageDropdownOpen)}
-              className="flex items-center border-l px-4 py-2 rounded hover:bg-gray-300 font-medium"
+              className="flex items-center w-full text-white hover:text-blue-400 py-3 px-4 rounded-lg hover:bg-slate-700/50 font-semibold transition-all duration-300 border-l-4 border-transparent hover:border-blue-400"
             >
               <Image src="/img/uk.png" width={20} height={20} className="mr-2" alt="English" /> / 
-              <Image src="/img/france.png" width={20} height={20} className="ml-2" alt="France" />
-              <span className={`ml-2 transition-transform ${isLanguageDropdownOpen ? "rotate-180" : "rotate-0"}`}>
+              <Image src="/img/france.png" width={20} height={20} className="ml-2 mr-3" alt="France" />
+              <span className="flex-1 text-left">Language</span>
+              <span className={`transition-transform duration-300 ${isLanguageDropdownOpen ? "rotate-180" : "rotate-0"}`}>
                 <FaChevronDown />
               </span>
             </button>
 
             {isLanguageDropdownOpen && (
-              <div className="absolute left-0 -mt-12 w-32 bg-white border border-gray-200 rounded shadow-lg">
+              <div className="mt-2 ml-4 space-y-2 bg-slate-800 rounded-lg border border-slate-600 overflow-hidden">
                 <button
-                aria-label="French"
-                  className={`w-full text-left px-4 py-2 rounded-t hover:bg-gray-100 ${language === "fr" ? "bg-yellow-600 text-white" : "bg-white text-black"}`}
+                  aria-label="French"
+                  className={`w-full text-left px-4 py-3 transition-all duration-200 ${language === "fr" ? "bg-blue-600 text-white" : "text-slate-300 hover:bg-slate-700 hover:text-white"}`}
                   onClick={() => handleLanguageSwitch("fr")}
                 >
                   <span className="flex items-center">
-                    <Image src="/img/france.png" width={20} height={20} className="mr-2" alt="French" />
-                    French
+                    <Image src="/img/france.png" width={20} height={20} className="mr-3" alt="French" />
+                    Français
                   </span>
                 </button>
                 <button
-                arialabel="English"
-                  className={`w-full text-left px-4 py-2 rounded-b hover:bg-gray-100 ${language === "en" ? "bg-yellow-600 text-white" : "bg-white text-black"}`}
+                  aria-label="English"
+                  className={`w-full text-left px-4 py-3 transition-all duration-200 ${language === "en" ? "bg-blue-600 text-white" : "text-slate-300 hover:bg-slate-700 hover:text-white"}`}
                   onClick={() => handleLanguageSwitch("en")}
                 >
                   <span className="flex items-center">
-                    <Image src="/img/uk.png" width={20} height={20} className="mr-2" alt="English" />
+                    <Image src="/img/uk.png" width={20} height={20} className="mr-3" alt="English" />
                     English
                   </span>
                 </button>

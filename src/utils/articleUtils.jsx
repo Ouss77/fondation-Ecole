@@ -22,17 +22,6 @@ export const handleSearch = (e, articles, setSearchQuery, setFilteredArticles) =
   };
 
 export const fetchArticles = async (setArticles, setFilteredArticles, setLoading ) => {
-        const cachedData = localStorage.getItem("cachedArticles");
-        const cachedTimestamp = localStorage.getItem("cachedTimestamp");
-  
-        // If data is cached and not older than 1 hour, use it
-        if (cachedData && cachedTimestamp && Date.now() - cachedTimestamp < 3600000) {
-          setArticles(JSON.parse(cachedData));
-          setFilteredArticles(JSON.parse(cachedData));
-          setLoading(false);
-          return;
-        }
-  
         // Fetch fresh data from the API
         try {
           const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/getArticles_locally.php`);
@@ -42,10 +31,6 @@ export const fetchArticles = async (setArticles, setFilteredArticles, setLoading
           const data = await response.json();
           setArticles(data);
           setFilteredArticles(data);
-  
-          // Cache the data in localStorage
-          localStorage.setItem("cachedArticles", JSON.stringify(data));
-          localStorage.setItem("cachedTimestamp", Date.now());
         } catch (err) {
           setError(err.message);
         } finally {

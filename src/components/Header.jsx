@@ -11,15 +11,29 @@ import SwitchLanguage from "./SwitchLanguage";
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
-  const dropdownRefs = useRef({});
+  const af3mDropdownRef = useRef(null);
+  const conferencesDropdownRef = useRef(null);
+  const adhesionDropdownRef = useRef(null);
+  const mobileDropdownRefs = useRef({});
   const { language, switchLanguage } = useContext(LanguageContext);
 
   const handleClickOutside = (event) => {
-    Object.values(dropdownRefs.current).forEach((dropdownRef) => {
-      if (dropdownRef && !dropdownRef.contains(event.target)) {
-        setOpenDropdown(null);
-      }
-    });
+    // Handle desktop dropdowns
+    const desktopDropdownRefs = [af3mDropdownRef, conferencesDropdownRef, adhesionDropdownRef];
+    
+    const clickedInsideDesktopDropdown = desktopDropdownRefs.some((ref) => 
+      ref.current && ref.current.contains(event.target)
+    );
+    
+    // Handle mobile dropdowns
+    const clickedInsideMobileDropdown = menuOpen && Object.values(mobileDropdownRefs.current).some((ref) => 
+      ref && ref.contains(event.target)
+    );
+    
+    // Close dropdowns if clicked outside
+    if (!clickedInsideDesktopDropdown && !clickedInsideMobileDropdown) {
+      setOpenDropdown(null);
+    }
   };
 
   useEffect(() => {
@@ -79,34 +93,36 @@ const Navbar = () => {
 
 
   return (
-    <header className="bg-gradient-to-r fixed z-50 w-full from-white via-blue-100 to-blue-200 shadow-xl mx-auto border-b h-24">
-      <div className="flex justify-between items-center p-2 sm:px-20 font-sans">
+    <header className="bg-blue-100 fixed z-50 w-full  backdrop-blur-sm shadow-2xl border-b border-blue-200/30 h-20">
+      <div className="flex justify-between items-center px-4 sm:px-8 lg:px-16 xl:px-20 h-full font-sans">
         {/* Logo */}
-        <div className="sm:mr-40 ml-0 text-white">
-          <Link href="/">
+        <div className="flex items-center">
+          <Link href="/" className="transition-transform duration-300 hover:scale-105">
             <Image
               src="/img/afm-logo.png" 
-              width={110}
-              height={110}
-              alt="Logo"
+              width={90}
+              height={90}
+              alt="AF3M Logo"
               priority={true}
-              className="rounded-r-md border-2 border-blue-900"
+              className="rounded-lg shadow-lg border-2 border-blue-300/50 hover:border-blue-400 transition-all duration-300"
             />
           </Link>
         </div>
 
         {/* Navbar Links (Desktop version) */}
-        <nav className="hidden lg:flex space-x-12">
+        <nav className="hidden lg:flex items-center space-x-8 xl:space-x-10">
           <Link
             href="/actualites"
-            className="text-base text-black hover:text-yellow-600 transition duration-300 ease-in-out transform hover:scale-110 font-medium"
+            className="relative text-sm xl:text-base text-slate-700 hover:text-blue-600 transition-all duration-300 ease-in-out font-semibold group px-3 py-2 rounded-lg hover:bg-white/50"
           >
             {language === "fr" ? "Actualités" : "News"}
+            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
           </Link>
 
           <Dropdown
             label={translations[language].af3m}
             dropdownKey="af3m"
+            dropdownRef={af3mDropdownRef}
             openDropdown={openDropdown}
             toggleDropdown={toggleDropdown}
             items={translations[language].af3mItems}
@@ -115,6 +131,7 @@ const Navbar = () => {
           <Dropdown
             label={translations[language].conferences}
             dropdownKey="conferences"
+            dropdownRef={conferencesDropdownRef}
             openDropdown={openDropdown}
             toggleDropdown={toggleDropdown}
             items={translations[language].confItems}
@@ -122,48 +139,54 @@ const Navbar = () => {
 
           <Link
             href="/JetCommunication/communications"
-            className="text-base text-black hover:text-yellow-600 transition duration-300 ease-in-out transform hover:scale-110 font-medium"
+            className="relative text-sm xl:text-base text-slate-700 hover:text-blue-600 transition-all duration-300 ease-in-out font-semibold group px-3 py-2 rounded-lg hover:bg-white/50"
           >
             {language === "fr" ? "Communications des éditions du jet" : "Communications of the jet editions"}
+            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
           </Link>
 
           <Dropdown
             label={translations[language].adhesion}
             dropdownKey="adhesion"
+            dropdownRef={adhesionDropdownRef}
             openDropdown={openDropdown}
             toggleDropdown={toggleDropdown}
             items={translations[language].adhesionItems}
           />
         </nav>
 
-      <SwitchLanguage />
+        {/* Right side controls */}
+        <div className="flex items-center space-x-4">
+          <SwitchLanguage />
 
-        {/* Burger Button for Mobile */}
-        <button  aria-label="Menu"
-        onClick={toggleMenu} className="lg:hidden text-white hover:text-yellow-600">
-          <IoMdMenu size={26} />
-        </button>
+          {/* Burger Button for Mobile */}
+          <button  
+            aria-label="Menu"
+            onClick={toggleMenu} 
+            className="lg:hidden bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl"
+          >
+            <IoMdMenu size={22} />
+          </button>
+        </div>
       </div>
 
       {/* Mobile Menu */}
       {menuOpen && (
-        <div className=" border-blue-900  bg-black" >
-
-   
+        <div className="lg:hidden absolute top-full left-0 w-full bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 shadow-2xl border-t border-slate-700" >
         <Hamburger 
           translations={translations[language]}
           toggleMenu={toggleMenu}
           menuOpen={menuOpen}
           openDropdown={openDropdown}
           toggleDropdown={toggleDropdown}
-          dropdownRefs={dropdownRefs}
+          dropdownRefs={mobileDropdownRefs}
           dropdownItemsAf3m={translations[language].af3mItems}
           dropdownItemsConf={translations[language].confItems}
           dropdownItemsAdhesion={translations[language].adhesionItems}
           language={language}
           switchLanguage={switchLanguage}
         />
-             </div>
+        </div>
       )}
     </header>
   );
