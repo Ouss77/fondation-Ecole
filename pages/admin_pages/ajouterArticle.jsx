@@ -11,13 +11,22 @@ export default function ajouterArticle() {
 
   const [successMessage, setSuccessMessage] = useState("");
   const [file, setFile] = useState(null); // To handle the selected file
+    const [showThemeInfo, setShowThemeInfo] = useState(false);
+
 
   // Update form data
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    const { name, value, type } = e.target;
+    // For theme, ensure only numbers are accepted
+    if (name === "theme") {
+      // Only allow numbers, and prevent non-numeric input
+      const numValue = value.replace(/[^0-9]/g, "");
+      setFormData({ ...formData, [name]: numValue });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   };
-
+ 
   // Handle file change
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
@@ -136,6 +145,7 @@ export default function ajouterArticle() {
                 />
               </div>
 
+
               <div>
                 <label className="block text-slate-700 font-semibold mb-2">Année</label>
                 <input
@@ -152,16 +162,46 @@ export default function ajouterArticle() {
               </div>
 
               <div>
-                <label className="block text-slate-700 font-semibold mb-2">Thème</label>
+                <div className="flex items-center mb-2">
+                  <label className="block text-slate-700 font-semibold">Thème</label>
+                  <button
+                    type="button"
+                    aria-label="Afficher les thèmes"
+                    onClick={() => setShowThemeInfo((v) => !v)}
+                    className="ml-2 p-1 rounded-full bg-blue-100 hover:bg-blue-200 border border-blue-300 text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    style={{ lineHeight: 0 }}
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" fill="#e0f2fe" />
+                      <text x="12" y="16" textAnchor="middle" fontSize="14" fill="#2563eb" fontWeight="bold">!</text>
+                    </svg>
+                  </button>
+                </div>
                 <input
-                  type="text"
+                  type="number"
                   name="theme"
                   value={formData.theme}
                   onChange={handleChange}
                   required
+                  min="1"
+                  step="1"
+                  pattern="[0-9]*"
+                  inputMode="numeric"
                   className="w-full px-4 py-3 border-2 border-slate-200 rounded-xl bg-slate-50/50 focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 transition-all duration-300 outline-none text-slate-800 placeholder-slate-400"
-                  placeholder="Entrez le thème de recherche"
+                  placeholder="Entrez le numéro du thème"
                 />
+                {showThemeInfo && (
+                  <div className="mt-2 p-4 bg-blue-50 border border-blue-200 rounded-xl shadow-lg z-10">
+                    <h3 className="font-semibold text-blue-800 mb-2">Correspondance des thèmes :</h3>
+                    <ul className="text-sm text-blue-700 space-y-1">
+                      <li><span className="font-bold">1</span> — Conception & Optimisation / Allègement / Durée de Vie et contrôle d’intégrité</li>
+                      <li><span className="font-bold">2</span> — Matériaux & Procédés d’élaboration / Recyclage et Cycle de Vie</li>
+                      <li><span className="font-bold">3</span> — Energies Renouvelables / Economie d’énergie / surveillance intelligentes des équipements, Intelligence Artificielle</li>
+                      <li><span className="font-bold">4</span> — Matériaux bio-sourcés/Eco-matériaux/Eco-Conception</li>
+                      <li><span className="font-bold">5</span> — Hydrogène en production, stockage, transport et conversion</li>
+                    </ul>
+                  </div>
+                )}
               </div>
 
               <div>
