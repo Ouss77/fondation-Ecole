@@ -17,7 +17,7 @@ function ModifierUtilisateur() {
     fetchUsers();
   }, []);
 
-  const fetchUsers = async () => {
+  const fetchUsers = async () => { 
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/getUsers.php`

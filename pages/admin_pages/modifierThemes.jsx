@@ -7,15 +7,19 @@ import { LanguageContext } from "@/components/Context/LanguageContext";
 function ModifierThemes() {
   const {language} = useContext(LanguageContext);
   const [themes, setThemes] = useState([]);
+  const [selectedYear, setSelectedYear] = useState("");
   const [editMode, setEditMode] = useState(null);
   const [editedThemeName, setEditedThemeName] = useState("");
   const [message, setMessage] = useState({ text: "", type: "" }); // Track success/error message
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
+  useEffect(() => { 
     getThemes();
   }, []);
+
+  // Extraire les années uniques pour le filtre
+  const years = Array.from(new Set(themes.map(t => t.annee))).sort((a, b) => b - a);
 
   const getThemes = async () => {
     const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/Themes/getAllTheme.php`;
@@ -91,6 +95,7 @@ function ModifierThemes() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 py-8">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
+        {/* Table Section */}
         {/* Success/Error Message */}
         {message.text && (
           <div
@@ -139,8 +144,23 @@ function ModifierThemes() {
                   <th className="w-1/6 px-6 py-4 text-left text-white font-semibold border-b border-gray-700">
                     ID
                   </th>
-                  <th className="w-3/6 px-6 py-4 text-left text-white font-semibold border-b border-gray-700">
+                  <th className="w-2/6 px-6 py-4 text-left text-white font-semibold border-b border-gray-700">
                     {language === "fr" ? "Nom du Thème" : "Theme Name"}
+                  </th>
+                  <th className="w-1/6 px-6 py-4 text-left text-white font-semibold border-b border-gray-700">
+                    <div className="flex items-center gap-2">
+                      <span>{language === "fr" ? "Année" : "Year"}</span>
+                      <select
+                        className="border border-gray-300 rounded-xl px-2 py-1 bg-white/80 text-gray-800 text-xs focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        value={selectedYear}
+                        onChange={e => setSelectedYear(e.target.value)}
+                      >
+                        <option value="">Toutes</option>
+                        {years.map(y => (
+                          <option key={y} value={y}>{y}</option>
+                        ))}
+                      </select>
+                    </div>
                   </th>
                   <th className="w-2/6 px-6 py-4 text-center text-white font-semibold border-b border-gray-700">
                     {language === "fr" ? "Actions" : "Actions"}
@@ -148,7 +168,9 @@ function ModifierThemes() {
                 </tr>
               </thead>
               <tbody className="bg-white/90">
-                {themes.map((theme, index) => (
+                {themes
+                  .filter(theme => !selectedYear || String(theme.annee) === String(selectedYear))
+                  .map((theme, index) => (
                   <tr key={theme.themeID} className={`border-b border-gray-200 hover:bg-blue-50/50 transition-colors duration-200 ${index % 2 === 0 ? 'bg-gray-50/30' : ''}`}>
                     <td className="px-6 py-4 text-gray-700 font-medium">
                       #{theme.themeID}

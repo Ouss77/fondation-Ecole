@@ -15,7 +15,7 @@ export default function ArticlesTable() {
   const { language } = useContext(LanguageContext);
 
   useEffect(() => {
-    fetchArticles(setArticles, setFilteredArticles, setLoading);
+    fetchArticles(setArticles, setFilteredArticles, setLoading, setError );
   }, []);
 
 

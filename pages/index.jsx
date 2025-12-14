@@ -3,10 +3,11 @@ import Partenaires from "@/components/Partenaires";
 import Aprops from "@/components/Aprops";
 import Activites from "@/components/Activites";
 import Head from "next/head";
+import React from "react";
 
 export default function Home() {
   return (
-    <>
+    <> 
           <Head>
           <title>Home - AF3M</title>
         <meta

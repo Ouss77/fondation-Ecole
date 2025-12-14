@@ -21,13 +21,13 @@ export const handleSearch = (e, articles, setSearchQuery, setFilteredArticles) =
     }
   };
 
-export const fetchArticles = async (setArticles, setFilteredArticles, setLoading ) => {
+export const fetchArticles = async (setArticles, setFilteredArticles, setLoading, setError ) => {
         // Fetch fresh data from the API
         try {
           const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/getArticles_locally.php`);
           if (!response.ok) {
             throw new Error("Failed to fetch articles");
-          }
+          } 
           const data = await response.json();
           setArticles(data);
           setFilteredArticles(data);

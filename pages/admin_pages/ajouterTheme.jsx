@@ -5,27 +5,40 @@ import { Tag, Plus, ArrowLeft } from 'lucide-react';
 
 function ajouterTheme() {
     const router = useRouter();
+    const [themeNumber, setThemeNumber] = useState("");
     const [themeName, setThemeName] = useState("");
+    const [annee, setAnnee] = useState(new Date().getFullYear());
     const [themes, setThemes] = useState([]);
     const [message, setMessage] = useState({ text: "", type: "" });
     const [isLoading, setIsLoading] = useState(false);
 
     const addTheme = async () => {
+        if (!themeNumber.trim()) {
+            setMessage({ text: "Le numéro du thème est requis", type: "error" });
+            return;
+        }
         if (!themeName.trim()) {
             setMessage({ text: "Le nom du thème est requis", type: "error" });
             return;
         }
-
+        if (!annee) {
+            setMessage({ text: "L'année est requise", type: "error" });
+            return;
+        }
         setIsLoading(true);
         try {
             await axios.post(
                 `${process.env.NEXT_PUBLIC_API_BASE_URL}/Themes/AddTheme.php`,
                 {
-                    themeName: themeName
+                    themeID: themeNumber,
+                    themeName: themeName,
+                    annee: annee
                 }
             );
-            setThemes([...themes, { themeName }]);
+            setThemes([...themes, { themeNumber, themeName, annee }]);
+            setThemeNumber("");
             setThemeName("");
+            setAnnee(new Date().getFullYear());
             setMessage({ text: "Thème ajouté avec succès", type: "success" });
             setTimeout(() => {
                 router.push("/admin_pages/modifierThemes");
@@ -83,6 +96,20 @@ function ajouterTheme() {
                     <div className="space-y-6">
                         <div>
                             <label className="block text-sm font-semibold text-gray-700 mb-3">
+                                Numéro du Thème
+                            </label>
+                            <input
+                                type="number"
+                                placeholder="Entrez le numéro du thème..."
+                                className="w-full border border-gray-300 rounded-xl px-4 py-4 text-lg bg-white/80 backdrop-blur-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 hover:border-purple-300 mb-6"
+                                value={themeNumber}
+                                onChange={e => setThemeNumber(e.target.value)}
+                                disabled={isLoading}
+                                min="1"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-semibold text-gray-700 mb-3">
                                 Nom du Thème
                             </label>
                             <input
@@ -90,14 +117,29 @@ function ajouterTheme() {
                                 placeholder="Entrez le nom du thème..."
                                 className="w-full border border-gray-300 rounded-xl px-4 py-4 text-lg bg-white/80 backdrop-blur-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 hover:border-purple-300"
                                 value={themeName}
-                                onChange={(e) => setThemeName(e.target.value)}
+                                onChange={e => setThemeName(e.target.value)}
                                 disabled={isLoading}
                             />
                         </div>
 
-                        <button
+                        <div>
+                            <label className="block text-sm font-semibold text-gray-700 mb-3">
+                                Année
+                            </label>
+                            <input
+                                type="number"
+                                min="2000"
+                                max={new Date().getFullYear() + 1}
+                                value={annee}
+                                onChange={e => setAnnee(e.target.value)}
+                                className="w-full border border-gray-300 rounded-xl px-4 py-4 text-lg bg-white/80 backdrop-blur-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 hover:border-purple-300 mb-6"
+                                placeholder="Entrez l'année..."
+                                disabled={isLoading}
+                            />
+                        </div>
+                        <button 
                             onClick={addTheme}
-                            disabled={isLoading || !themeName.trim()}
+                            disabled={isLoading || !themeName.trim() || !annee}
                             className="w-full group relative px-6 py-4 bg-gradient-to-r from-purple-500 to-pink-600 text-white rounded-xl hover:from-purple-600 hover:to-pink-700 transform hover:scale-[1.02] transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center text-lg font-semibold"
                         >
                             {isLoading ? (
