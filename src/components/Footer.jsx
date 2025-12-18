@@ -1,78 +1,157 @@
 import React, { useContext } from 'react';
 import Image from 'next/image';
 import { LanguageContext } from './Context/LanguageContext';
+import { FaEnvelope, FaMapMarkerAlt, FaPhone, FaLinkedin, FaTwitter, FaFacebook } from 'react-icons/fa';
 
 const Footer = () => {
   const { language } = useContext(LanguageContext);
 
-  return (
-    <footer className="bg-blue-950 mt-5  text-white py-8 flex flex-col justify-between relative">
-      <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div>
-          <Image
-            src="/img/afm-logo.png"
-            width={150}
-            height={200}
-            alt="Logo"
-            priority={true}
-            className="rounded-r-xl border-2 border-blue-900"
-          />
-          <p className="mt-4 text-sm">
-            {language == 'fr'
-              ? 'Association Franco-Maghrébine de Mécanique et des Matériaux (AF3M)'
-              : 'Franco-Maghreb Association of Mechanics and Materials (AF3M)'}
-          </p>
-          <a
-            href="#"
-            className="mt-4 inline-block text-yellow-500 hover:underline"
-          >
-            {language == 'fr'
-              ? 'CONDITIONS GÉNÉRALES DES DONATIONS'
-              : 'GENERAL CONDITIONS OF DONATIONS'}
-          </a>
-        </div>
+  const socialLinks = [
+    { icon: <FaFacebook />, url: '#', label: 'Facebook' },
+    { icon: <FaTwitter />, url: '#', label: 'Twitter' },
+    { icon: <FaLinkedin />, url: '#', label: 'LinkedIn' }
+  ];
 
-        {/* Right Side - Contact Section */}
-        <div>
-          <h2 className="text-4xl text-yellow-600 font-bold">
-            {language == 'fr' ? 'Contacter Nous' : 'Contact Us'}
-          </h2>
-          <div className="mt-4">
-            <p className="flex items-center">
-              <span className="mr-2">📧</span>
-              <a href="mailto:contact@af3m.foundation" className="hover:underline">
-                contact@association.foundation
+  return (
+    <footer className="bg-gradient-to-b from-blue-950 to-blue-900 text-white mt-16 relative overflow-hidden">
+      {/* Decorative Elements */}
+      <div className="absolute top-0 left-0 w-64 h-64 bg-yellow-500/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
+      <div className="absolute bottom-0 right-0 w-96 h-96 bg-yellow-500/5 rounded-full blur-3xl translate-x-1/2 translate-y-1/2" />
+
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
+          
+          {/* Logo & Description Section */}
+          <div className="space-y-4">
+            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 w-fit border border-white/20">
+              <Image
+                src="/img/afm-logo.png"
+                width={140}
+                height={140}
+                alt="AF3M Logo"
+                priority={true}
+                className="rounded-xl"
+              />
+            </div>
+            <p className="text-sm text-gray-300 leading-relaxed">
+              {language === 'fr'
+                ? 'Association Franco-Maghrébine de Mécanique et des Matériaux (AF3M)'
+                : 'Franco-Maghreb Association of Mechanics and Materials (AF3M)'}
+            </p>
+            <a
+              href="#"
+              className="inline-flex items-center gap-2 text-yellow-400 hover:text-yellow-300 transition-colors text-sm font-medium group"
+            >
+              <span className="border-b border-yellow-400 group-hover:border-yellow-300">
+                {language === 'fr'
+                  ? 'Conditions générales'
+                  : 'General conditions'}
+              </span>
+              <span className="group-hover:translate-x-1 transition-transform">→</span>
+            </a>
+          </div>
+
+          {/* Contact Section */}
+          <div className="space-y-4">
+            <h2 className="text-2xl sm:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-300 mb-6">
+              {language === 'fr' ? 'Contactez-nous' : 'Contact Us'}
+            </h2>
+            <div className="space-y-3">
+              <a 
+                href="mailto:contact@association.foundation" 
+                className="flex items-center gap-3 text-gray-300 hover:text-yellow-400 transition-colors group"
+              >
+                <div className="w-10 h-10 bg-yellow-500/20 rounded-lg flex items-center justify-center group-hover:bg-yellow-500/30 transition-colors">
+                  <FaEnvelope className="text-yellow-400" />
+                </div>
+                <span className="text-sm">contact@association.foundation</span>
               </a>
-            </p>
-            <p className="flex items-center mt-2">
-              <span className="mr-2">📍</span>
-              Casablanca - Maroc - Ecole des Mines de Rabat
-            </p>
-            <p className="flex items-center mt-2">
-              <span className="mr-2">📞</span>
-              <a href="tel:+212522861880" className="hover:underline">
-                +212 666 444 222
+              
+              <div className="flex items-center gap-3 text-gray-300">
+                <div className="w-10 h-10 bg-yellow-500/20 rounded-lg flex items-center justify-center">
+                  <FaMapMarkerAlt className="text-yellow-400" />
+                </div>
+                <span className="text-sm">Casablanca - Maroc - Ecole des Mines de Rabat</span>
+              </div>
+              
+              <a 
+                href="tel:+212666444222" 
+                className="flex items-center gap-3 text-gray-300 hover:text-yellow-400 transition-colors group"
+              >
+                <div className="w-10 h-10 bg-yellow-500/20 rounded-lg flex items-center justify-center group-hover:bg-yellow-500/30 transition-colors">
+                  <FaPhone className="text-yellow-400" />
+                </div>
+                <span className="text-sm">+212 666 444 222</span>
               </a>
-            </p>
+            </div>
+          </div>
+
+          {/* Social Media Section */}
+          <div className="space-y-4">
+            <h3 className="text-xl font-bold text-white mb-6">
+              {language === 'fr' ? 'Suivez-nous' : 'Follow Us'}
+            </h3>
+            <div className="flex gap-3">
+              {socialLinks.map((social, index) => (
+                <a
+                  key={index}
+                  href={social.url}
+                  aria-label={social.label}
+                  className="w-12 h-12 bg-white/10 backdrop-blur-sm rounded-xl flex items-center justify-center text-white hover:bg-yellow-500 hover:text-blue-950 transition-all duration-300 border border-white/20 hover:border-yellow-500 hover:scale-110"
+                >
+                  {social.icon}
+                </a>
+              ))}
+            </div>
+            
+            {/* Quick Links */}
+            <div className="pt-6">
+              <h4 className="text-sm font-semibold text-gray-400 mb-3 uppercase tracking-wider">
+                {language === 'fr' ? 'Liens rapides' : 'Quick Links'}
+              </h4>
+              <ul className="space-y-2">
+                <li>
+                  <a href="#" className="text-sm text-gray-300 hover:text-yellow-400 transition-colors">
+                    {language === 'fr' ? 'À propos' : 'About'}
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="text-sm text-gray-300 hover:text-yellow-400 transition-colors">
+                    {language === 'fr' ? 'Activités' : 'Activities'}
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="text-sm text-gray-300 hover:text-yellow-400 transition-colors">
+                    {language === 'fr' ? 'Événements' : 'Events'}
+                  </a>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Footer Section */}
-      <section className="bg-gray-200 text-black   py-3 px-2 w-max absolute sm:bottom-0 -bottom-3 right-0 rounded-xl">
-        <div className="container mx-auto text-center">
-          <p className="text-sm">
-            © 2024 | Developed by
+        {/* Divider */}
+        <div className="w-full h-px bg-gradient-to-r from-transparent via-white/20 to-transparent my-8" />
+
+        {/* Bottom Bar */}
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-gray-400">
+          <p>
+            © 2024 AF3M. {language === 'fr' ? 'Tous droits réservés' : 'All rights reserved'}.
+          </p>
+          <p className="flex items-center gap-2">
+            {language === 'fr' ? 'Développé par' : 'Developed by'}
             <a
               href="https://www.linkedin.com/in/oussama-sassour/"
               target="_blank"
-              className="text-blue-400 ml-1 hover:text-blue-500 font-semibold"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 text-yellow-400 hover:text-yellow-300 transition-colors font-semibold group"
             >
               Oussama Sassour
+              <FaLinkedin className="group-hover:scale-110 transition-transform" />
             </a>
           </p>
         </div>
-      </section>
+      </div>
     </footer>
   );
 };

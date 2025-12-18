@@ -1,45 +1,63 @@
-import React, { use, useContext } from 'react';
-import { LanguageContext } from '@/components/Context/LanguageContext';
+import React, { useContext } from "react";
+import { LanguageContext } from "@/components/Context/LanguageContext";
 
 const ConferenceJet = () => {
-  const { language } = useContext(LanguageContext);  // Access current language from context
+  const { language } = useContext(LanguageContext);
 
   const content = {
     title: {
       fr: "Objectifs des JET",
-      en: "Objectives of JET"
+      en: "Objectives of JET",
     },
     paragraphs: [
       {
-        fr: "Les Journées d’Etudes Techniques (JET), constituent une manifestation scientifique, à caractère internationale (The International Congress for Applied Mechanics), biannuelle organisée par l’AF3M depuis l’année 2000.",
-        en: "The Technical Study Days (JET) are an international scientific event (The International Congress for Applied Mechanics), organized biennially by AF3M since the year 2000."
+        fr: "Les Journées d’Études Techniques (JET) constituent une manifestation scientifique à caractère international (The International Congress for Applied Mechanics), organisée de manière biennale par l’AF3M depuis l’année 2000.",
+        en: "The Technical Study Days (JET) are an international scientific event (The International Congress for Applied Mechanics), organized biennially by AF3M since the year 2000.",
       },
       {
-        fr: "Les JET se veulent un espace offrant aux participants un large panel de thématiques scientifiques et technologiques dans les domaines des sciences mécaniques, des matériaux et de leur contribution au développement durable. Elles se donnent comme objectif d’être un lieu de rencontres et d’échanges entre les acteurs correspondants aux pays du Maghreb et de la France (Europe et pays francophones) : Enseignants-chercheurs, chercheurs, ingénieurs et industriels.",
-        en: "JET aims to provide participants with a wide range of scientific and technological themes in the fields of mechanical sciences, materials, and their contribution to sustainable development. They aim to be a meeting and exchange place for participants from Maghreb and France (Europe and Francophone countries): academic researchers, researchers, engineers, and industrialists."
+        fr: "Les JET offrent aux participants un large éventail de thématiques scientifiques et technologiques dans les domaines des sciences mécaniques, des matériaux et de leur contribution au développement durable.",
+        en: "JET provides participants with a wide range of scientific and technological themes in mechanical sciences, materials, and their contribution to sustainable development.",
       },
       {
-        fr: "Dans ce cadre, L’AF3M encourage les jeunes doctorants à participer à ces rencontres.",
-        en: "In this context, AF3M encourages young doctoral students to participate in these meetings."
+        fr: "Elles constituent un espace privilégié de rencontres et d’échanges entre enseignants-chercheurs, chercheurs, ingénieurs et industriels issus des pays du Maghreb et de la France (Europe et pays francophones).",
+        en: "They serve as a privileged meeting and exchange platform for academics, researchers, engineers, and industrial partners from the Maghreb and France (Europe and Francophone countries).",
       },
       {
-        fr: "Les JET s’organisent sur trois jours, fin d’avril ou début mai, selon les facilités logistiques. Depuis la création de l’AF3M et l’organisation des JET, de nombreuses coopérations entre chercheurs ont été établies en termes de co-encadrement de jeunes doctorants, de cotutelles de thèses offrant différentes possibilités de stage de laboratoires.",
-        en: "JET is organized over three days, at the end of April or early May, depending on logistical facilities. Since the creation of AF3M and the organization of JET, numerous collaborations between researchers have been established in terms of co-supervision of young doctoral students and joint thesis supervision, offering various laboratory internship opportunities."
-      }
-    ]
+        fr: "Dans ce cadre, l’AF3M encourage fortement la participation des jeunes doctorants à ces rencontres scientifiques.",
+        en: "In this context, AF3M strongly encourages young doctoral students to take part in these scientific meetings.",
+      },
+      {
+        fr: "Les JET se déroulent sur trois jours, généralement à la fin avril ou au début mai. Depuis leur création, elles ont permis l’établissement de nombreuses coopérations scientifiques, notamment en matière de co-encadrement de doctorants, de cotutelles de thèses et de stages en laboratoires.",
+        en: "JET is organized over three days, usually at the end of April or early May. Since their creation, they have fostered numerous scientific collaborations, including joint doctoral supervision, co-tutelle theses, and laboratory internships.",
+      },
+    ],
   };
 
   return (
-    <div className="text-yellow px-4 sm:px-6 mb-8 md:px-10 lg:px-16 xl:px-24 rounded-lg pt-36">
-      <section className="bg-gray-100 p-6 sm:p-8 md:p-10 lg:p-12 xl:p-10 rounded-xl">
-        <h2 className='text-xl md:text-3xl font-semibold text-yellow-600 mb-4'>{content.title[language]}</h2>
-        {content.paragraphs.map((para, index) => (
-          <p key={index} className="text-gray-800 mb-4 w-full text-base text-justify sm:text-jusitfy sm:text-lg md:text-base leading-7 sm:leading-8 md:leading-9">
-            {para[language]}
-          </p>
-        ))}
-      </section>
-    </div>
+    <section className="pt-36 pb-24 px-4 sm:px-6 lg:px-20">
+      <div className="max-w-5xl mx-auto bg-gray-100 rounded-2xl p-8 sm:p-10 md:p-14 shadow-sm">
+        
+        {/* Title */}
+        <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-yellow-600 mb-6">
+          {content.title[language]}
+        </h2>
+
+        {/* Decorative line */}
+        <div className="w-20 h-1 bg-yellow-500 mb-10 rounded-full" />
+
+        {/* Content */}
+        <div className="space-y-6">
+          {content.paragraphs.map((para, index) => (
+            <p
+              key={index}
+              className="text-gray-800 text-sm sm:text-base md:text-lg leading-7 sm:leading-8 md:leading-9 text-justify"
+            >
+              {para[language]}
+            </p>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 };
 

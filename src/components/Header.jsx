@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect, useRef, useContext } from "react";
-import { IoMdMenu } from "react-icons/io";
+import { IoMdMenu, IoMdClose } from "react-icons/io";
 import Dropdown from "./Dropdown";
 import Image from "next/image";
 import Link from "next/link";
@@ -11,26 +11,33 @@ import SwitchLanguage from "./SwitchLanguage";
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
+  const [scrolled, setScrolled] = useState(false);
   const af3mDropdownRef = useRef(null);
   const conferencesDropdownRef = useRef(null);
   const adhesionDropdownRef = useRef(null);
   const mobileDropdownRefs = useRef({});
   const { language, switchLanguage } = useContext(LanguageContext);
 
+  // Handle scroll effect
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   const handleClickOutside = (event) => {
-    // Handle desktop dropdowns
     const desktopDropdownRefs = [af3mDropdownRef, conferencesDropdownRef, adhesionDropdownRef];
     
     const clickedInsideDesktopDropdown = desktopDropdownRefs.some((ref) => 
       ref.current && ref.current.contains(event.target)
     );
     
-    // Handle mobile dropdowns
     const clickedInsideMobileDropdown = menuOpen && Object.values(mobileDropdownRefs.current).some((ref) => 
       ref && ref.contains(event.target)
     );
     
-    // Close dropdowns if clicked outside
     if (!clickedInsideDesktopDropdown && !clickedInsideMobileDropdown) {
       setOpenDropdown(null);
     }
@@ -52,8 +59,10 @@ const Navbar = () => {
   const translations = {
     fr: {
       af3m: "L'AF3M",
-      conferences: "Conférences organisées",
+      conferences: "Conférences",
       adhesion: "Adhésion",
+      news: "Actualités",
+      communications: "Communications JET",
       af3mItems: [
         { label: "Historique et missions", href: "/AF3M_pages/historique" },
         { label: "Administration actuelle", href: "/AF3M_pages/Administration" },
@@ -71,8 +80,10 @@ const Navbar = () => {
     },
     en: {
       af3m: "AF3M",
-      conferences: "Conferences organized",
+      conferences: "Conferences",
       adhesion: "Membership",
+      news: "News",
+      communications: "JET Communications",
       af3mItems: [
         { label: "History and Missions", href: "/AF3M_pages/historique" },
         { label: "Current Administration", href: "/AF3M_pages/Administration" },
@@ -90,33 +101,54 @@ const Navbar = () => {
     },
   };
 
-
-
   return (
-    <header className="bg-blue-100 fixed z-50 w-full  backdrop-blur-sm shadow-2xl border-b border-blue-200/30 h-20">
-      <div className="flex justify-between items-center px-4 sm:px-8 lg:px-16 xl:px-20 h-full font-sans">
+    <header 
+      className={`fixed z-50 w-full transition-all duration-300 ${
+        scrolled 
+          ? 'bg-white/95 backdrop-blur-md shadow-lg h-16' 
+          : 'bg-gradient-to-r from-blue-50 via-white to-blue-50 backdrop-blur-sm shadow-md h-20'
+      }`}
+    >
+      <div className="flex justify-between items-center px-4 sm:px-6 lg:px-12 xl:px-16 h-full">
         {/* Logo */}
         <div className="flex items-center">
-          <Link href="/" className="transition-transform duration-300 hover:scale-105">
-            <Image
-              src="/img/afm-logo.png" 
-              width={90}
-              height={90}
-              alt="AF3M Logo"
-              priority={true}
-              className="rounded-lg shadow-lg border-2 border-blue-300/50 hover:border-blue-400 transition-all duration-300"
-            />
+          <Link href="/" className="group flex items-center gap-3">
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-xl blur-md opacity-0 group-hover:opacity-50 transition-opacity duration-300" />
+              <Image
+                src="/img/afm-logo.png" 
+                width={scrolled ? 60 : 75}
+                height={scrolled ? 60 : 75}
+                alt="AF3M Logo"
+                priority={true}
+                className={`relative rounded-xl shadow-lg border-2 border-yellow-400/30 group-hover:border-yellow-500 transition-all duration-300 ${
+                  scrolled ? 'scale-90' : ''
+                }`}
+              />
+            </div>
+            <div className="hidden xl:block">
+              <h1 className={`font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-800 transition-all duration-300 ${
+                scrolled ? 'text-sm' : 'text-base'
+              }`}>
+                AF3M
+              </h1>
+              <p className={`text-xs text-gray-600 transition-all duration-300 ${
+                scrolled ? 'opacity-0 h-0' : 'opacity-100'
+              }`}>
+                {language === "fr" ? "Mécanique & Matériaux" : "Mechanics & Materials"}
+              </p>
+            </div>
           </Link>
         </div>
 
-        {/* Navbar Links (Desktop version) */}
-        <nav className="hidden lg:flex items-center space-x-8 xl:space-x-10">
+        {/* Desktop Navigation */}
+        <nav className="hidden lg:flex items-center space-x-1 xl:space-x-2">
           <Link
             href="/actualites"
-            className="relative text-sm xl:text-base text-slate-700 hover:text-blue-600 transition-all duration-300 ease-in-out font-semibold group px-3 py-2 rounded-lg hover:bg-white/50"
+            className="relative text-sm xl:text-base text-gray-700 hover:text-blue-600 transition-all duration-300 font-medium px-4 py-2 rounded-lg hover:bg-blue-50 group"
           >
-            {language === "fr" ? "Actualités" : "News"}
-            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+            {translations[language].news}
+            <span className="absolute bottom-1 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-blue-600 to-blue-400 transition-all duration-300 group-hover:w-3/4 rounded-full"></span>
           </Link>
 
           <Dropdown
@@ -139,10 +171,10 @@ const Navbar = () => {
 
           <Link
             href="/JetCommunication/communications"
-            className="relative text-sm xl:text-base text-slate-700 hover:text-blue-600 transition-all duration-300 ease-in-out font-semibold group px-3 py-2 rounded-lg hover:bg-white/50"
+            className="relative text-sm xl:text-base text-gray-700 hover:text-blue-600 transition-all duration-300 font-medium px-4 py-2 rounded-lg hover:bg-blue-50 group"
           >
-            {language === "fr" ? "Communications des éditions du jet" : "Communications of the jet editions"}
-            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+            {translations[language].communications}
+            <span className="absolute bottom-1 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-blue-600 to-blue-400 transition-all duration-300 group-hover:w-3/4 rounded-full"></span>
           </Link>
 
           <Dropdown
@@ -155,37 +187,40 @@ const Navbar = () => {
           />
         </nav>
 
-        {/* Right side controls */}
-        <div className="flex items-center space-x-4">
+        {/* Right Controls */}
+        <div className="flex items-center gap-3">
           <SwitchLanguage />
 
-          {/* Burger Button for Mobile */}
+          {/* Mobile Menu Button */}
           <button  
             aria-label="Menu"
             onClick={toggleMenu} 
-            className="lg:hidden bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl"
+            className="lg:hidden relative group"
           >
-            <IoMdMenu size={22} />
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-blue-700 rounded-xl blur opacity-50 group-hover:opacity-75 transition-opacity" />
+            <div className="relative bg-gradient-to-br from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white p-2.5 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl">
+              {menuOpen ? <IoMdClose size={22} /> : <IoMdMenu size={22} />}
+            </div>
           </button>
         </div>
       </div>
 
       {/* Mobile Menu */}
       {menuOpen && (
-        <div className="lg:hidden absolute top-full left-0 w-full bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 shadow-2xl border-t border-slate-700" >
-        <Hamburger 
-          translations={translations[language]}
-          toggleMenu={toggleMenu}
-          menuOpen={menuOpen}
-          openDropdown={openDropdown}
-          toggleDropdown={toggleDropdown}
-          dropdownRefs={mobileDropdownRefs}
-          dropdownItemsAf3m={translations[language].af3mItems}
-          dropdownItemsConf={translations[language].confItems}
-          dropdownItemsAdhesion={translations[language].adhesionItems}
-          language={language}
-          switchLanguage={switchLanguage}
-        />
+        <div className="lg:hidden absolute top-full left-0 w-full bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 shadow-2xl border-t border-slate-700 animate-fade-in">
+          <Hamburger 
+            translations={translations[language]}
+            toggleMenu={toggleMenu}
+            menuOpen={menuOpen}
+            openDropdown={openDropdown}
+            toggleDropdown={toggleDropdown}
+            dropdownRefs={mobileDropdownRefs}
+            dropdownItemsAf3m={translations[language].af3mItems}
+            dropdownItemsConf={translations[language].confItems}
+            dropdownItemsAdhesion={translations[language].adhesionItems}
+            language={language}
+            switchLanguage={switchLanguage}
+          />
         </div>
       )}
     </header>

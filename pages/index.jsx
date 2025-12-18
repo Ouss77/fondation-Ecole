@@ -44,10 +44,3 @@ export default function Home() {
 
   );
 }
-
-// export async function getStaticProps() {
-//   const actualites = require("../data/actualites.json"); // Load local JSON file
-//   return {
-//     props: { actualites },
-//   };
-// }
