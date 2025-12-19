@@ -1,45 +1,167 @@
-import React, { use, useContext } from 'react';
+import React, { useContext } from 'react';
 import { LanguageContext } from '@/components/Context/LanguageContext';
+import {
+  FaGlobe,
+  FaUsers,
+  FaGraduationCap,
+  FaHandshake,
+  FaCalendarAlt,
+  FaFlask
+} from 'react-icons/fa';
 
 const ConferenceJet = () => {
-  const { language } = useContext(LanguageContext);  // Access current language from context
+  const { language } = useContext(LanguageContext);
 
   const content = {
     title: {
       fr: "Congrès International de Mécanique",
       en: "International Congress for Applied Mechanics"
     },
-    paragraphs: [
+    subtitle: {
+      fr: "The International Congress for Applied Mechanics",
+      en: "Congrès International de Mécanique Appliquée"
+    },
+    highlights: [
       {
-        fr: "Les Journées d’Etudes Techniques (JET), constituent une manifestation scientifique, à caractère internationale (The International Congress for Applied Mechanics), biannuelle organisée par l’AF3M depuis l’année 2000.",
-        en: "The Technical Study Days (JET) are an international scientific event (The International Congress for Applied Mechanics), organized biennially by AF3M since the year 2000."
+        icon: <FaGlobe className="w-5 h-5" />,
+        titleFr: "International",
+        titleEn: "International",
+        descFr: "Maghreb & France",
+        descEn: "Maghreb & France"
       },
       {
-        fr: "Les JET se veulent un espace offrant aux participants un large panel de thématiques scientifiques et technologiques dans les domaines des sciences mécaniques, des matériaux et de leur contribution au développement durable. Elles se donnent comme objectif d’être un lieu de rencontres et d’échanges entre les acteurs correspondants aux pays du Maghreb et de la France (Europe et pays francophones) : Enseignants-chercheurs, chercheurs, ingénieurs et industriels.",
-        en: "JET aims to provide participants with a wide range of scientific and technological themes in the fields of mechanical sciences, materials, and their contribution to sustainable development. They aim to be a meeting and exchange place for participants from Maghreb and France (Europe and Francophone countries): academic researchers, researchers, engineers, and industrialists."
+        icon: <FaCalendarAlt className="w-5 h-5" />,
+        titleFr: "Biennal",
+        titleEn: "Biennial",
+        descFr: "Depuis 2000",
+        descEn: "Since 2000"
       },
       {
-        fr: "Dans ce cadre, L’AF3M encourage les jeunes doctorants à participer à ces rencontres.",
-        en: "In this context, AF3M encourages young doctoral students to participate in these meetings."
-      },
-      {
-        fr: "Les JET s’organisent sur trois jours, fin d’avril ou début mai, selon les facilités logistiques. Depuis la création de l’AF3M et l’organisation des JET, de nombreuses coopérations entre chercheurs ont été établies en termes de co-encadrement de jeunes doctorants, de cotutelles de thèses offrant différentes possibilités de stage de laboratoires.",
-        en: "JET is organized over three days, at the end of April or early May, depending on logistical facilities. Since the creation of AF3M and the organization of JET, numerous collaborations between researchers have been established in terms of co-supervision of young doctoral students and joint thesis supervision, offering various laboratory internship opportunities."
+        icon: <FaFlask className="w-5 h-5" />,
+        titleFr: "Multidisciplinaire",
+        titleEn: "Multidisciplinary",
+        descFr: "Sciences & Technologie",
+        descEn: "Science & Technology"
       }
-    ]
+    ],
+    sections: [
+      {
+        icon: <FaGlobe className="w-6 h-6" />,
+        titleFr: "Manifestation Scientifique Internationale",
+        titleEn: "International Scientific Event",
+        textFr:
+          "Les Journées d'Études Techniques (JET) constituent une manifestation scientifique internationale organisée par l’AF3M depuis 2000.",
+        textEn:
+          "The Technical Study Days (JET) are an international scientific event organized by AF3M since 2000."
+      },
+      {
+        icon: <FaUsers className="w-6 h-6" />,
+        titleFr: "Échanges et Collaborations",
+        titleEn: "Exchange and Collaboration",
+        textFr:
+          "Les JET offrent un espace d’échange entre enseignants-chercheurs, chercheurs, ingénieurs et industriels du Maghreb et de la France.",
+        textEn:
+          "JET provides a space for exchange between academics, researchers, engineers, and industrial partners from the Maghreb and France."
+      },
+      {
+        icon: <FaGraduationCap className="w-6 h-6" />,
+        titleFr: "Jeune Recherche",
+        titleEn: "Young Research",
+        textFr:
+          "L’AF3M encourage activement la participation des jeunes doctorants à ces rencontres scientifiques.",
+        textEn:
+          "AF3M actively encourages young doctoral students to participate in these scientific meetings."
+      }
+    ],
+    impact: {
+      icon: <FaHandshake className="w-6 h-6" />,
+      titleFr: "Collaborations et Impact",
+      titleEn: "Collaborations and Impact",
+      textFr:
+        "Les JET favorisent les coopérations scientifiques, les cotutelles de thèses et les stages de recherche.",
+      textEn:
+        "JET fosters scientific collaborations, joint thesis supervision, and research internships."
+    }
   };
 
   return (
-    <div className="text-yellow px-4 sm:px-6 mb-8 md:px-10 lg:px-16 xl:px-24 rounded-lg pt-36">
-      <section className="bg-gray-100 p-6 sm:p-8 md:p-10 lg:p-12 xl:p-10 rounded-xl">
-        <h2 className='text-xl md:text-3xl font-semibold text-yellow-600 mb-4'>{content.title[language]}</h2>
-        {content.paragraphs.map((para, index) => (
-          <p key={index} className="text-gray-800 mb-4 w-full text-base text-justify sm:text-jusitfy sm:text-lg md:text-base leading-7 sm:leading-8 md:leading-9">
-            {para[language]}
+    <section className="pt-28 pb-16 px-4 sm:px-6 lg:px-10 bg-gradient-to-b from-gray-50 to-white">
+      <div className="max-w-6xl mx-auto">
+
+        {/* Header */}
+        <div className="text-center mb-10">
+          <h1 className="text-3xl sm:text-4xl font-bold text-yellow-600 mb-3">
+            {content.title[language]}
+          </h1>
+          <div className="w-20 h-1 bg-yellow-500 rounded-full mx-auto mb-3" />
+          <p className="text-lg text-gray-600 italic">
+            {content.subtitle[language]}
           </p>
-        ))}
-      </section>
-    </div>
+        </div>
+
+        {/* Highlights */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
+          {content.highlights.map((highlight, index) => (
+            <div
+              key={index}
+              className="bg-white rounded-xl shadow-sm p-5 text-center border border-gray-100"
+            >
+              <div className="w-12 h-12 bg-yellow-500 rounded-xl flex items-center justify-center text-white mx-auto mb-3">
+                {highlight.icon}
+              </div>
+              <h3 className="text-base font-semibold text-gray-800">
+                {language === "fr" ? highlight.titleFr : highlight.titleEn}
+              </h3>
+              <p className="text-sm text-gray-600">
+                {language === "fr" ? highlight.descFr : highlight.descEn}
+              </p>
+            </div>
+          ))}
+        </div>
+
+        {/* Sections */}
+        <div className="space-y-5 mb-8">
+          {content.sections.map((section, index) => (
+            <div
+              key={index}
+              className="bg-white rounded-xl shadow-sm p-6 border border-gray-100"
+            >
+              <div className="flex gap-4">
+                <div className="w-11 h-11 bg-yellow-500 rounded-xl flex items-center justify-center text-white">
+                  {section.icon}
+                </div>
+                <div>
+                  <h2 className="text-lg font-semibold text-gray-800 mb-2">
+                    {language === "fr" ? section.titleFr : section.titleEn}
+                  </h2>
+                  <p className="text-base text-gray-700 leading-7 text-justify">
+                    {language === "fr" ? section.textFr : section.textEn}
+                  </p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Impact */}
+        <div className="bg-gray-50 rounded-xl border border-gray-200 p-6">
+          <div className="flex gap-4">
+            <div className="w-11 h-11 bg-blue-600 rounded-xl flex items-center justify-center text-white">
+              {content.impact.icon}
+            </div>
+            <div>
+              <h2 className="text-lg font-semibold text-gray-800 mb-2">
+                {language === "fr" ? content.impact.titleFr : content.impact.titleEn}
+              </h2>
+              <p className="text-base text-gray-700 leading-7 text-justify">
+                {language === "fr" ? content.impact.textFr : content.impact.textEn}
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
   );
 };
 

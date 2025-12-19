@@ -2,6 +2,10 @@ import React, { useContext, useState } from 'react';
 import emailjs from 'emailjs-com';
 import Head from 'next/head';
 import { LanguageContext } from '@/components/Context/LanguageContext';
+import {
+  FaCheckCircle,
+  FaExclamationCircle
+} from 'react-icons/fa';
 
 function DevenirMembre() {
   const [formData, setFormData] = useState({
@@ -10,38 +14,63 @@ function DevenirMembre() {
     message: '',
   });
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null);
+
   const { language } = useContext(LanguageContext);
 
   const translations = {
     fr: {
       title: 'Devenir Membre - AF3M',
-      description: 'Rejoignez AF3M et devenez membre. Contactez-nous pour plus d\'informations ou pour envoyer un message.',
-      heading: 'Contactez Nous',
-      subheading: 'Tu veux nous rejoindre? Tu veux devenir membre de l\'association? Contactez-nous et laissez-nous un message par email.',
-      emailLabel: 'Votre email:',
-      subjectLabel: 'Sujet:',
-      messageLabel: 'Votre message:',
-      emailPlaceholder: 'nom@flowbite.com',
-      subjectPlaceholder: 'Faites-nous savoir comment nous pouvons vous aider',
-      messagePlaceholder: 'Laissez un commentaire...',
+      description: 'Rejoignez AF3M et devenez membre.',
+      heading: 'Rejoignez-Nous',
+      subheading:
+        'Vous souhaitez devenir membre de l’AF3M ? Contactez-nous et laissez-nous un message.',
+      emailLabel: 'Votre email',
+      subjectLabel: 'Sujet',
+      messageLabel: 'Votre message',
+      emailPlaceholder: 'nom@exemple.com',
+      subjectPlaceholder: 'Comment pouvons-nous vous aider ?',
+      messagePlaceholder: 'Parlez-nous de votre intérêt pour l’AF3M...',
       buttonText: 'Envoyer le message',
-      successMessage: 'Message envoyé avec succès!',
-      errorMessage: 'Échec de l\'envoi du message.',
+      buttonSending: 'Envoi en cours...',
+      successMessage: 'Message envoyé avec succès !',
+      errorMessage: 'Échec de l’envoi. Veuillez réessayer.',
+      benefits: {
+        title: 'Pourquoi devenir membre ?',
+        items: [
+          'Accès aux conférences internationales',
+          'Networking avec des experts',
+          'Publications scientifiques',
+          'Opportunités de collaboration'
+        ]
+      }
     },
     en: {
       title: 'Become a Member - AF3M',
-      description: 'Join AF3M and become a member. Contact us for more information or to send a message.',
-      heading: 'Contact Us',
-      subheading: 'Want to join us? Want to become a member of the association? Contact us and leave us a message by email.',
-      emailLabel: 'Your email:',
-      subjectLabel: 'Subject:',
-      messageLabel: 'Your message:',
-      emailPlaceholder: 'name@flowbite.com',
-      subjectPlaceholder: 'Let us know how we can help you',
-      messagePlaceholder: 'Leave a comment...',
-      buttonText: 'Send Message',
+      description: 'Join AF3M and become a member.',
+      heading: 'Join Us',
+      subheading:
+        'Want to become a member of AF3M? Contact us and leave us a message.',
+      emailLabel: 'Your email',
+      subjectLabel: 'Subject',
+      messageLabel: 'Your message',
+      emailPlaceholder: 'name@example.com',
+      subjectPlaceholder: 'How can we help you?',
+      messagePlaceholder: 'Tell us about your interest in AF3M...',
+      buttonText: 'Send message',
+      buttonSending: 'Sending...',
       successMessage: 'Message sent successfully!',
-      errorMessage: 'Failed to send message.',
+      errorMessage: 'Failed to send. Please try again.',
+      benefits: {
+        title: 'Why become a member?',
+        items: [
+          'Access to international conferences',
+          'Networking with experts',
+          'Scientific publications',
+          'Collaboration opportunities'
+        ]
+      }
     },
   };
 
@@ -49,14 +78,13 @@ function DevenirMembre() {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    setFormData({ ...formData, [name]: value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus(null);
 
     try {
       await emailjs.send(
@@ -65,10 +93,12 @@ function DevenirMembre() {
         formData,
         'Zqr76foxjzXe1e-k2'
       );
-      alert(t.successMessage);
-    } catch (error) {
-      console.error('Error sending email:', error);
-      alert(t.errorMessage);
+      setSubmitStatus('success');
+      setFormData({ email: '', subject: '', message: '' });
+    } catch (err) {
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -77,85 +107,118 @@ function DevenirMembre() {
       <Head>
         <title>{t.title}</title>
         <meta name="description" content={t.description} />
-        <meta name="robots" content="index, follow" />
-        <meta property="og:title" content={t.title} />
-        <meta property="og:description" content={t.description} />
-        <meta property="og:url" content="https://af3m-assoc.org/devenir-membre" />
-        <meta property="og:type" content="website" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link
-          rel="icon"
-          href="https://af3m-assoc.org/wp-content/uploads/2022/10/Capture-de%CC%81cran-2022-10-06-a%CC%80-10.09.14.png"
-        />
       </Head>
-      <section className="pt-32 h-screen flex items-center">
-        <div className="py-4 lg:py-4 px-8 mx-auto max-w-screen-md bg-white border-5 shadow-lg rounded-xl dark:bg-gray-800">
-          <h2 className="mb-6 text-4xl tracking-tight font-extrabold text-center text-gray-900 dark:text-white">
-            {t.heading}
-          </h2>
-          <p className="mb-8 font-light text-center text-gray-500 dark:text-gray-400 sm:text-xl">
-            {t.subheading}
-          </p>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="flex items-center">
-              <label htmlFor="email" className="w-1/4 text-sm font-medium text-gray-900 dark:text-gray-300">
-                {t.emailLabel}
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                className="w-3/4 p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                placeholder={t.emailPlaceholder}
-                required
-              />
+      <section className="pt-24 pb-16 px-2 sm:px-4 bg-gradient-to-b from-gray-50 to-white">
+        <div className="max-w-6xl xl:max-w-7xl mx-auto">
+
+          {/* Header */}
+          <div className="text-center mb-10">
+            <h1 className="text-3xl sm:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-yellow-600 to-yellow-500">
+              {t.heading}
+            </h1>
+            <div className="w-20 h-1 bg-yellow-500 rounded-full mx-auto my-4" />
+            <p className="text-base text-gray-600 max-w-2xl mx-auto leading-relaxed">
+              {t.subheading}
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+            {/* Benefits */}
+            <div>
+              <div className="bg-gradient-to-br from-blue-50 to-yellow-50 rounded-2xl shadow-sm p-6 border border-blue-100 h-full">
+                <h2 className="text-lg font-semibold text-gray-800 mb-4">
+                  {t.benefits.title}
+                </h2>
+                <ul className="space-y-3">
+                  {t.benefits.items.map((item, i) => (
+                    <li key={i} className="flex gap-3 text-sm text-gray-700">
+                      <FaCheckCircle className="text-yellow-500 mt-1" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
 
-            <div className="flex items-center">
-              <label htmlFor="subject" className="w-1/4 text-sm font-medium text-gray-900 dark:text-gray-300">
-                {t.subjectLabel}
-              </label>
-              <input
-                type="text"
-                id="subject"
-                name="subject"
-                value={formData.subject}
-                onChange={handleInputChange}
-                className="w-3/4 p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                placeholder={t.subjectPlaceholder}
-                required
-              />
+            {/* Form */}
+            <div className="lg:col-span-2">
+              <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
+
+                {submitStatus === 'success' && (
+                  <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg flex gap-2 text-sm">
+                    <FaCheckCircle className="text-green-600 mt-0.5" />
+                    {t.successMessage}
+                  </div>
+                )}
+
+                {submitStatus === 'error' && (
+                  <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg flex gap-2 text-sm">
+                    <FaExclamationCircle className="text-red-600 mt-0.5" />
+                    {t.errorMessage}
+                  </div>
+                )}
+
+                <form onSubmit={handleSubmit} className="space-y-5">
+                  <div>
+                    <label className="text-sm font-medium text-gray-700">
+                      {t.emailLabel}
+                    </label>
+                    <input
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      className="w-full mt-1 px-4 py-2 border rounded-lg text-sm"
+                      placeholder={t.emailPlaceholder}
+                      required
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-sm font-medium text-gray-700">
+                      {t.subjectLabel}
+                    </label>
+                    <input
+                      type="text"
+                      name="subject"
+                      value={formData.subject}
+                      onChange={handleInputChange}
+                      className="w-full mt-1 px-4 py-2 border rounded-lg text-sm"
+                      placeholder={t.subjectPlaceholder}
+                      required
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-sm font-medium text-gray-700">
+                      {t.messageLabel}
+                    </label>
+                    <textarea
+                      name="message"
+                      rows="5"
+                      value={formData.message}
+                      onChange={handleInputChange}
+                      className="w-full mt-1 px-4 py-2 border rounded-lg text-sm resize-none"
+                      placeholder={t.messagePlaceholder}
+                      required
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full py-3 bg-yellow-500 hover:bg-yellow-600 text-white text-sm font-semibold rounded-lg transition"
+                  >
+                    {isSubmitting ? t.buttonSending : t.buttonText}
+                  </button>
+                </form>
+
+              </div>
             </div>
 
-            <div className="flex items-start">
-              <label htmlFor="message" className="w-1/4 text-sm font-medium text-gray-900 dark:text-gray-300">
-                {t.messageLabel}
-              </label>
-              <textarea
-                id="message"
-                name="message"
-                rows="6"
-                value={formData.message}
-                onChange={handleInputChange}
-                className="w-3/4 p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                placeholder={t.messagePlaceholder}
-                required
-              ></textarea>
-            </div>
-
-            <div className="text-center">
-              <button
-                aria-label='Send Message'
-                type="submit"
-                className="py-3 px-6 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-              >
-                {t.buttonText}
-              </button>
-            </div>
-          </form>
+          </div>
         </div>
       </section>
     </>
