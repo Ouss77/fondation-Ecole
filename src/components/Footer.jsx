@@ -19,7 +19,7 @@ const Footer = () => {
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-yellow-500/5 rounded-full blur-3xl translate-x-1/2 translate-y-1/2" />
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 ml-20 lg:gap-12">
           
           {/* Logo & Description Section */}
           <div className="space-y-4">
@@ -52,7 +52,7 @@ const Footer = () => {
           </div>
 
           {/* Contact Section */}
-          <div className="space-y-4">
+          <div className="space-y-6">
             <h2 className="text-2xl sm:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-300 mb-6">
               {language === 'fr' ? 'Contactez-nous' : 'Contact Us'}
             </h2>
@@ -87,47 +87,6 @@ const Footer = () => {
           </div>
 
           {/* Social Media Section */}
-          <div className="space-y-4">
-            <h3 className="text-xl font-bold text-white mb-6">
-              {language === 'fr' ? 'Suivez-nous' : 'Follow Us'}
-            </h3>
-            <div className="flex gap-3">
-              {socialLinks.map((social, index) => (
-                <a
-                  key={index}
-                  href={social.url}
-                  aria-label={social.label}
-                  className="w-12 h-12 bg-white/10 backdrop-blur-sm rounded-xl flex items-center justify-center text-white hover:bg-yellow-500 hover:text-blue-950 transition-all duration-300 border border-white/20 hover:border-yellow-500 hover:scale-110"
-                >
-                  {social.icon}
-                </a>
-              ))}
-            </div>
-            
-            {/* Quick Links */}
-            <div className="pt-6">
-              <h4 className="text-sm font-semibold text-gray-400 mb-3 uppercase tracking-wider">
-                {language === 'fr' ? 'Liens rapides' : 'Quick Links'}
-              </h4>
-              <ul className="space-y-2">
-                <li>
-                  <a href="#" className="text-sm text-gray-300 hover:text-yellow-400 transition-colors">
-                    {language === 'fr' ? 'À propos' : 'About'}
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="text-sm text-gray-300 hover:text-yellow-400 transition-colors">
-                    {language === 'fr' ? 'Activités' : 'Activities'}
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="text-sm text-gray-300 hover:text-yellow-400 transition-colors">
-                    {language === 'fr' ? 'Événements' : 'Events'}
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
         </div>
 
         {/* Divider */}

@@ -60,37 +60,37 @@ export default function StatusPage() {
       <section className="pt-28 pb-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-gray-50 to-white">
         <div className="max-w-6xl mx-auto">
           
-{/* Header Section */}
-<div className="text-center mb-12">
-  <h1 className="text-3xl sm:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-600 to-yellow-500 mb-3">
-    {pageContent.title[language]}
-  </h1>
-  <div className="w-24 h-1.5 bg-gradient-to-r from-yellow-600 to-yellow-400 rounded-full mx-auto mb-4" />
-  <p className="text-xl text-gray-600 font-medium">
-    {pageContent.subtitle[language]}
-  </p>
-</div>
-
-{/* Stats Cards */}
-<div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-12">
-  {pageContent.stats.map((stat, index) => (
-    <div
-      key={index}
-      className="bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 p-6 border border-gray-100 text-center group hover:border-yellow-400"
-    >
-      <div className="w-14 h-14 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-xl flex items-center justify-center text-white mx-auto mb-4 shadow-lg group-hover:scale-110 transition-transform">
-        {React.cloneElement(stat.icon, { className: "w-4 h-4" })} 
-        {/* réduit la taille de l'icône */}
-      </div>
-      <p className="text-2xl font-bold text-gray-800 mb-1">
-        {stat.value}
-      </p>
-      <p className="text-sm text-gray-600">
-        {language === "fr" ? stat.labelFr : stat.labelEn}
+    {/* Header Section */}
+    <div className="text-center mb-12">
+      <h1 className="text-3xl sm:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-600 to-yellow-500 mb-3">
+        {pageContent.title[language]}
+      </h1>
+      <div className="w-24 h-1.5 bg-gradient-to-r from-yellow-600 to-yellow-400 rounded-full mx-auto mb-4" />
+      <p className="text-xl text-gray-600 font-medium">
+        {pageContent.subtitle[language]}
       </p>
     </div>
-  ))}
-</div>
+
+    {/* Stats Cards */}
+    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-12">
+      {pageContent.stats.map((stat, index) => (
+        <div
+          key={index}
+          className="bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 p-6 border border-gray-100 text-center group hover:border-yellow-400"
+        >
+          <div className="w-14 h-14 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-xl flex items-center justify-center text-white mx-auto mb-4 shadow-lg group-hover:scale-110 transition-transform">
+            {React.cloneElement(stat.icon, { className: "w-4 h-4" })} 
+            {/* réduit la taille de l'icône */}
+          </div>
+          <p className="text-2xl font-bold text-gray-800 mb-1">
+            {stat.value}
+          </p>
+          <p className="text-sm text-gray-600">
+            {language === "fr" ? stat.labelFr : stat.labelEn}
+          </p>
+        </div>
+      ))}
+    </div>
 
 
           {/* Sections */}
